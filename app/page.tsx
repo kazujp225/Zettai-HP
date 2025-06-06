@@ -74,7 +74,28 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-white overflow-x-hidden">
+      {/* Fixed Banner - Mobile Optimized */}
+      <div className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-red-600 to-orange-600 text-white py-2 px-4 shadow-lg">
+        <div className="container mx-auto">
+          <div className="flex items-center justify-between text-sm lg:text-base">
+            <div className="flex items-center space-x-2">
+              <div className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse" />
+              <span className="font-medium">🚀 AI革命の最前線へ</span>
+            </div>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => window.location.href = '/contact'}
+              className="bg-white/20 hover:bg-white/30 px-3 py-1 rounded-full text-xs lg:text-sm font-medium backdrop-blur-sm transition-all min-h-[32px] touch-manipulation"
+            >
+              無料相談 →
+            </motion.button>
+          </div>
+        </div>
+      </div>
+
       {/* Hero Section - Mobile-Optimized Minimalist Design */}
+      <div className="pt-12">{/* Add top padding to account for fixed banner */}</div>
       <section className="relative min-h-screen flex items-center bg-white px-4 sm:px-6 lg:px-8">
         {/* Optimized Geometric Background */}
         <div className="absolute inset-0 overflow-hidden">
@@ -407,7 +428,8 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 mb-12 lg:mb-16">
+            {/* Desktop Card Layout */}
+            <div className="hidden md:grid md:grid-cols-3 gap-6 lg:gap-8 mb-12 lg:mb-16">
               <Card className="p-6 lg:p-8 text-center border-gray-200 shadow-sm hover:shadow-md transition-shadow">
                 <div className="w-12 lg:w-16 h-12 lg:h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4 lg:mb-6">
                   <TrendingUp className="w-6 lg:w-8 h-6 lg:h-8 text-red-600" />
@@ -428,7 +450,7 @@ export default function Home() {
                 </p>
               </Card>
 
-              <Card className="p-6 lg:p-8 text-center border-gray-200 shadow-sm hover:shadow-md transition-shadow md:col-span-3 lg:col-span-1">
+              <Card className="p-6 lg:p-8 text-center border-gray-200 shadow-sm hover:shadow-md transition-shadow">
                 <div className="w-12 lg:w-16 h-12 lg:h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4 lg:mb-6">
                   <Brain className="w-6 lg:w-8 h-6 lg:h-8 text-green-600" />
                 </div>
@@ -437,6 +459,56 @@ export default function Home() {
                   ChatGPT登場で実用的AIが現実に。今こそ導入のベストタイミングです。
                 </p>
               </Card>
+            </div>
+
+            {/* Mobile-Optimized Layout */}
+            <div className="md:hidden space-y-6 mb-12">
+              {[
+                {
+                  icon: TrendingUp,
+                  iconColor: "text-red-600",
+                  bgColor: "bg-red-50",
+                  title: "労働力不足",
+                  description: "2030年まで644万人の働き手が不足。AI導入は選択肢ではなく必須条件です。"
+                },
+                {
+                  icon: Building,
+                  iconColor: "text-blue-600", 
+                  bgColor: "bg-blue-50",
+                  title: "競争力格差",
+                  description: "AI導入企業と未導入企業の生産性格差は年々拡大。早期導入が生存戦略です。"
+                },
+                {
+                  icon: Brain,
+                  iconColor: "text-green-600",
+                  bgColor: "bg-green-50", 
+                  title: "技術革新",
+                  description: "ChatGPT登場で実用的AIが現実に。今こそ導入のベストタイミングです。"
+                }
+              ].map((item, index) => {
+                const IconComponent = item.icon
+                return (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    className={`${item.bgColor} rounded-2xl p-6 border-l-4 border-l-current ${item.iconColor}`}
+                  >
+                    <div className="flex items-start space-x-4">
+                      <div className={`w-12 h-12 ${item.bgColor.replace('50', '100')} rounded-xl flex items-center justify-center flex-shrink-0`}>
+                        <IconComponent className={`w-6 h-6 ${item.iconColor}`} />
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="text-lg font-bold text-gray-900 mb-2">{item.title}</h3>
+                        <p className="text-gray-700 leading-relaxed text-sm">
+                          {item.description}
+                        </p>
+                      </div>
+                    </div>
+                  </motion.div>
+                )
+              })}
             </div>
 
             <div className="bg-gray-50 rounded-xl lg:rounded-2xl p-6 lg:p-8 text-center">
@@ -559,8 +631,8 @@ export default function Home() {
               </p>
             </motion.div>
 
-            {/* Enhanced Business Cards Grid */}
-            <div className="grid lg:grid-cols-3 gap-8 mb-16">
+            {/* Enhanced Business Cards Grid - Desktop Only */}
+            <div className="hidden lg:grid lg:grid-cols-3 gap-8 mb-16">
               {/* AI人材事業 */}
               <motion.div
                 variants={fadeInUp}
@@ -760,6 +832,83 @@ export default function Home() {
               </motion.div>
             </div>
 
+            {/* Mobile-Optimized Business Layout */}
+            <div className="lg:hidden space-y-8 mb-16">
+              {[
+                {
+                  icon: Users,
+                  iconBg: "bg-blue-500",
+                  bgColor: "bg-blue-50",
+                  borderColor: "border-l-blue-500",
+                  title: "AI人材事業",
+                  subtitle: "Human Resources",
+                  description: "トップクラスのAI人材採用・派遣から、企業向け育成プログラム、技術コンサルティングまで、人材面でのトータルサポートを提供します。",
+                  features: ["トップクラスAI人材の採用・派遣", "企業向けAI人材育成プログラム", "技術コンサルティング・伴走支援", "チーム構築・組織設計支援"]
+                },
+                {
+                  icon: Target,
+                  iconBg: "bg-emerald-500", 
+                  bgColor: "bg-emerald-50",
+                  borderColor: "border-l-emerald-500",
+                  title: "AI総合商社事業",
+                  subtitle: "Comprehensive AI Solutions",
+                  description: "最適なAIツール選定から導入、運用まで、企業のニーズに合わせたワンストップソリューションをご提供いたします。",
+                  features: ["最新AI技術・ツールの調査分析", "企業ニーズに合わせたAI戦略立案", "導入プロジェクトの管理・推進", "ROI測定・改善提案"]
+                },
+                {
+                  icon: Rocket,
+                  iconBg: "bg-purple-500",
+                  bgColor: "bg-purple-50", 
+                  borderColor: "border-l-purple-500",
+                  title: "自動化AI導入事業",
+                  subtitle: "AI Automation Solutions",
+                  description: "業務プロセスの効率化を実現する自動化AIの導入支援で、企業の生産性向上と競争力強化をサポートします。",
+                  features: ["業界特化型AIツール選定", "既存システムとの連携・統合", "継続的メンテナンス・アップデート", "コスト最適化・効果測定"]
+                }
+              ].map((business, index) => {
+                const IconComponent = business.icon
+                return (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: index * 0.2 }}
+                    className={`${business.bgColor} border-l-4 ${business.borderColor} rounded-r-2xl p-6 shadow-sm`}
+                  >
+                    <div className="flex items-start space-x-4 mb-4">
+                      <div className={`w-14 h-14 ${business.iconBg} rounded-xl flex items-center justify-center flex-shrink-0 shadow-md`}>
+                        <IconComponent className="w-7 h-7 text-white" />
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="text-xl font-bold text-gray-900 mb-1">{business.title}</h3>
+                        <p className="text-sm text-gray-600 font-medium">{business.subtitle}</p>
+                      </div>
+                    </div>
+                    
+                    <p className="text-gray-700 leading-relaxed mb-4 text-sm">
+                      {business.description}
+                    </p>
+                    
+                    <div className="space-y-2">
+                      {business.features.map((feature, idx) => (
+                        <div key={idx} className="flex items-start">
+                          <div className="w-1.5 h-1.5 bg-gray-500 rounded-full mt-2 mr-3 flex-shrink-0" />
+                          <span className="text-sm text-gray-700">{feature}</span>
+                        </div>
+                      ))}
+                    </div>
+                    
+                    <div className="mt-4 pt-3 border-t border-gray-200">
+                      <div className="flex items-center text-gray-600 text-sm font-medium">
+                        <span>詳しく見る</span>
+                        <ArrowRight className="w-3 h-3 ml-2" />
+                      </div>
+                    </div>
+                  </motion.div>
+                )
+              })}
+            </div>
+
             {/* Enhanced Bottom CTA Section */}
             <motion.div 
               variants={fadeInUp}
@@ -923,8 +1072,8 @@ export default function Home() {
               </div>
             </motion.div>
 
-            {/* Strategy & Market Environment - Side by Side */}
-            <motion.div variants={fadeInUp}>
+            {/* Strategy & Market Environment - Desktop Cards */}
+            <motion.div variants={fadeInUp} className="hidden lg:block">
               <div className="grid lg:grid-cols-2 gap-8">
                 {/* Growth Strategy */}
                 <div className="bg-white border border-gray-200 rounded-lg p-6">
@@ -967,6 +1116,57 @@ export default function Home() {
                       <div key={index} className="flex items-start">
                         <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full mt-2 mr-3 flex-shrink-0" />
                         <span className="text-gray-700">{item}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Mobile-Optimized Strategy Layout */}
+            <motion.div variants={fadeInUp} className="lg:hidden">
+              <div className="space-y-6">
+                {/* Growth Strategy - Mobile */}
+                <div className="bg-blue-50 border-l-4 border-l-blue-500 rounded-r-2xl p-6">
+                  <div className="flex items-center mb-4">
+                    <div className="w-12 h-12 bg-blue-500 rounded-xl flex items-center justify-center mr-3">
+                      <Target className="w-6 h-6 text-white" />
+                    </div>
+                    <h3 className="text-xl font-bold text-gray-900">成長戦略</h3>
+                  </div>
+                  <div className="space-y-3">
+                    {[
+                      "主力事業の市場シェア拡大",
+                      "新規サービス・プロダクト開発", 
+                      "戦略的パートナーシップ構築",
+                      "優秀な人材の積極採用"
+                    ].map((item, index) => (
+                      <div key={index} className="flex items-start">
+                        <div className="w-1.5 h-1.5 bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0" />
+                        <span className="text-gray-700 text-sm">{item}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Market Environment - Mobile */}
+                <div className="bg-emerald-50 border-l-4 border-l-emerald-500 rounded-r-2xl p-6">
+                  <div className="flex items-center mb-4">
+                    <div className="w-12 h-12 bg-emerald-500 rounded-xl flex items-center justify-center mr-3">
+                      <TrendingUp className="w-6 h-6 text-white" />
+                    </div>
+                    <h3 className="text-xl font-bold text-gray-900">市場環境</h3>
+                  </div>
+                  <div className="space-y-3">
+                    {[
+                      "AI市場の年率30%以上成長",
+                      "企業のDX需要急拡大",
+                      "労働力不足による自動化ニーズ",
+                      "政府のデジタル政策推進"
+                    ].map((item, index) => (
+                      <div key={index} className="flex items-start">
+                        <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full mt-2 mr-3 flex-shrink-0" />
+                        <span className="text-gray-700 text-sm">{item}</span>
                       </div>
                     ))}
                   </div>
