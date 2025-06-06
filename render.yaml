@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: zettai-homepage
+    runtime: node
+    plan: free
+    region: oregon
+    branch: main
+    buildCommand: pnpm install --no-frozen-lockfile && pnpm run build
+    startCommand: pnpm start
+    envVars:
+      - key: NODE_VERSION
+        value: "18"
+      - key: PNPM_VERSION  
+        value: "8"
+      - key: NODE_ENV
+        value: production

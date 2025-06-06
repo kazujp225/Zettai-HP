@@ -515,6 +515,7 @@ export default function IRPage() {
               </div>
             </TabsContent>
           </Tabs>
+          </motion.div>
         </div>
       </div>
     </div>
