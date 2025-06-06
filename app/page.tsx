@@ -74,317 +74,371 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-white overflow-x-hidden">
-      {/* Hero Section - Mobile-Optimized Minimalist Design */}
-      <section className="relative min-h-screen flex items-center bg-white px-4 sm:px-6 lg:px-8">
-        {/* Optimized Geometric Background */}
-        <div className="absolute inset-0 overflow-hidden">
-          {/* Responsive Grid Pattern */}
-          <div className="absolute inset-0 opacity-[0.02] hidden sm:block">
-            <div className="w-full h-full" style={{
-              backgroundImage: `
-                linear-gradient(90deg, #000 1px, transparent 1px),
-                linear-gradient(180deg, #000 1px, transparent 1px)
-              `,
-              backgroundSize: '40px 40px'
-            }} />
+      {/* Hero Section - Mobile-First Design */}
+      <section className="relative min-h-screen bg-white">
+        {/* Desktop Hero Layout */}
+        <div className="hidden lg:block">
+          <div className="relative min-h-screen flex items-center px-4 sm:px-6 lg:px-8">
+            {/* Desktop Background Elements */}
+            <div className="absolute inset-0 overflow-hidden">
+              <div className="absolute inset-0 opacity-[0.02]">
+                <div className="w-full h-full" style={{
+                  backgroundImage: `
+                    linear-gradient(90deg, #000 1px, transparent 1px),
+                    linear-gradient(180deg, #000 1px, transparent 1px)
+                  `,
+                  backgroundSize: '40px 40px'
+                }} />
+              </div>
+              {/* Decorative elements for desktop only */}
+              <motion.div 
+                className="absolute top-20 right-20 w-1 h-32 bg-gray-200"
+                initial={{ scaleY: 0 }}
+                animate={{ scaleY: 1 }}
+                transition={{ duration: 1.5, delay: 0.5 }}
+              />
+              <motion.div 
+                className="absolute top-20 right-16 w-32 h-1 bg-gray-200"
+                initial={{ scaleX: 0 }}
+                animate={{ scaleX: 1 }}
+                transition={{ duration: 1.5, delay: 0.8 }}
+              />
+            </div>
+
+            {/* Desktop Content - Same as before */}
+            <div className="w-full relative z-10">
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1, delay: 0.3 }}
+                className="max-w-6xl mx-auto"
+              >
+                <div className="grid lg:grid-cols-12 gap-12 items-center min-h-[80vh]">
+                  <div className="lg:col-span-7 space-y-8">
+                    <motion.div 
+                      className="flex items-center space-x-4 mb-6"
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.8, delay: 0.5 }}
+                    >
+                      <div className="w-3 h-3 bg-black rounded-full" />
+                      <span className="text-sm font-medium text-gray-600 tracking-wider uppercase">ZETTAI Inc. 2024</span>
+                    </motion.div>
+
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 1, delay: 0.7 }}
+                    >
+                      <h1 className="text-6xl xl:text-7xl font-light text-gray-900 leading-[0.9] mb-6">
+                        <span className="block font-extralight">AIで企業の</span>
+                        <span className="block font-bold">未来を創る</span>
+                      </h1>
+                      <motion.div 
+                        className="w-16 h-px bg-gray-900 mb-8"
+                        initial={{ scaleX: 0 }}
+                        animate={{ scaleX: 1 }}
+                        transition={{ duration: 1, delay: 1.2 }}
+                      />
+                    </motion.div>
+
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.8, delay: 1 }}
+                      className="space-y-6"
+                    >
+                      <p className="text-xl text-gray-700 leading-relaxed max-w-xl">
+                        2030年まで残り6年。日本企業のAI導入を加速し、
+                        持続可能な成長を実現するパートナーです。
+                      </p>
+                      
+                      <div className="space-y-3">
+                        {[
+                          "AI人材・技術・戦略の3軸サポート",
+                          "5年以内に売上100億円突破を目指す",
+                          "実力主義・多様性・「ゼッタイやる」精神"
+                        ].map((point, index) => (
+                          <motion.div 
+                            key={index}
+                            className="flex items-start space-x-3"
+                            initial={{ opacity: 0, x: -10 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 0.6, delay: 1.3 + index * 0.1 }}
+                          >
+                            <div className="w-1 h-1 bg-gray-400 rounded-full mt-3 flex-shrink-0" />
+                            <span className="text-base text-gray-600 leading-relaxed">{point}</span>
+                          </motion.div>
+                        ))}
+                      </div>
+                    </motion.div>
+
+                    <motion.div 
+                      className="flex gap-4 pt-8"
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.8, delay: 1.8 }}
+                    >
+                      <motion.div whileHover={{ y: -2 }} whileTap={{ scale: 0.98 }}>
+                        <JoinCtaButton 
+                          size="lg" 
+                          className="bg-gray-900 hover:bg-gray-800 text-white px-8 py-3.5 font-medium transition-all duration-200 text-base"
+                        >
+                          お問い合わせ
+                          <ArrowRight className="ml-2 w-4 h-4" />
+                        </JoinCtaButton>
+                      </motion.div>
+                      
+                      <motion.div whileHover={{ y: -2 }} whileTap={{ scale: 0.98 }}>
+                        <Button 
+                          size="lg" 
+                          variant="outline"
+                          onClick={() => document.getElementById('why-ai')?.scrollIntoView({ behavior: 'smooth' })}
+                          className="border-gray-300 text-gray-700 hover:bg-gray-50 px-8 py-3.5 font-medium transition-all duration-200 text-base"
+                        >
+                          詳しく見る
+                        </Button>
+                      </motion.div>
+                    </motion.div>
+                  </div>
+
+                  {/* Desktop Right Content */}
+                  <div className="lg:col-span-5 relative">
+                    <motion.div
+                      initial={{ opacity: 0, x: 30 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 1.2, delay: 0.8 }}
+                      className="relative space-y-12"
+                    >
+                      <div className="relative pt-8">
+                        <motion.div 
+                          className="absolute -left-6 top-8 w-1 h-20 bg-yellow-400"
+                          initial={{ scaleY: 0 }}
+                          animate={{ scaleY: 1 }}
+                          transition={{ duration: 1, delay: 1.2 }}
+                        />
+                        <motion.div
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 1, delay: 1 }}
+                          className="pl-8"
+                        >
+                          <div className="text-sm font-medium text-yellow-600 mb-4 tracking-wider">
+                            🟨 MISSION STATEMENT
+                          </div>
+                          <h2 className="text-4xl font-light text-gray-900 leading-[1.2] mb-6">
+                            AIで、<br />
+                            <span className="font-bold">未来を拓く人材と企業を。</span>
+                          </h2>
+                        </motion.div>
+                      </div>
+
+                      <div className="relative">
+                        <motion.div 
+                          className="absolute -left-6 top-0 w-1 h-32 bg-green-500"
+                          initial={{ scaleY: 0 }}
+                          animate={{ scaleY: 1 }}
+                          transition={{ duration: 1, delay: 1.8 }}
+                        />
+                        <motion.div
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 1, delay: 1.5 }}
+                          className="pl-8"
+                        >
+                          <div className="text-sm font-medium text-green-600 mb-6 tracking-wider">
+                            🟩 OUR STANCE
+                          </div>
+                          <div className="space-y-4 text-lg text-gray-700 leading-relaxed">
+                            <p>
+                              ZettAIは、<span className="font-semibold text-gray-900">AI技術・人材・営業力の3軸</span>で、
+                              日本企業の成長と進化を支援するスタートアップです。
+                            </p>
+                            <p>
+                              <span className="font-semibold text-gray-900">次世代を担う若い才能</span>とともに、
+                              <span className="text-2xl font-bold text-gray-900">5年以内に100億円企業</span>を目指します。
+                            </p>
+                          </div>
+                        </motion.div>
+                      </div>
+
+                      <motion.div
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 0.8, delay: 2.2 }}
+                        className="relative"
+                      >
+                        <div className="bg-gray-50 border-l-4 border-gray-900 p-6 rounded-r-lg">
+                          <div className="flex items-center space-x-3 mb-3">
+                            <div className="w-2 h-2 bg-gray-900 rounded-full" />
+                            <span className="text-sm font-medium text-gray-600 tracking-wider uppercase">
+                              JOIN OUR TEAM
+                            </span>
+                          </div>
+                          <p className="text-base text-gray-700 mb-4">
+                            「ゼッタイやる」精神を持つ人材を募集中
+                          </p>
+                          <motion.div
+                            whileHover={{ x: 5 }}
+                            className="flex items-center text-gray-900 font-medium cursor-pointer"
+                          >
+                            <span className="text-base">採用情報を見る</span>
+                            <ArrowRight className="ml-2 w-4 h-4" />
+                          </motion.div>
+                        </div>
+                      </motion.div>
+                    </motion.div>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
           </div>
-
-          {/* Minimalist Geometric Elements - Desktop Only */}
-          <motion.div 
-            className="absolute top-20 right-4 sm:right-20 w-1 h-16 sm:h-32 bg-gray-200 hidden sm:block"
-            initial={{ scaleY: 0 }}
-            animate={{ scaleY: prefersReducedMotion ? 1 : 1 }}
-            transition={{ duration: prefersReducedMotion ? 0 : 1.5, delay: prefersReducedMotion ? 0 : 0.5 }}
-          />
-          <motion.div 
-            className="absolute top-20 right-2 sm:right-16 w-16 sm:w-32 h-1 bg-gray-200 hidden sm:block"
-            initial={{ scaleX: 0 }}
-            animate={{ scaleX: prefersReducedMotion ? 1 : 1 }}
-            transition={{ duration: prefersReducedMotion ? 0 : 1.5, delay: prefersReducedMotion ? 0 : 0.8 }}
-          />
-
-          <motion.div 
-            className="absolute bottom-32 left-4 sm:left-20 w-1 h-12 sm:h-24 bg-gray-300 hidden sm:block"
-            initial={{ scaleY: 0 }}
-            animate={{ scaleY: prefersReducedMotion ? 1 : 1 }}
-            transition={{ duration: prefersReducedMotion ? 0 : 1.2, delay: prefersReducedMotion ? 0 : 1.2 }}
-          />
-          <motion.div 
-            className="absolute bottom-28 left-2 sm:left-16 w-12 sm:w-24 h-1 bg-gray-300 hidden sm:block"
-            initial={{ scaleX: 0 }}
-            animate={{ scaleX: prefersReducedMotion ? 1 : 1 }}
-            transition={{ duration: prefersReducedMotion ? 0 : 1.2, delay: prefersReducedMotion ? 0 : 1.5 }}
-          />
-
-          {/* Mobile-friendly Accent Elements */}
-          <motion.div 
-            className="absolute top-32 left-1/4 sm:left-1/3 w-1.5 sm:w-2 h-1.5 sm:h-2 bg-gray-400 rounded-full"
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ duration: prefersReducedMotion ? 0 : 0.5, delay: prefersReducedMotion ? 0 : 2 }}
-          />
-          <motion.div 
-            className="absolute bottom-32 right-1/4 sm:right-1/3 w-1 sm:w-1.5 h-1 sm:h-1.5 bg-gray-300 rounded-full"
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ duration: prefersReducedMotion ? 0 : 0.5, delay: prefersReducedMotion ? 0 : 2.3 }}
-          />
-
-          {/* Typography Symbols - Hidden on mobile */}
-          <motion.div 
-            className="absolute top-1/4 left-4 sm:left-10 text-4xl sm:text-6xl font-thin text-gray-100 select-none hidden md:block"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: prefersReducedMotion ? 1 : 1 }}
-            transition={{ duration: prefersReducedMotion ? 0 : 2, delay: prefersReducedMotion ? 0 : 1 }}
-          >
-            ／
-          </motion.div>
-          <motion.div 
-            className="absolute bottom-1/4 right-4 sm:right-10 text-4xl sm:text-6xl font-thin text-gray-100 select-none hidden md:block"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: prefersReducedMotion ? 1 : 1 }}
-            transition={{ duration: prefersReducedMotion ? 0 : 2, delay: prefersReducedMotion ? 0 : 1.5 }}
-          >
-            ＼
-          </motion.div>
         </div>
 
-        {/* Main Content */}
-        <div className="w-full relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: prefersReducedMotion ? 0 : 1, delay: prefersReducedMotion ? 0 : 0.3 }}
-            className="max-w-6xl mx-auto"
-          >
-            {/* Mobile-First Professional Layout */}
-            <div className="flex flex-col lg:grid lg:grid-cols-12 gap-8 lg:gap-12 items-center min-h-[70vh] lg:min-h-[80vh]">
-              
-              {/* Left Content - Mobile Optimized */}
-              <div className="w-full lg:col-span-7 space-y-6 lg:space-y-8 order-2 lg:order-1">
-                {/* Company Identifier */}
-                <motion.div 
-                  className="flex items-center space-x-3 lg:space-x-4 mb-4 lg:mb-6"
-                  initial={{ opacity: 0, x: prefersReducedMotion ? 0 : -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: prefersReducedMotion ? 0 : 0.8, delay: prefersReducedMotion ? 0 : 0.5 }}
-                >
-                  <div className="w-2.5 lg:w-3 h-2.5 lg:h-3 bg-black rounded-full" />
-                  <span className="text-xs lg:text-sm font-medium text-gray-600 tracking-wider uppercase">ZETTAI Inc. 2024</span>
-                </motion.div>
+        {/* Mobile Hero Layout */}
+        <div className="lg:hidden">
+          <div className="relative min-h-screen flex flex-col justify-center px-4 py-24">
+            {/* Mobile Background - Minimal */}
+            <div className="absolute inset-0">
+              <div className="absolute top-16 right-4 w-8 h-8 bg-yellow-100 rounded-full opacity-40" />
+              <div className="absolute bottom-32 left-4 w-6 h-6 bg-blue-100 rounded-full opacity-30" />
+            </div>
 
-                {/* Main Headline - Mobile Responsive */}
-                <motion.div
-                  initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: prefersReducedMotion ? 0 : 1, delay: prefersReducedMotion ? 0 : 0.7 }}
-                >
-                  <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-light text-gray-900 leading-[0.9] mb-4 lg:mb-6">
-                    <span className="block font-extralight">AIで企業の</span>
-                    <span className="block font-bold">未来を創る</span>
-                  </h1>
-                  
-                  {/* Subtle accent line */}
-                  <motion.div 
-                    className="w-12 lg:w-16 h-px bg-gray-900 mb-6 lg:mb-8"
-                    initial={{ scaleX: 0 }}
-                    animate={{ scaleX: prefersReducedMotion ? 1 : 1 }}
-                    transition={{ duration: prefersReducedMotion ? 0 : 1, delay: prefersReducedMotion ? 0 : 1.2 }}
-                  />
-                </motion.div>
+            <div className="relative z-10 space-y-8">
+              {/* Mobile Header */}
+              <motion.div 
+                className="text-center"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8 }}
+              >
+                <div className="inline-flex items-center space-x-2 mb-4 px-3 py-1.5 bg-gray-100 rounded-full">
+                  <div className="w-2 h-2 bg-red-500 rounded-full" />
+                  <span className="text-xs font-medium text-gray-700 uppercase tracking-wide">ZETTAI Inc. 2024</span>
+                </div>
+                
+                <h1 className="text-3xl font-bold text-gray-900 leading-tight mb-4">
+                  AIで企業の<br />
+                  <span className="text-red-600">未来を創る</span>
+                </h1>
+                
+                <div className="w-12 h-0.5 bg-red-500 mx-auto mb-6" />
+              </motion.div>
 
-                {/* Description */}
-                <motion.div
-                  initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: prefersReducedMotion ? 0 : 0.8, delay: prefersReducedMotion ? 0 : 1 }}
-                  className="space-y-4 lg:space-y-6"
-                >
-                  <p className="text-lg lg:text-xl text-gray-700 leading-relaxed max-w-xl">
-                    2030年まで残り6年。日本企業のAI導入を加速し、
-                    持続可能な成長を実現するパートナーです。
-                  </p>
-                  
-                  {/* Key Points */}
-                  <div className="space-y-2 lg:space-y-3">
-                    {[
-                      "AI人材・技術・戦略の3軸サポート",
-                      "5年以内に売上100億円突破を目指す",
-                      "実力主義・多様性・「ゼッタイやる」精神"
-                    ].map((point, index) => (
-                      <motion.div 
-                        key={index}
-                        className="flex items-start space-x-3"
-                        initial={{ opacity: 0, x: prefersReducedMotion ? 0 : -10 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: prefersReducedMotion ? 0 : 0.6, delay: prefersReducedMotion ? 0 : 1.3 + index * 0.1 }}
-                      >
-                        <div className="w-1 h-1 bg-gray-400 rounded-full mt-2.5 lg:mt-3 flex-shrink-0" />
-                        <span className="text-sm lg:text-base text-gray-600 leading-relaxed">{point}</span>
-                      </motion.div>
-                    ))}
-                  </div>
-                </motion.div>
+              {/* Mobile Mission Statement */}
+              <motion.div 
+                className="text-center space-y-4"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.3 }}
+              >
+                <p className="text-lg text-gray-700 leading-relaxed px-2">
+                  2030年まで残り6年。<br />
+                  日本企業のAI導入を加速し、<br />
+                  持続可能な成長を実現する。
+                </p>
+              </motion.div>
 
-                {/* CTA Buttons - Mobile Optimized */}
-                <motion.div 
-                  className="flex flex-col sm:flex-row gap-3 lg:gap-4 pt-6 lg:pt-8"
-                  initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: prefersReducedMotion ? 0 : 0.8, delay: prefersReducedMotion ? 0 : 1.8 }}
-                >
+              {/* Mobile Key Points - Horizontal Cards */}
+              <motion.div 
+                className="space-y-3"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.6 }}
+              >
+                {[
+                  { icon: "🎯", text: "AI人材・技術・戦略の3軸サポート", color: "bg-blue-50 border-l-blue-500" },
+                  { icon: "🚀", text: "5年以内に売上100億円突破を目指す", color: "bg-green-50 border-l-green-500" },
+                  { icon: "💪", text: "実力主義・多様性・「ゼッタイやる」精神", color: "bg-orange-50 border-l-orange-500" }
+                ].map((point, index) => (
                   <motion.div
-                    whileHover={prefersReducedMotion ? {} : { y: -2 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="w-full sm:w-auto"
+                    key={index}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.6, delay: 0.8 + index * 0.1 }}
+                    className={`${point.color} border-l-4 rounded-r-xl p-4`}
                   >
-                    <JoinCtaButton 
-                      size="lg" 
-                      className="w-full sm:w-auto bg-gray-900 hover:bg-gray-800 text-white px-6 lg:px-8 py-3 lg:py-3.5 font-medium transition-all duration-200 text-base min-h-[48px] touch-manipulation"
-                    >
-                      お問い合わせ
-                      <ArrowRight className="ml-2 w-4 h-4" />
-                    </JoinCtaButton>
-                  </motion.div>
-                  
-                  <motion.div
-                    whileHover={prefersReducedMotion ? {} : { y: -2 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="w-full sm:w-auto"
-                  >
-                    <Button 
-                      size="lg" 
-                      variant="outline"
-                      onClick={() => document.getElementById('why-ai')?.scrollIntoView({ behavior: 'smooth' })}
-                      className="w-full sm:w-auto border-gray-300 text-gray-700 hover:bg-gray-50 px-6 lg:px-8 py-3 lg:py-3.5 font-medium transition-all duration-200 text-base min-h-[48px] touch-manipulation"
-                    >
-                      詳しく見る
-                    </Button>
-                  </motion.div>
-                </motion.div>
-              </div>
-
-              {/* Right Message Element - Mobile Optimized */}
-              <div className="w-full lg:col-span-5 relative order-1 lg:order-2">
-                <motion.div
-                  initial={{ opacity: 0, x: prefersReducedMotion ? 0 : 30 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: prefersReducedMotion ? 0 : 1.2, delay: prefersReducedMotion ? 0 : 0.8 }}
-                  className="relative space-y-8 lg:space-y-12"
-                >
-                  {/* Main Catch Copy */}
-                  <div className="relative pt-4 lg:pt-8">
-                    {/* Yellow Accent - Responsive */}
-                    <motion.div 
-                      className="absolute -left-3 lg:-left-6 top-4 lg:top-8 w-1 h-16 lg:h-20 bg-yellow-400"
-                      initial={{ scaleY: 0 }}
-                      animate={{ scaleY: prefersReducedMotion ? 1 : 1 }}
-                      transition={{ duration: prefersReducedMotion ? 0 : 1, delay: prefersReducedMotion ? 0 : 1.2 }}
-                    />
-                    
-                    <motion.div
-                      initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: prefersReducedMotion ? 0 : 1, delay: prefersReducedMotion ? 0 : 1 }}
-                      className="pl-6 lg:pl-8"
-                    >
-                      <div className="text-xs lg:text-sm font-medium text-yellow-600 mb-3 lg:mb-4 tracking-wider">
-                        🟨 MISSION STATEMENT
-                      </div>
-                      <h2 className="text-2xl sm:text-3xl lg:text-4xl font-light text-gray-900 leading-[1.2] mb-4 lg:mb-6">
-                        AIで、<br />
-                        <span className="font-bold">未来を拓く人材と企業を。</span>
-                      </h2>
-                    </motion.div>
-                  </div>
-
-                  {/* Sub Catch Copy */}
-                  <div className="relative">
-                    {/* Green Accent - Responsive */}
-                    <motion.div 
-                      className="absolute -left-3 lg:-left-6 top-0 w-1 h-24 lg:h-32 bg-green-500"
-                      initial={{ scaleY: 0 }}
-                      animate={{ scaleY: prefersReducedMotion ? 1 : 1 }}
-                      transition={{ duration: prefersReducedMotion ? 0 : 1, delay: prefersReducedMotion ? 0 : 1.8 }}
-                    />
-                    
-                    <motion.div
-                      initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: prefersReducedMotion ? 0 : 1, delay: prefersReducedMotion ? 0 : 1.5 }}
-                      className="pl-6 lg:pl-8"
-                    >
-                      <div className="text-xs lg:text-sm font-medium text-green-600 mb-4 lg:mb-6 tracking-wider">
-                        🟩 OUR STANCE
-                      </div>
-                      <div className="space-y-3 lg:space-y-4 text-base lg:text-lg text-gray-700 leading-relaxed">
-                        <p>
-                          ZettAIは、<span className="font-semibold text-gray-900">AI技術・人材・営業力の3軸</span>で、<br className="hidden sm:block" />
-                          日本企業の成長と進化を支援するスタートアップです。
-                        </p>
-                        <p>
-                          <span className="font-semibold text-gray-900">次世代を担う若い才能</span>とともに、<br className="hidden sm:block" />
-                          <span className="text-xl lg:text-2xl font-bold text-gray-900">5年以内に100億円企業</span>を目指します。
-                        </p>
-                      </div>
-                    </motion.div>
-                  </div>
-
-                  {/* Call to Action Highlight - Mobile Optimized */}
-                  <motion.div
-                    initial={{ opacity: 0, scale: prefersReducedMotion ? 1 : 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: prefersReducedMotion ? 0 : 0.8, delay: prefersReducedMotion ? 0 : 2.2 }}
-                    className="relative"
-                  >
-                    <div className="bg-gray-50 border-l-4 border-gray-900 p-4 lg:p-6 rounded-r-lg">
-                      <div className="flex items-center space-x-2 lg:space-x-3 mb-2 lg:mb-3">
-                        <div className="w-1.5 lg:w-2 h-1.5 lg:h-2 bg-gray-900 rounded-full" />
-                        <span className="text-xs lg:text-sm font-medium text-gray-600 tracking-wider uppercase">
-                          JOIN OUR TEAM
-                        </span>
-                      </div>
-                      <p className="text-sm lg:text-base text-gray-700 mb-3 lg:mb-4">
-                        「ゼッタイやる」精神を持つ人材を募集中
-                      </p>
-                      <motion.div
-                        whileHover={prefersReducedMotion ? {} : { x: 5 }}
-                        className="flex items-center text-gray-900 font-medium cursor-pointer touch-manipulation"
-                      >
-                        <span className="text-sm lg:text-base">採用情報を見る</span>
-                        <ArrowRight className="ml-2 w-3 lg:w-4 h-3 lg:h-4" />
-                      </motion.div>
+                    <div className="flex items-center space-x-3">
+                      <span className="text-2xl">{point.icon}</span>
+                      <span className="text-sm font-medium text-gray-800 leading-relaxed">{point.text}</span>
                     </div>
                   </motion.div>
+                ))}
+              </motion.div>
 
-                  {/* Decorative Elements - Desktop Only */}
-                  <motion.div 
-                    className="absolute -top-4 lg:-top-8 -right-4 lg:-right-8 w-8 lg:w-12 h-8 lg:h-12 border border-gray-200 rounded-full bg-white shadow-sm hidden lg:block"
-                    initial={{ scale: 0, rotate: -90 }}
-                    animate={{ scale: prefersReducedMotion ? 1 : 1, rotate: prefersReducedMotion ? 0 : 0 }}
-                    transition={{ duration: prefersReducedMotion ? 0 : 0.8, delay: prefersReducedMotion ? 0 : 2.5 }}
-                  />
-                  <motion.div 
-                    className="absolute -bottom-3 lg:-bottom-6 -left-1 lg:-left-2 w-3 lg:w-4 h-3 lg:h-4 bg-gray-900 rounded-full hidden lg:block"
-                    initial={{ scale: 0 }}
-                    animate={{ scale: prefersReducedMotion ? 1 : 1 }}
-                    transition={{ duration: prefersReducedMotion ? 0 : 0.5, delay: prefersReducedMotion ? 0 : 2.7 }}
-                  />
-                  
-                  {/* Subtle Background Pattern - Desktop Only */}
-                  <div className="absolute top-1/2 right-0 w-24 lg:w-32 h-24 lg:h-32 opacity-[0.02] pointer-events-none hidden lg:block">
-                    <div className="w-full h-full" style={{
-                      backgroundImage: `
-                        linear-gradient(45deg, #000 25%, transparent 25%),
-                        linear-gradient(-45deg, #000 25%, transparent 25%)
-                      `,
-                      backgroundSize: '6px 6px lg:8px 8px'
-                    }} />
-                  </div>
+              {/* Mobile Vision Statement */}
+              <motion.div 
+                className="bg-gradient-to-r from-gray-900 to-gray-800 rounded-2xl p-6 text-white text-center"
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.8, delay: 1.2 }}
+              >
+                <div className="text-xs font-semibold text-yellow-300 mb-2 uppercase tracking-wider">
+                  🟨 OUR MISSION
+                </div>
+                <h2 className="text-xl font-bold mb-3 leading-tight">
+                  AIで、未来を拓く<br />人材と企業を。
+                </h2>
+                <p className="text-sm text-gray-300 leading-relaxed">
+                  次世代を担う若い才能とともに、<span className="font-bold text-white">100億円企業</span>を目指します。
+                </p>
+              </motion.div>
+
+              {/* Mobile CTA Buttons */}
+              <motion.div 
+                className="space-y-3 pt-4"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 1.5 }}
+              >
+                <motion.div whileTap={{ scale: 0.98 }}>
+                  <JoinCtaButton 
+                    className="w-full bg-red-600 hover:bg-red-700 text-white py-4 text-base font-semibold rounded-xl shadow-lg min-h-[56px] touch-manipulation"
+                  >
+                    無料相談を始める
+                    <ArrowRight className="ml-2 w-5 h-5" />
+                  </JoinCtaButton>
                 </motion.div>
-              </div>
+                
+                <motion.div whileTap={{ scale: 0.98 }}>
+                  <Button 
+                    variant="outline"
+                    onClick={() => document.getElementById('why-ai')?.scrollIntoView({ behavior: 'smooth' })}
+                    className="w-full border-2 border-gray-300 text-gray-700 hover:bg-gray-50 py-4 text-base font-medium rounded-xl min-h-[56px] touch-manipulation"
+                  >
+                    詳しく見る
+                  </Button>
+                </motion.div>
+              </motion.div>
+
+              {/* Mobile Team CTA */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 1.8 }}
+                className="text-center"
+              >
+                <div className="bg-gray-50 border border-gray-200 rounded-xl p-4">
+                  <div className="flex items-center justify-center space-x-2 mb-2">
+                    <div className="w-1.5 h-1.5 bg-gray-900 rounded-full" />
+                    <span className="text-xs font-medium text-gray-600 uppercase tracking-wider">
+                      JOIN OUR TEAM
+                    </span>
+                  </div>
+                  <p className="text-sm text-gray-700 mb-3">
+                    「ゼッタイやる」精神を持つ人材を募集中
+                  </p>
+                  <motion.div
+                    whileTap={{ scale: 0.98 }}
+                    className="inline-flex items-center text-gray-900 font-medium text-sm"
+                  >
+                    <span>採用情報を見る</span>
+                    <ArrowRight className="ml-1 w-4 h-4" />
+                  </motion.div>
+                </div>
+              </motion.div>
             </div>
-          </motion.div>
+          </div>
         </div>
       </section>
 
@@ -441,12 +495,14 @@ export default function Home() {
             </div>
 
             {/* Mobile-Optimized Layout */}
-            <div className="md:hidden space-y-6 mb-12">
+            <div className="md:hidden space-y-4 mb-12">
               {[
                 {
                   icon: TrendingUp,
                   iconColor: "text-red-600",
                   bgColor: "bg-red-50",
+                  borderColor: "border-l-red-500",
+                  number: "01",
                   title: "労働力不足",
                   description: "2030年まで644万人の働き手が不足。AI導入は選択肢ではなく必須条件です。"
                 },
@@ -454,13 +510,17 @@ export default function Home() {
                   icon: Building,
                   iconColor: "text-blue-600", 
                   bgColor: "bg-blue-50",
+                  borderColor: "border-l-blue-500",
+                  number: "02",
                   title: "競争力格差",
                   description: "AI導入企業と未導入企業の生産性格差は年々拡大。早期導入が生存戦略です。"
                 },
                 {
                   icon: Brain,
                   iconColor: "text-green-600",
-                  bgColor: "bg-green-50", 
+                  bgColor: "bg-green-50",
+                  borderColor: "border-l-green-500",
+                  number: "03",
                   title: "技術革新",
                   description: "ChatGPT登場で実用的AIが現実に。今こそ導入のベストタイミングです。"
                 }
@@ -469,20 +529,32 @@ export default function Home() {
                 return (
                   <motion.div
                     key={index}
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
-                    className={`${item.bgColor} rounded-2xl p-6 border-l-4 border-l-current ${item.iconColor}`}
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: index * 0.15 }}
+                    viewport={{ once: true, margin: "-50px" }}
+                    className={`${item.bgColor} ${item.borderColor} border-l-4 rounded-r-2xl p-5 shadow-sm`}
                   >
                     <div className="flex items-start space-x-4">
-                      <div className={`w-12 h-12 ${item.bgColor.replace('50', '100')} rounded-xl flex items-center justify-center flex-shrink-0`}>
-                        <IconComponent className={`w-6 h-6 ${item.iconColor}`} />
+                      <div className="flex flex-col items-center space-y-2 flex-shrink-0">
+                        <div className="w-2 h-2 bg-gray-400 rounded-full" />
+                        <div className="w-0.5 h-8 bg-gray-200" />
+                        <div className={`w-12 h-12 ${item.bgColor.replace('50', '100')} rounded-xl flex items-center justify-center shadow-sm`}>
+                          <IconComponent className={`w-6 h-6 ${item.iconColor}`} />
+                        </div>
                       </div>
-                      <div className="flex-1">
-                        <h3 className="text-lg font-bold text-gray-900 mb-2">{item.title}</h3>
+                      <div className="flex-1 pt-1">
+                        <div className="flex items-start justify-between mb-2">
+                          <h3 className="text-lg font-bold text-gray-900">{item.title}</h3>
+                          <span className="text-xs font-bold text-gray-400 bg-white px-2 py-1 rounded">{item.number}</span>
+                        </div>
                         <p className="text-gray-700 leading-relaxed text-sm">
                           {item.description}
                         </p>
+                        <div className="mt-3 flex items-center">
+                          <div className="w-4 h-0.5 bg-gray-300" />
+                          <div className="w-1 h-1 bg-gray-400 rounded-full ml-1" />
+                        </div>
                       </div>
                     </div>
                   </motion.div>
