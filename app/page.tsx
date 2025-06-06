@@ -74,28 +74,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-white overflow-x-hidden">
-      {/* Fixed Banner - Mobile Optimized */}
-      <div className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-red-600 to-orange-600 text-white py-2 px-4 shadow-lg">
-        <div className="container mx-auto">
-          <div className="flex items-center justify-between text-sm lg:text-base">
-            <div className="flex items-center space-x-2">
-              <div className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse" />
-              <span className="font-medium">🚀 AI革命の最前線へ</span>
-            </div>
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => window.location.href = '/contact'}
-              className="bg-white/20 hover:bg-white/30 px-3 py-1 rounded-full text-xs lg:text-sm font-medium backdrop-blur-sm transition-all min-h-[32px] touch-manipulation"
-            >
-              無料相談 →
-            </motion.button>
-          </div>
-        </div>
-      </div>
-
       {/* Hero Section - Mobile-Optimized Minimalist Design */}
-      <div className="pt-12">{/* Add top padding to account for fixed banner */}</div>
       <section className="relative min-h-screen flex items-center bg-white px-4 sm:px-6 lg:px-8">
         {/* Optimized Geometric Background */}
         <div className="absolute inset-0 overflow-hidden">
