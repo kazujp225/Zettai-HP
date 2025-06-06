@@ -2,10 +2,11 @@
 
 import { motion, useReducedMotion } from "framer-motion"
 import { Button } from "@/components/ui/button"
-import { Card } from "@/components/ui/card"
+import { Card as UICard } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Rocket, Users, Brain, Target, CheckCircle2, MapPin, Clock, DollarSign, Star, GraduationCap } from 'lucide-react'
+import { Rocket, Users, Brain, Target, CheckCircle2, MapPin, Clock, DollarSign, Star, GraduationCap, Code, ChartBar, ArrowRight } from 'lucide-react'
 import Link from 'next/link'
+import CardSwap, { Card } from '@/components/CardSwap'
 
 const fadeInUp = {
   initial: { opacity: 0, y: 30 },
@@ -83,32 +84,285 @@ export default function CareersPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Hero Section */}
-      <section className="pt-32 pb-20 bg-gradient-to-br from-blue-50 to-white">
+      {/* Hero Section with Card Swap */}
+      <section className="relative min-h-screen bg-gradient-to-br from-blue-50 to-white pt-24 lg:pt-32">
         <div className="container mx-auto px-4">
+          <div className="grid lg:grid-cols-2 gap-12 items-center min-h-[calc(100vh-6rem)] lg:min-h-[calc(100vh-8rem)] py-12">
+            
+            {/* 左側: 既存のテキストコンテンツ */}
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+              className="space-y-8"
+            >
+              <div>
+                <Badge className="mb-6 bg-red-100 text-red-700 hover:bg-red-100">
+                  <Star className="w-4 h-4 mr-2" />
+                  JOIN ZETTAI
+                </Badge>
+                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
+                  一緒に<span className="text-red-600">未来</span>を<br />
+                  創りませんか？
+                </h1>
+                <p className="text-lg lg:text-xl text-gray-700 leading-relaxed">
+                  ZettAIは、AI技術で日本の未来を変える仲間を探しています。<br />
+                  実力主義、多様性、そして「ゼッタイやる」精神を持つあなたを待っています。
+                </p>
+              </div>
+              
+              <div className="space-y-4">
+                <div className="flex items-start space-x-3">
+                  <CheckCircle2 className="w-6 h-6 text-green-500 mt-0.5" />
+                  <div>
+                    <h3 className="font-semibold text-gray-900">学歴・経験不問</h3>
+                    <p className="text-gray-600">やる気と実力があれば、誰でもチャンスがあります</p>
+                  </div>
+                </div>
+                <div className="flex items-start space-x-3">
+                  <CheckCircle2 className="w-6 h-6 text-green-500 mt-0.5" />
+                  <div>
+                    <h3 className="font-semibold text-gray-900">急成長環境</h3>
+                    <p className="text-gray-600">5年で100億円企業を目指す、刺激的な環境</p>
+                  </div>
+                </div>
+                <div className="flex items-start space-x-3">
+                  <CheckCircle2 className="w-6 h-6 text-green-500 mt-0.5" />
+                  <div>
+                    <h3 className="font-semibold text-gray-900">最先端技術</h3>
+                    <p className="text-gray-600">ChatGPT、Claude等の最新AI技術を業務で活用</p>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Button size="lg" className="bg-red-600 hover:bg-red-700" asChild>
+                  <Link href="#positions">
+                    採用情報を見る
+                    <ArrowRight className="ml-2 w-5 h-5" />
+                  </Link>
+                </Button>
+                <Button size="lg" variant="outline" asChild>
+                  <Link href="/contact">
+                    カジュアル面談
+                  </Link>
+                </Button>
+              </div>
+            </motion.div>
+            
+            {/* 右側: Card Swap アニメーション (デスクトップ) */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+              className="hidden lg:block relative"
+              style={{ height: '600px' }}
+            >
+              <CardSwap
+                cardDistance={60}
+                verticalDistance={70}
+                delay={5000}
+                pauseOnHover={false}
+                easing="elastic"
+              >
+                <Card className="bg-gradient-to-br from-blue-500 to-purple-600 text-white p-8">
+                  <div className="h-full flex flex-col justify-between">
+                    <div>
+                      <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center mb-6">
+                        <Brain className="w-8 h-8 text-white" />
+                      </div>
+                      <h3 className="text-3xl font-bold mb-3">AIエンジニア</h3>
+                      <p className="text-xl text-white/90 mb-4">最先端技術で未来を創る</p>
+                      <p className="text-white/80 leading-relaxed">GPT-4、Claude、最新のAI技術を駆使して、企業の課題を解決するソリューションを開発</p>
+                    </div>
+                    <Button 
+                      className="bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white border-white/30" 
+                      variant="outline"
+                      asChild
+                    >
+                      <Link href="/contact">
+                        このポジションに応募する
+                        <ArrowRight className="ml-2 w-4 h-4" />
+                      </Link>
+                    </Button>
+                  </div>
+                </Card>
+                <Card className="bg-gradient-to-br from-emerald-500 to-teal-600 text-white p-8">
+                  <div className="h-full flex flex-col justify-between">
+                    <div>
+                      <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center mb-6">
+                        <Code className="w-8 h-8 text-white" />
+                      </div>
+                      <h3 className="text-3xl font-bold mb-3">フルスタックエンジニア</h3>
+                      <p className="text-xl text-white/90 mb-4">End-to-Endで価値を届ける</p>
+                      <p className="text-white/80 leading-relaxed">React/Next.js、Node.js、クラウドインフラまで、幅広い技術スタックで開発</p>
+                    </div>
+                    <Button 
+                      className="bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white border-white/30" 
+                      variant="outline"
+                      asChild
+                    >
+                      <Link href="/contact">
+                        このポジションに応募する
+                        <ArrowRight className="ml-2 w-4 h-4" />
+                      </Link>
+                    </Button>
+                  </div>
+                </Card>
+                <Card className="bg-gradient-to-br from-orange-500 to-red-600 text-white p-8">
+                  <div className="h-full flex flex-col justify-between">
+                    <div>
+                      <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center mb-6">
+                        <Rocket className="w-8 h-8 text-white" />
+                      </div>
+                      <h3 className="text-3xl font-bold mb-3">ビジネスデベロッパー</h3>
+                      <p className="text-xl text-white/90 mb-4">技術と事業の架け橋</p>
+                      <p className="text-white/80 leading-relaxed">AI技術の可能性を理解し、クライアントの成功を最大化する提案と実行</p>
+                    </div>
+                    <Button 
+                      className="bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white border-white/30" 
+                      variant="outline"
+                      asChild
+                    >
+                      <Link href="/contact">
+                        このポジションに応募する
+                        <ArrowRight className="ml-2 w-4 h-4" />
+                      </Link>
+                    </Button>
+                  </div>
+                </Card>
+                <Card className="bg-gradient-to-br from-pink-500 to-rose-600 text-white p-8">
+                  <div className="h-full flex flex-col justify-between">
+                    <div>
+                      <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center mb-6">
+                        <ChartBar className="w-8 h-8 text-white" />
+                      </div>
+                      <h3 className="text-3xl font-bold mb-3">データサイエンティスト</h3>
+                      <p className="text-xl text-white/90 mb-4">データから価値を生み出す</p>
+                      <p className="text-white/80 leading-relaxed">機械学習、統計解析、ビッグデータ処理で、意思決定を支援</p>
+                    </div>
+                    <Button 
+                      className="bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white border-white/30" 
+                      variant="outline"
+                      asChild
+                    >
+                      <Link href="/contact">
+                        このポジションに応募する
+                        <ArrowRight className="ml-2 w-4 h-4" />
+                      </Link>
+                    </Button>
+                  </div>
+                </Card>
+              </CardSwap>
+            </motion.div>
+          </div>
+          
+          {/* モバイル用 Card Swap (ヒーローセクションの下) */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="max-w-4xl mx-auto text-center"
+            transition={{ duration: 0.8, delay: 0.5 }}
+            className="lg:hidden pb-20 relative mx-auto"
+            style={{ height: '500px', maxWidth: '400px' }}
           >
-            <Badge className="mb-6 bg-blue-100 text-blue-700 hover:bg-blue-100">
-              <Star className="w-4 h-4 mr-2" />
-              We're Hiring
-            </Badge>
-            <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
-              AIで未来を創る仲間を<br />募集しています
-            </h1>
-            <p className="text-xl text-gray-600 mb-12 leading-relaxed">
-              学歴・経験不問。「ゼッタイやる」という意志があれば、<br />
-              あなたの可能性をAIで最大化できる環境があります。
-            </p>
-            <Button size="lg" asChild>
-              <Link href="#positions">
-                募集職種を見る
-                <Rocket className="ml-2 w-5 h-5" />
-              </Link>
-            </Button>
+            <CardSwap
+              cardDistance={40}
+              verticalDistance={50}
+              delay={5000}
+              pauseOnHover={false}
+              easing="elastic"
+              width={300}
+              height={400}
+            >
+              <Card className="bg-gradient-to-br from-blue-500 to-purple-600 text-white p-6">
+                <div className="h-full flex flex-col justify-between">
+                  <div>
+                    <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center mb-4">
+                      <Brain className="w-6 h-6 text-white" />
+                    </div>
+                    <h3 className="text-2xl font-bold mb-2">AIエンジニア</h3>
+                    <p className="text-lg text-white/90 mb-3">最先端技術で未来を創る</p>
+                    <p className="text-white/80 leading-relaxed text-sm">GPT-4、Claude、最新のAI技術を駆使して、企業の課題を解決</p>
+                  </div>
+                  <Button 
+                    className="bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white border-white/30 text-sm" 
+                    variant="outline"
+                    asChild
+                  >
+                    <Link href="/contact">
+                      応募する
+                      <ArrowRight className="ml-2 w-3 h-3" />
+                    </Link>
+                  </Button>
+                </div>
+              </Card>
+              <Card className="bg-gradient-to-br from-emerald-500 to-teal-600 text-white p-6">
+                <div className="h-full flex flex-col justify-between">
+                  <div>
+                    <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center mb-4">
+                      <Code className="w-6 h-6 text-white" />
+                    </div>
+                    <h3 className="text-2xl font-bold mb-2">フルスタックエンジニア</h3>
+                    <p className="text-lg text-white/90 mb-3">End-to-Endで価値を届ける</p>
+                    <p className="text-white/80 leading-relaxed text-sm">React/Next.js、Node.js、クラウドインフラまで、幅広い技術スタック</p>
+                  </div>
+                  <Button 
+                    className="bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white border-white/30 text-sm" 
+                    variant="outline"
+                    asChild
+                  >
+                    <Link href="/contact">
+                      応募する
+                      <ArrowRight className="ml-2 w-3 h-3" />
+                    </Link>
+                  </Button>
+                </div>
+              </Card>
+              <Card className="bg-gradient-to-br from-orange-500 to-red-600 text-white p-6">
+                <div className="h-full flex flex-col justify-between">
+                  <div>
+                    <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center mb-4">
+                      <Rocket className="w-6 h-6 text-white" />
+                    </div>
+                    <h3 className="text-2xl font-bold mb-2">ビジネスデベロッパー</h3>
+                    <p className="text-lg text-white/90 mb-3">技術と事業の架け橋</p>
+                    <p className="text-white/80 leading-relaxed text-sm">AI技術の可能性を理解し、クライアントの成功を最大化</p>
+                  </div>
+                  <Button 
+                    className="bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white border-white/30 text-sm" 
+                    variant="outline"
+                    asChild
+                  >
+                    <Link href="/contact">
+                      応募する
+                      <ArrowRight className="ml-2 w-3 h-3" />
+                    </Link>
+                  </Button>
+                </div>
+              </Card>
+              <Card className="bg-gradient-to-br from-pink-500 to-rose-600 text-white p-6">
+                <div className="h-full flex flex-col justify-between">
+                  <div>
+                    <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center mb-4">
+                      <ChartBar className="w-6 h-6 text-white" />
+                    </div>
+                    <h3 className="text-2xl font-bold mb-2">データサイエンティスト</h3>
+                    <p className="text-lg text-white/90 mb-3">データから価値を生み出す</p>
+                    <p className="text-white/80 leading-relaxed text-sm">機械学習、統計解析、ビッグデータ処理で、意思決定を支援</p>
+                  </div>
+                  <Button 
+                    className="bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white border-white/30 text-sm" 
+                    variant="outline"
+                    asChild
+                  >
+                    <Link href="/contact">
+                      応募する
+                      <ArrowRight className="ml-2 w-3 h-3" />
+                    </Link>
+                  </Button>
+                </div>
+              </Card>
+            </CardSwap>
           </motion.div>
         </div>
       </section>
@@ -134,7 +388,7 @@ export default function CareersPage() {
 
             <div className="grid md:grid-cols-3 gap-8 mb-16">
               <motion.div variants={fadeInUp}>
-                <Card className="p-8 text-center border-gray-200 shadow-sm hover:shadow-md transition-shadow h-full">
+                <UICard className="p-8 text-center border-gray-200 shadow-sm hover:shadow-md transition-shadow h-full">
                   <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
                     <Brain className="w-8 h-8 text-blue-600" />
                   </div>
@@ -142,11 +396,11 @@ export default function CareersPage() {
                   <p className="text-gray-600">
                     ChatGPT、Claude等の最新AI技術を業務で活用。常に技術の最前線で学び続けることができます。
                   </p>
-                </Card>
+                </UICard>
               </motion.div>
 
               <motion.div variants={fadeInUp}>
-                <Card className="p-8 text-center border-gray-200 shadow-sm hover:shadow-md transition-shadow h-full">
+                <UICard className="p-8 text-center border-gray-200 shadow-sm hover:shadow-md transition-shadow h-full">
                   <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-6">
                     <Target className="w-8 h-8 text-emerald-600" />
                   </div>
@@ -154,11 +408,11 @@ export default function CareersPage() {
                   <p className="text-gray-600">
                     5年で100億円を目指す急成長企業。責任あるポジションで、大きな裁量を持って働けます。
                   </p>
-                </Card>
+                </UICard>
               </motion.div>
 
               <motion.div variants={fadeInUp}>
-                <Card className="p-8 text-center border-gray-200 shadow-sm hover:shadow-md transition-shadow h-full">
+                <UICard className="p-8 text-center border-gray-200 shadow-sm hover:shadow-md transition-shadow h-full">
                   <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-6">
                     <Users className="w-8 h-8 text-purple-600" />
                   </div>
@@ -166,7 +420,7 @@ export default function CareersPage() {
                   <p className="text-gray-600">
                     学歴・年齢・経験に関係なく、成果と貢献度で正当に評価。ストックオプション制度もあります。
                   </p>
-                </Card>
+                </UICard>
               </motion.div>
             </div>
 
@@ -235,7 +489,7 @@ export default function CareersPage() {
             <div className="space-y-8">
               {jobPositions.map((job, index) => (
                 <motion.div key={index} variants={fadeInUp}>
-                  <Card className="p-8 bg-white border-0 shadow-lg hover:shadow-xl transition-shadow">
+                  <UICard className="p-8 bg-white border-0 shadow-lg hover:shadow-xl transition-shadow">
                     <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between mb-6">
                       <div className="flex-1">
                         <div className="flex items-center gap-4 mb-4">
@@ -287,7 +541,7 @@ export default function CareersPage() {
                         </ul>
                       </div>
                     </div>
-                  </Card>
+                  </UICard>
                 </motion.div>
               ))}
             </div>
