@@ -1068,12 +1068,13 @@ export default function Home() {
               </p>
             </motion.div>
 
-            {/* Revenue Comparison - Horizontal Layout */}
+            {/* Revenue Comparison - Responsive Layout */}
             <motion.div 
               className="mb-12"
               variants={fadeInUp}
             >
-              <div className="bg-white border border-gray-200 rounded-lg p-8 shadow-sm">
+              {/* Desktop Layout */}
+              <div className="hidden md:block bg-white border border-gray-200 rounded-lg p-8 shadow-sm">
                 <div className="grid md:grid-cols-5 gap-8 items-center">
                   {/* Current Revenue */}
                   <div className="md:col-span-2 text-center">
@@ -1120,6 +1121,98 @@ export default function Home() {
                     <div className="text-sm text-gray-600">成長幅</div>
                   </div>
                 </div>
+              </div>
+
+              {/* Mobile Layout */}
+              <div className="md:hidden space-y-6">
+                {/* Current to Target Revenue Flow */}
+                <div className="bg-gradient-to-b from-blue-50 to-emerald-50 rounded-2xl p-6 shadow-sm">
+                  {/* Current Revenue */}
+                  <motion.div 
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6 }}
+                    className="text-center"
+                  >
+                    <div className="bg-white rounded-xl p-6 shadow-sm border border-blue-200">
+                      <div className="text-xs font-semibold text-blue-600 uppercase tracking-wider mb-2">現在</div>
+                      <div className="text-3xl font-bold text-blue-700 mb-1">
+                        <AnimatedCounter target={3} suffix="億円" duration={3600} />
+                      </div>
+                      <div className="text-sm font-medium text-gray-700">親会社年間売上</div>
+                      <div className="text-xs text-gray-500 mt-1">2025年予測</div>
+                    </div>
+                  </motion.div>
+
+                  {/* Arrow Down with Animation */}
+                  <motion.div 
+                    initial={{ opacity: 0, scale: 0.5 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.6, delay: 0.3 }}
+                    className="flex justify-center my-6"
+                  >
+                    <div className="relative">
+                      <div className="w-0.5 h-16 bg-gradient-to-b from-blue-500 to-emerald-500" />
+                      <motion.div
+                        animate={{ y: [0, 10, 0] }}
+                        transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                        className="absolute -bottom-3 -left-3"
+                      >
+                        <div className="w-6 h-6 bg-gradient-to-br from-blue-500 to-emerald-500 rounded-full flex items-center justify-center">
+                          <ArrowRight className="w-4 h-4 text-white rotate-90" />
+                        </div>
+                      </motion.div>
+                    </div>
+                  </motion.div>
+
+                  {/* Target Revenue */}
+                  <motion.div 
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: 0.6 }}
+                    className="text-center"
+                  >
+                    <div className="bg-white rounded-xl p-6 shadow-sm border border-emerald-200">
+                      <div className="text-xs font-semibold text-emerald-600 uppercase tracking-wider mb-2">目標</div>
+                      <div className="text-3xl font-bold text-emerald-700 mb-1">
+                        <AnimatedCounter target={100} suffix="億円" duration={5000} />
+                      </div>
+                      <div className="text-sm font-medium text-gray-700">目標年間売上</div>
+                      <div className="text-xs text-gray-500 mt-1">2029年目標</div>
+                    </div>
+                  </motion.div>
+                </div>
+
+                {/* Growth Metrics - Mobile Optimized */}
+                <motion.div 
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.9 }}
+                  className="bg-white rounded-2xl p-6 shadow-sm border border-gray-200"
+                >
+                  <h3 className="text-lg font-bold text-gray-900 text-center mb-6">成長指標</h3>
+                  <div className="space-y-4">
+                    {[
+                      { value: 33.3, suffix: "倍", label: "成長倍率", duration: 4000, color: "text-red-600", bgColor: "bg-red-50" },
+                      { value: 5, suffix: "年間", label: "達成期間", duration: 3000, color: "text-blue-600", bgColor: "bg-blue-50" },
+                      { value: 97, suffix: "億円", label: "成長幅", duration: 4400, color: "text-emerald-600", bgColor: "bg-emerald-50" }
+                    ].map((metric, index) => (
+                      <div key={index} className={`${metric.bgColor} rounded-xl p-4 border-l-4 border-current ${metric.color}`}>
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <div className="text-sm font-medium text-gray-700">{metric.label}</div>
+                            <div className={`text-2xl font-bold ${metric.color}`}>
+                              <AnimatedCounter target={metric.value} suffix={metric.suffix} duration={metric.duration} />
+                            </div>
+                          </div>
+                          <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-sm">
+                            <TrendingUp className={`w-6 h-6 ${metric.color}`} />
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </motion.div>
               </div>
             </motion.div>
 
@@ -1228,52 +1321,157 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-20 bg-gray-900 text-white">
+      {/* CTA Section - Mobile Optimized */}
+      <section className="py-16 lg:py-20 bg-gradient-to-b from-gray-900 to-black text-white">
         <div className="container mx-auto px-4">
           <motion.div
             initial="initial"
             whileInView="animate"
             viewport={{ once: true }}
             variants={fadeInUp}
-            className="max-w-3xl mx-auto text-center"
+            className="max-w-3xl mx-auto"
           >
-            <h2 className="text-4xl font-bold mb-6">
-              一緒に未来を創りませんか？
-            </h2>
-            <p className="text-xl text-gray-300 mb-12">
-              あなたの企業のAI導入を全力でサポートします。
-            </p>
+            {/* Desktop Layout */}
+            <div className="hidden lg:block text-center">
+              <h2 className="text-4xl font-bold mb-6">
+                一緒に未来を創りませんか？
+              </h2>
+              <p className="text-xl text-gray-300 mb-12">
+                あなたの企業のAI導入を全力でサポートします。
+              </p>
 
-            <form
-              onSubmit={(e) => {
-                e.preventDefault()
-                window.location.href = '/contact'
-              }}
-              className="max-w-md mx-auto"
-            >
-              <div className="flex gap-4">
-                <Input
-                  type="email"
-                  placeholder="メールアドレス"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="flex-1 bg-white/10 border-white/20 text-white placeholder:text-white/60"
-                  required
-                />
-                <Button 
-                  type="submit" 
-                  className="bg-blue-600 hover:bg-blue-700"
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault()
+                  window.location.href = '/contact'
+                }}
+                className="max-w-md mx-auto"
+              >
+                <div className="flex gap-4">
+                  <Input
+                    type="email"
+                    placeholder="メールアドレス"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="flex-1 bg-white/10 border-white/20 text-white placeholder:text-white/60 h-12"
+                    required
+                  />
+                  <Button 
+                    type="submit" 
+                    className="bg-blue-600 hover:bg-blue-700 px-6 h-12"
+                  >
+                    相談する
+                    <Rocket className="ml-2 w-4 h-4" />
+                  </Button>
+                </div>
+              </form>
+
+              <p className="mt-6 text-sm text-gray-400">
+                お問い合わせから24時間以内にご返信いたします。
+              </p>
+            </div>
+
+            {/* Mobile Layout */}
+            <div className="lg:hidden">
+              <motion.div 
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8 }}
+                className="text-center space-y-6"
+              >
+                {/* Icon and Badge */}
+                <div className="flex justify-center">
+                  <div className="bg-gradient-to-br from-blue-500 to-purple-600 rounded-full p-6 shadow-2xl">
+                    <Rocket className="w-8 h-8 text-white" />
+                  </div>
+                </div>
+
+                {/* Heading */}
+                <div>
+                  <h2 className="text-2xl font-bold mb-3">
+                    一緒に未来を<br />創りませんか？
+                  </h2>
+                  <p className="text-base text-gray-300 px-4">
+                    あなたの企業のAI導入を<br />全力でサポートします。
+                  </p>
+                </div>
+
+                {/* Form - Stacked Layout */}
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault()
+                    window.location.href = '/contact'
+                  }}
+                  className="space-y-4 px-4"
                 >
-                  相談する
-                  <Rocket className="ml-2 w-4 h-4" />
-                </Button>
-              </div>
-            </form>
+                  <motion.div
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.6, delay: 0.3 }}
+                  >
+                    <Input
+                      type="email"
+                      placeholder="メールアドレスを入力"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      className="w-full bg-white/10 border-white/20 text-white placeholder:text-white/60 h-14 px-4 text-base rounded-xl"
+                      required
+                    />
+                  </motion.div>
+                  
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: 0.5 }}
+                  >
+                    <Button 
+                      type="submit" 
+                      className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 h-14 text-base font-semibold rounded-xl shadow-lg transition-all duration-300 min-h-[56px] touch-manipulation"
+                    >
+                      無料相談を始める
+                      <Rocket className="ml-2 w-5 h-5" />
+                    </Button>
+                  </motion.div>
+                </form>
 
-            <p className="mt-6 text-sm text-gray-400">
-              お問い合わせから24時間以内にご返信いたします。
-            </p>
+                {/* Response Time */}
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  transition={{ duration: 0.6, delay: 0.7 }}
+                  className="bg-white/5 backdrop-blur-sm rounded-xl p-4 mx-4 border border-white/10"
+                >
+                  <div className="flex items-center justify-center space-x-2 text-sm">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                    <span className="text-gray-300">24時間以内にご返信</span>
+                  </div>
+                </motion.div>
+
+                {/* Alternative CTAs */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.9 }}
+                  className="pt-4 space-y-3"
+                >
+                  <p className="text-xs text-gray-400 uppercase tracking-wider">その他のお問い合わせ</p>
+                  <div className="flex justify-center space-x-6">
+                    <a href="/contact" className="text-gray-300 hover:text-white transition-colors">
+                      <div className="text-center">
+                        <Building className="w-6 h-6 mx-auto mb-1" />
+                        <span className="text-xs">企業相談</span>
+                      </div>
+                    </a>
+                    <a href="/contact" className="text-gray-300 hover:text-white transition-colors">
+                      <div className="text-center">
+                        <Users className="w-6 h-6 mx-auto mb-1" />
+                        <span className="text-xs">採用相談</span>
+                      </div>
+                    </a>
+                  </div>
+                </motion.div>
+              </motion.div>
+            </div>
           </motion.div>
         </div>
       </section>
