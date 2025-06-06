@@ -9,7 +9,8 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Calendar, Clock, Mail, MessageCircle, Phone, Send, User, MapPin, CheckCircle, Sparkles, ArrowRight } from "lucide-react"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Calendar, Clock, Mail, MessageCircle, Phone, Send, User, MapPin, CheckCircle, Sparkles, ArrowRight, Building, Users } from "lucide-react"
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
@@ -27,22 +28,35 @@ const staggerChildren = {
 
 export default function ContactPage() {
   const prefersReducedMotion = useReducedMotion()
-  const [formData, setFormData] = useState({
+  const [activeTab, setActiveTab] = useState("business")
+  
+  const [businessFormData, setBusinessFormData] = useState({
     name: "",
     email: "",
     company: "",
+    position: "",
     purpose: "",
     message: "",
     file: null as File | null,
+  })
+
+  const [careerFormData, setCareerFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    position: "",
+    experience: "",
+    message: "",
+    resume: null as File | null,
   })
 
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitSuccess, setSubmitSuccess] = useState(false)
   const [formErrors, setFormErrors] = useState<Record<string, string>>({})
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleBusinessInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
-    setFormData((prev) => ({ ...prev, [name]: value }))
+    setBusinessFormData((prev) => ({ ...prev, [name]: value }))
     
     // Clear error when user starts typing
     if (formErrors[name]) {
@@ -50,27 +64,55 @@ export default function ContactPage() {
     }
   }
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0] || null
-    setFormData((prev) => ({ ...prev, file }))
+  const handleCareerInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target
+    setCareerFormData((prev) => ({ ...prev, [name]: value }))
+    
+    // Clear error when user starts typing
+    if (formErrors[name]) {
+      setFormErrors((prev) => ({ ...prev, [name]: "" }))
+    }
   }
 
-  const validateForm = () => {
+  const handleBusinessFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0] || null
+    setBusinessFormData((prev) => ({ ...prev, file }))
+  }
+
+  const handleCareerResumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const resume = e.target.files?.[0] || null
+    setCareerFormData((prev) => ({ ...prev, resume }))
+  }
+
+  const validateBusinessForm = () => {
     const errors: Record<string, string> = {}
     
-    if (!formData.name.trim()) errors.name = "お名前は必須項目です"
-    if (!formData.email.trim()) errors.email = "メールアドレスは必須項目です"
-    else if (!/\S+@\S+\.\S+/.test(formData.email)) errors.email = "有効なメールアドレスを入力してください"
-    if (!formData.message.trim()) errors.message = "お問い合わせ内容は必須項目です"
+    if (!businessFormData.name.trim()) errors.name = "お名前は必須項目です"
+    if (!businessFormData.email.trim()) errors.email = "メールアドレスは必須項目です"
+    else if (!/\S+@\S+\.\S+/.test(businessFormData.email)) errors.email = "有効なメールアドレスを入力してください"
+    if (!businessFormData.company.trim()) errors.company = "会社名は必須項目です"
+    if (!businessFormData.message.trim()) errors.message = "お問い合わせ内容は必須項目です"
     
     setFormErrors(errors)
     return Object.keys(errors).length === 0
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const validateCareerForm = () => {
+    const errors: Record<string, string> = {}
+    
+    if (!careerFormData.name.trim()) errors.name = "お名前は必須項目です"
+    if (!careerFormData.email.trim()) errors.email = "メールアドレスは必須項目です"
+    else if (!/\S+@\S+\.\S+/.test(careerFormData.email)) errors.email = "有効なメールアドレスを入力してください"
+    if (!careerFormData.message.trim()) errors.message = "志望動機・自己PRは必須項目です"
+    
+    setFormErrors(errors)
+    return Object.keys(errors).length === 0
+  }
+
+  const handleBusinessSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     
-    if (!validateForm()) {
+    if (!validateBusinessForm()) {
       return
     }
     
@@ -85,13 +127,49 @@ export default function ContactPage() {
       // Reset form after success
       setTimeout(() => {
         setSubmitSuccess(false)
-        setFormData({
+        setBusinessFormData({
           name: "",
           email: "",
           company: "",
+          position: "",
           purpose: "",
           message: "",
           file: null,
+        })
+      }, 3000)
+    } catch (error) {
+      console.error('送信エラー:', error)
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
+  const handleCareerSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    
+    if (!validateCareerForm()) {
+      return
+    }
+    
+    setIsSubmitting(true)
+
+    try {
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 2000))
+      
+      setSubmitSuccess(true)
+      
+      // Reset form after success
+      setTimeout(() => {
+        setSubmitSuccess(false)
+        setCareerFormData({
+          name: "",
+          email: "",
+          phone: "",
+          position: "",
+          experience: "",
+          message: "",
+          resume: null,
         })
       }, 3000)
     } catch (error) {
@@ -154,23 +232,51 @@ export default function ContactPage() {
       {/* Main Content - Mobile Optimized */}
       <section className="py-12 lg:py-20">
         <div className="container mx-auto px-4">
-          <div className="grid lg:grid-cols-5 gap-6 lg:gap-12">
-            {/* Contact Form - 3 columns */}
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5 }}
-              className="lg:col-span-3"
-            >
-              <Card className="border-0 shadow-xl bg-white">
-                <CardHeader className="pb-6 lg:pb-8">
-                  <CardTitle className="text-2xl lg:text-3xl font-bold text-gray-800">お問い合わせフォーム</CardTitle>
-                  <CardDescription className="text-gray-600 text-sm lg:text-base">
-                    フォームに記入いただければ、24時間以内にご返信いたします。
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Tab Selection */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="max-w-6xl mx-auto mb-8 lg:mb-12"
+          >
+            <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+              <TabsList className="grid w-full grid-cols-2 mb-8 h-auto p-1 bg-gray-100 border border-gray-200">
+                <TabsTrigger 
+                  value="business" 
+                  className="flex items-center gap-2 py-3 px-4 text-sm lg:text-base font-medium min-h-[48px] touch-manipulation data-[state=active]:bg-white data-[state=active]:text-red-600 data-[state=active]:shadow-sm"
+                >
+                  <Building className="h-4 w-4" />
+                  企業・事業相談
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="careers" 
+                  className="flex items-center gap-2 py-3 px-4 text-sm lg:text-base font-medium min-h-[48px] touch-manipulation data-[state=active]:bg-white data-[state=active]:text-red-600 data-[state=active]:shadow-sm"
+                >
+                  <Users className="h-4 w-4" />
+                  採用・キャリア相談
+                </TabsTrigger>
+              </TabsList>
+
+              <div className="grid lg:grid-cols-5 gap-6 lg:gap-12">
+                {/* Business Contact Form */}
+                <TabsContent value="business" className="lg:col-span-3 mt-0">
+                  <motion.div
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.5 }}
+                  >
+                    <Card className="border-0 shadow-xl bg-white">
+                      <CardHeader className="pb-6 lg:pb-8">
+                        <CardTitle className="text-2xl lg:text-3xl font-bold text-gray-800 flex items-center gap-2">
+                          <Building className="h-6 w-6 text-red-600" />
+                          企業・事業相談フォーム
+                        </CardTitle>
+                        <CardDescription className="text-gray-600 text-sm lg:text-base">
+                          AI導入支援、人材採用、事業パートナーシップなどのご相談はこちらから
+                        </CardDescription>
+                      </CardHeader>
+                      <CardContent>
+                        <form onSubmit={handleBusinessSubmit} className="space-y-6">
                     <motion.div
                       initial="initial"
                       animate="animate"
@@ -185,8 +291,8 @@ export default function ContactPage() {
                           <Input
                             id="name"
                             name="name"
-                            value={formData.name}
-                            onChange={handleInputChange}
+                            value={businessFormData.name}
+                            onChange={handleBusinessInputChange}
                             required
                             className="h-12 lg:h-12 bg-gray-50 border-gray-300 focus:border-red-500 focus:ring-red-500 text-base touch-manipulation"
                             placeholder="山田 太郎"
@@ -201,8 +307,8 @@ export default function ContactPage() {
                             id="email"
                             name="email"
                             type="email"
-                            value={formData.email}
-                            onChange={handleInputChange}
+                            value={businessFormData.email}
+                            onChange={handleBusinessInputChange}
                             required
                             className="h-12 lg:h-12 bg-gray-50 border-gray-300 focus:border-red-500 focus:ring-red-500 text-base touch-manipulation"
                             placeholder="example@company.com"
@@ -212,15 +318,30 @@ export default function ContactPage() {
 
                       <motion.div variants={prefersReducedMotion ? { initial: {}, animate: {} } : fadeInUp}>
                         <label htmlFor="company" className="block text-sm font-medium text-gray-700 mb-2">
-                          会社名・組織名
+                          会社名・組織名 <span className="text-red-500">*</span>
                         </label>
                         <Input
                           id="company"
                           name="company"
-                          value={formData.company}
-                          onChange={handleInputChange}
-                          className="h-12 bg-gray-50 border-gray-300 focus:border-red-500 focus:ring-red-500"
+                          value={businessFormData.company}
+                          onChange={handleBusinessInputChange}
+                          required
+                          className="h-12 lg:h-12 bg-gray-50 border-gray-300 focus:border-red-500 focus:ring-red-500 text-base touch-manipulation"
                           placeholder="株式会社ZETTAI"
+                        />
+                      </motion.div>
+
+                      <motion.div variants={prefersReducedMotion ? { initial: {}, animate: {} } : fadeInUp}>
+                        <label htmlFor="position" className="block text-sm font-medium text-gray-700 mb-2">
+                          役職・部署
+                        </label>
+                        <Input
+                          id="position"
+                          name="position"
+                          value={businessFormData.position}
+                          onChange={handleBusinessInputChange}
+                          className="h-12 lg:h-12 bg-gray-50 border-gray-300 focus:border-red-500 focus:ring-red-500 text-base touch-manipulation"
+                          placeholder="代表取締役、営業部長など"
                         />
                       </motion.div>
 
@@ -229,19 +350,19 @@ export default function ContactPage() {
                           お問い合わせ内容 <span className="text-red-500">*</span>
                         </label>
                         <Select 
-                          onValueChange={(value) => setFormData((prev) => ({ ...prev, purpose: value }))}
+                          onValueChange={(value) => setBusinessFormData((prev) => ({ ...prev, purpose: value }))}
                           required
                         >
                           <SelectTrigger className="h-12 lg:h-12 bg-gray-50 border-gray-300 focus:border-red-500 focus:ring-red-500 text-base touch-manipulation">
                             <SelectValue placeholder="選択してください" />
                           </SelectTrigger>
                           <SelectContent className="bg-white">
-                            <SelectItem value="recruitment">採用について</SelectItem>
+                            <SelectItem value="ai-consulting">AI導入支援・コンサルティング</SelectItem>
+                            <SelectItem value="recruitment">AI人材採用支援</SelectItem>
                             <SelectItem value="partnership">事業パートナーシップ</SelectItem>
-                            <SelectItem value="service">サービス導入相談</SelectItem>
-                            <SelectItem value="media">メディア取材</SelectItem>
                             <SelectItem value="investment">投資・IR関連</SelectItem>
-                            <SelectItem value="bootcamp">ブートキャンプについて</SelectItem>
+                            <SelectItem value="media">メディア取材</SelectItem>
+                            <SelectItem value="bootcamp">ブートキャンプ法人研修</SelectItem>
                             <SelectItem value="other">その他</SelectItem>
                           </SelectContent>
                         </Select>
@@ -254,8 +375,8 @@ export default function ContactPage() {
                         <Textarea
                           id="message"
                           name="message"
-                          value={formData.message}
-                          onChange={handleInputChange}
+                          value={businessFormData.message}
+                          onChange={handleBusinessInputChange}
                           required
                           className="bg-gray-50 border-gray-300 focus:border-red-500 focus:ring-red-500 min-h-[120px] lg:min-h-[150px] text-base touch-manipulation"
                           rows={6}
@@ -271,7 +392,7 @@ export default function ContactPage() {
                           <Input
                             id="file"
                             type="file"
-                            onChange={handleFileChange}
+                            onChange={handleBusinessFileChange}
                             className="h-12 bg-gray-50 border-gray-300 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-red-50 file:text-red-700 hover:file:bg-red-100"
                             accept=".pdf,.doc,.docx,.ppt,.pptx,.jpg,.jpeg,.png"
                           />
@@ -310,6 +431,195 @@ export default function ContactPage() {
                 </CardContent>
               </Card>
             </motion.div>
+                </TabsContent>
+
+                {/* Career Contact Form */}
+                <TabsContent value="careers" className="lg:col-span-3 mt-0">
+                  <motion.div
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.5 }}
+                  >
+                    <Card className="border-0 shadow-xl bg-white">
+                      <CardHeader className="pb-6 lg:pb-8">
+                        <CardTitle className="text-2xl lg:text-3xl font-bold text-gray-800 flex items-center gap-2">
+                          <Users className="h-6 w-6 text-red-600" />
+                          採用・キャリア相談フォーム
+                        </CardTitle>
+                        <CardDescription className="text-gray-600 text-sm lg:text-base">
+                          キャリア相談、求人応募、インターンシップなどのご相談はこちらから
+                        </CardDescription>
+                      </CardHeader>
+                      <CardContent>
+                        <form onSubmit={handleCareerSubmit} className="space-y-6">
+                          <motion.div
+                            initial="initial"
+                            animate="animate"
+                            variants={staggerChildren}
+                            className="space-y-6"
+                          >
+                            <motion.div variants={prefersReducedMotion ? { initial: {}, animate: {} } : fadeInUp} className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6">
+                              <div>
+                                <label htmlFor="career-name" className="block text-sm font-medium text-gray-700 mb-2">
+                                  お名前 <span className="text-red-500">*</span>
+                                </label>
+                                <Input
+                                  id="career-name"
+                                  name="name"
+                                  value={careerFormData.name}
+                                  onChange={handleCareerInputChange}
+                                  required
+                                  className="h-12 lg:h-12 bg-gray-50 border-gray-300 focus:border-red-500 focus:ring-red-500 text-base touch-manipulation"
+                                  placeholder="山田 太郎"
+                                />
+                              </div>
+
+                              <div>
+                                <label htmlFor="career-email" className="block text-sm font-medium text-gray-700 mb-2">
+                                  メールアドレス <span className="text-red-500">*</span>
+                                </label>
+                                <Input
+                                  id="career-email"
+                                  name="email"
+                                  type="email"
+                                  value={careerFormData.email}
+                                  onChange={handleCareerInputChange}
+                                  required
+                                  className="h-12 lg:h-12 bg-gray-50 border-gray-300 focus:border-red-500 focus:ring-red-500 text-base touch-manipulation"
+                                  placeholder="example@university.ac.jp"
+                                />
+                              </div>
+                            </motion.div>
+
+                            <motion.div variants={prefersReducedMotion ? { initial: {}, animate: {} } : fadeInUp}>
+                              <label htmlFor="career-phone" className="block text-sm font-medium text-gray-700 mb-2">
+                                電話番号
+                              </label>
+                              <Input
+                                id="career-phone"
+                                name="phone"
+                                type="tel"
+                                value={careerFormData.phone}
+                                onChange={handleCareerInputChange}
+                                className="h-12 lg:h-12 bg-gray-50 border-gray-300 focus:border-red-500 focus:ring-red-500 text-base touch-manipulation"
+                                placeholder="090-1234-5678"
+                              />
+                            </motion.div>
+
+                            <motion.div variants={prefersReducedMotion ? { initial: {}, animate: {} } : fadeInUp}>
+                              <label htmlFor="career-position" className="block text-sm font-medium text-gray-700 mb-2">
+                                希望職種・ポジション <span className="text-red-500">*</span>
+                              </label>
+                              <Select 
+                                onValueChange={(value) => setCareerFormData((prev) => ({ ...prev, position: value }))}
+                                required
+                              >
+                                <SelectTrigger className="h-12 lg:h-12 bg-gray-50 border-gray-300 focus:border-red-500 focus:ring-red-500 text-base touch-manipulation">
+                                  <SelectValue placeholder="選択してください" />
+                                </SelectTrigger>
+                                <SelectContent className="bg-white">
+                                  <SelectItem value="ai-engineer">AIエンジニア</SelectItem>
+                                  <SelectItem value="ml-engineer">機械学習エンジニア</SelectItem>
+                                  <SelectItem value="data-scientist">データサイエンティスト</SelectItem>
+                                  <SelectItem value="frontend-engineer">フロントエンドエンジニア</SelectItem>
+                                  <SelectItem value="backend-engineer">バックエンドエンジニア</SelectItem>
+                                  <SelectItem value="business-dev">事業開発</SelectItem>
+                                  <SelectItem value="sales">営業</SelectItem>
+                                  <SelectItem value="marketing">マーケティング</SelectItem>
+                                  <SelectItem value="hr">人事</SelectItem>
+                                  <SelectItem value="intern">インターンシップ</SelectItem>
+                                  <SelectItem value="consulting">キャリア相談のみ</SelectItem>
+                                  <SelectItem value="other">その他</SelectItem>
+                                </SelectContent>
+                              </Select>
+                            </motion.div>
+
+                            <motion.div variants={prefersReducedMotion ? { initial: {}, animate: {} } : fadeInUp}>
+                              <label htmlFor="career-experience" className="block text-sm font-medium text-gray-700 mb-2">
+                                経験・スキル
+                              </label>
+                              <Select 
+                                onValueChange={(value) => setCareerFormData((prev) => ({ ...prev, experience: value }))}
+                              >
+                                <SelectTrigger className="h-12 lg:h-12 bg-gray-50 border-gray-300 focus:border-red-500 focus:ring-red-500 text-base touch-manipulation">
+                                  <SelectValue placeholder="選択してください" />
+                                </SelectTrigger>
+                                <SelectContent className="bg-white">
+                                  <SelectItem value="student">学生（未経験）</SelectItem>
+                                  <SelectItem value="junior">実務経験1-2年</SelectItem>
+                                  <SelectItem value="mid">実務経験3-5年</SelectItem>
+                                  <SelectItem value="senior">実務経験5年以上</SelectItem>
+                                  <SelectItem value="bootcamp">ブートキャンプ修了</SelectItem>
+                                  <SelectItem value="self-taught">独学</SelectItem>
+                                  <SelectItem value="research">研究・学術経験</SelectItem>
+                                </SelectContent>
+                              </Select>
+                            </motion.div>
+
+                            <motion.div variants={prefersReducedMotion ? { initial: {}, animate: {} } : fadeInUp}>
+                              <label htmlFor="career-message" className="block text-sm font-medium text-gray-700 mb-2">
+                                志望動機・自己PR <span className="text-red-500">*</span>
+                              </label>
+                              <Textarea
+                                id="career-message"
+                                name="message"
+                                value={careerFormData.message}
+                                onChange={handleCareerInputChange}
+                                required
+                                className="bg-gray-50 border-gray-300 focus:border-red-500 focus:ring-red-500 min-h-[120px] lg:min-h-[150px] text-base touch-manipulation"
+                                rows={6}
+                                placeholder="なぜZettAIで働きたいのか、あなたの経験やスキル、今後のキャリアビジョンなどをお聞かせください..."
+                              />
+                            </motion.div>
+
+                            <motion.div variants={prefersReducedMotion ? { initial: {}, animate: {} } : fadeInUp}>
+                              <label htmlFor="career-resume" className="block text-sm font-medium text-gray-700 mb-2">
+                                履歴書・ポートフォリオ（推奨）
+                              </label>
+                              <div className="relative">
+                                <Input
+                                  id="career-resume"
+                                  type="file"
+                                  onChange={handleCareerResumeChange}
+                                  className="h-12 bg-gray-50 border-gray-300 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-red-50 file:text-red-700 hover:file:bg-red-100"
+                                  accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+                                />
+                                <p className="text-xs text-gray-500 mt-2">
+                                  PDF、Word、画像ファイル（最大10MB）
+                                </p>
+                              </div>
+                            </motion.div>
+
+                            <motion.div variants={prefersReducedMotion ? { initial: {}, animate: {} } : fadeInUp}>
+                              <Button 
+                                type="submit" 
+                                disabled={isSubmitting || submitSuccess}
+                                className="w-full h-12 lg:h-14 bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-700 hover:to-orange-700 text-white text-base lg:text-lg font-semibold shadow-lg hover:shadow-xl transition-all min-h-[48px] touch-manipulation"
+                              >
+                                {submitSuccess ? (
+                                  <>
+                                    <CheckCircle className="mr-2 h-5 w-5" />
+                                    送信完了しました
+                                  </>
+                                ) : isSubmitting ? (
+                                  <>
+                                    <div className="mr-2 h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                                    送信中...
+                                  </>
+                                ) : (
+                                  <>
+                                    応募・相談を送信
+                                    <Send className="ml-2 h-5 w-5" />
+                                  </>
+                                )}
+                              </Button>
+                            </motion.div>
+                          </motion.div>
+                        </form>
+                      </CardContent>
+                    </Card>
+                  </motion.div>
+                </TabsContent>
 
             {/* Sidebar - 2 columns */}
             <motion.div
@@ -415,7 +725,9 @@ export default function ContactPage() {
                 </CardContent>
               </Card>
             </motion.div>
-          </div>
+              </div>
+            </Tabs>
+          </motion.div>
         </div>
       </section>
 
