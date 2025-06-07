@@ -6,7 +6,7 @@ import { Card as UICard } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Rocket, Users, Brain, Target, CheckCircle2, MapPin, Clock, DollarSign, Star, GraduationCap, Code, ChartBar, ArrowRight } from 'lucide-react'
 import Link from 'next/link'
-import CardSwap, { Card } from '@/components/CardSwap'
+import CardSwap, { Card } from '@/components/CardSwapClient'
 
 const fadeInUp = {
   initial: { opacity: 0, y: 30 },
