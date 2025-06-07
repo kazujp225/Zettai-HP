@@ -73,223 +73,102 @@ export default function Home() {
   const prefersReducedMotion = useReducedMotion()
 
   return (
-    <div className="min-h-screen bg-white overflow-x-hidden">
+    <div className="bg-white overflow-x-hidden">
       {/* Hero Section - Mobile-First Design */}
-      <section className="relative min-h-screen bg-white">
+      <section className="relative bg-white">
         {/* Desktop Hero Layout */}
         <div className="hidden lg:block">
-          <div className="relative min-h-screen flex items-center px-4 sm:px-6 lg:px-8">
-            {/* Desktop Background Elements */}
-            <div className="absolute inset-0 overflow-hidden">
-              <div className="absolute inset-0 opacity-[0.02]">
-                <div className="w-full h-full" style={{
-                  backgroundImage: `
-                    linear-gradient(90deg, #000 1px, transparent 1px),
-                    linear-gradient(180deg, #000 1px, transparent 1px)
-                  `,
-                  backgroundSize: '40px 40px'
-                }} />
-              </div>
-              {/* Decorative elements for desktop only */}
-              <motion.div 
-                className="absolute top-20 right-20 w-1 h-32 bg-gray-200"
-                initial={{ scaleY: 0 }}
-                animate={{ scaleY: 1 }}
-                transition={{ duration: 1.5, delay: 0.5 }}
-              />
-              <motion.div 
-                className="absolute top-20 right-16 w-32 h-1 bg-gray-200"
-                initial={{ scaleX: 0 }}
-                animate={{ scaleX: 1 }}
-                transition={{ duration: 1.5, delay: 0.8 }}
-              />
+          <div className="relative w-full h-[100vh] min-h-[600px] max-h-[800px]">
+            {/* Desktop Background - Video optimized for 16:9 */}
+            <div className="absolute inset-0 overflow-hidden bg-black">
+              <video
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="w-full h-full object-cover"
+                style={{
+                  minWidth: '100%',
+                  minHeight: '100%',
+                  width: 'auto',
+                  height: 'auto',
+                  position: 'absolute',
+                  top: '50%',
+                  left: '50%',
+                  transform: 'translate(-50%, -50%)'
+                }}
+              >
+                <source src="/hirosectionvideo.mp4" type="video/mp4" />
+              </video>
+              {/* Dark overlay for text readability */}
+              <div className="absolute inset-0 bg-black/30" />
             </div>
 
-            {/* Desktop Content - Same as before */}
-            <div className="w-full relative z-10">
+            {/* Desktop Content - Repositioned to top-left with better positioning for 16:9 video */}
+            <div className="absolute top-24 left-12 z-10 max-w-2xl">
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1, delay: 0.3 }}
-                className="max-w-6xl mx-auto"
+                className="space-y-6"
               >
-                <div className="grid lg:grid-cols-12 gap-12 items-center min-h-[80vh]">
-                  <div className="lg:col-span-7 space-y-8">
-                    <motion.div 
-                      className="flex items-center space-x-4 mb-6"
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.8, delay: 0.5 }}
-                    >
-                      <div className="w-3 h-3 bg-black rounded-full" />
-                      <span className="text-sm font-medium text-gray-600 tracking-wider uppercase">ZETTAI Inc. 2024</span>
-                    </motion.div>
+                <motion.div 
+                  className="flex items-center space-x-4 mb-6"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.8, delay: 0.5 }}
+                >
+                  <div className="w-3 h-3 bg-white rounded-full" />
+                  <span className="text-sm font-medium text-white tracking-wider uppercase">ZETTAI Inc. 2024</span>
+                </motion.div>
 
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 1, delay: 0.7 }}
-                    >
-                      <h1 className="text-6xl xl:text-7xl font-light text-gray-900 leading-[0.9] mb-6">
-                        <span className="block font-extralight">AIで企業の</span>
-                        <span className="block font-bold">未来を創る</span>
-                      </h1>
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 1, delay: 0.7 }}
+                >
+                  <h1 className="text-5xl xl:text-6xl font-light text-white leading-[0.9] mb-6">
+                    <span className="block font-extralight">AIで企業の</span>
+                    <span className="block font-bold">未来を創る</span>
+                  </h1>
+                  <motion.div 
+                    className="w-16 h-px bg-white mb-8"
+                    initial={{ scaleX: 0 }}
+                    animate={{ scaleX: 1 }}
+                    transition={{ duration: 1, delay: 1.2 }}
+                  />
+                </motion.div>
+
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 1 }}
+                  className="space-y-6"
+                >
+                  <p className="text-lg text-white/90 leading-relaxed max-w-xl">
+                    2030年まで残り6年。日本企業のAI導入を加速し、<br />
+                    持続可能な成長を実現するパートナーです。
+                  </p>
+                  
+                  <div className="space-y-3">
+                    {[
+                      "AI人材・技術・戦略の3軸サポート",
+                      "5年以内に売上100億円突破を目指す",
+                      "実力主義・多様性・「ゼッタイやる」精神"
+                    ].map((point, index) => (
                       <motion.div 
-                        className="w-16 h-px bg-gray-900 mb-8"
-                        initial={{ scaleX: 0 }}
-                        animate={{ scaleX: 1 }}
-                        transition={{ duration: 1, delay: 1.2 }}
-                      />
-                    </motion.div>
-
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.8, delay: 1 }}
-                      className="space-y-6"
-                    >
-                      <p className="text-xl text-gray-700 leading-relaxed max-w-xl">
-                        2030年まで残り6年。日本企業のAI導入を加速し、
-                        持続可能な成長を実現するパートナーです。
-                      </p>
-                      
-                      <div className="space-y-3">
-                        {[
-                          "AI人材・技術・戦略の3軸サポート",
-                          "5年以内に売上100億円突破を目指す",
-                          "実力主義・多様性・「ゼッタイやる」精神"
-                        ].map((point, index) => (
-                          <motion.div 
-                            key={index}
-                            className="flex items-start space-x-3"
-                            initial={{ opacity: 0, x: -10 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ duration: 0.6, delay: 1.3 + index * 0.1 }}
-                          >
-                            <div className="w-1 h-1 bg-gray-400 rounded-full mt-3 flex-shrink-0" />
-                            <span className="text-base text-gray-600 leading-relaxed">{point}</span>
-                          </motion.div>
-                        ))}
-                      </div>
-                    </motion.div>
-
-                    <motion.div 
-                      className="flex gap-4 pt-8"
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.8, delay: 1.8 }}
-                    >
-                      <motion.div whileHover={{ y: -2 }} whileTap={{ scale: 0.98 }}>
-                        <JoinCtaButton 
-                          size="lg" 
-                          className="bg-gray-900 hover:bg-gray-800 text-white px-8 py-3.5 font-medium transition-all duration-200 text-base"
-                        >
-                          お問い合わせ
-                          <ArrowRight className="ml-2 w-4 h-4" />
-                        </JoinCtaButton>
-                      </motion.div>
-                      
-                      <motion.div whileHover={{ y: -2 }} whileTap={{ scale: 0.98 }}>
-                        <Button 
-                          size="lg" 
-                          variant="outline"
-                          onClick={() => document.getElementById('why-ai')?.scrollIntoView({ behavior: 'smooth' })}
-                          className="border-gray-300 text-gray-700 hover:bg-gray-50 px-8 py-3.5 font-medium transition-all duration-200 text-base"
-                        >
-                          詳しく見る
-                        </Button>
-                      </motion.div>
-                    </motion.div>
-                  </div>
-
-                  {/* Desktop Right Content */}
-                  <div className="lg:col-span-5 relative">
-                    <motion.div
-                      initial={{ opacity: 0, x: 30 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 1.2, delay: 0.8 }}
-                      className="relative space-y-12"
-                    >
-                      <div className="relative pt-8">
-                        <motion.div 
-                          className="absolute -left-6 top-8 w-1 h-20 bg-yellow-400"
-                          initial={{ scaleY: 0 }}
-                          animate={{ scaleY: 1 }}
-                          transition={{ duration: 1, delay: 1.2 }}
-                        />
-                        <motion.div
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ duration: 1, delay: 1 }}
-                          className="pl-8"
-                        >
-                          <div className="text-sm font-medium text-yellow-600 mb-4 tracking-wider">
-                            🟨 MISSION STATEMENT
-                          </div>
-                          <h2 className="text-4xl font-light text-gray-900 leading-[1.2] mb-6">
-                            AIで、<br />
-                            <span className="font-bold">未来を拓く人材と企業を。</span>
-                          </h2>
-                        </motion.div>
-                      </div>
-
-                      <div className="relative">
-                        <motion.div 
-                          className="absolute -left-6 top-0 w-1 h-32 bg-green-500"
-                          initial={{ scaleY: 0 }}
-                          animate={{ scaleY: 1 }}
-                          transition={{ duration: 1, delay: 1.8 }}
-                        />
-                        <motion.div
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ duration: 1, delay: 1.5 }}
-                          className="pl-8"
-                        >
-                          <div className="text-sm font-medium text-green-600 mb-6 tracking-wider">
-                            🟩 OUR STANCE
-                          </div>
-                          <div className="space-y-4 text-lg text-gray-700 leading-relaxed">
-                            <p>
-                              ZettAIは、<span className="font-semibold text-gray-900">AI技術・人材・営業力の3軸</span>で、
-                              日本企業の成長と進化を支援するスタートアップです。
-                            </p>
-                            <p>
-                              <span className="font-semibold text-gray-900">次世代を担う若い才能</span>とともに、
-                              <span className="text-2xl font-bold text-gray-900">5年以内に100億円企業</span>を目指します。
-                            </p>
-                          </div>
-                        </motion.div>
-                      </div>
-
-                      <motion.div
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 0.8, delay: 2.2 }}
-                        className="relative"
+                        key={index}
+                        className="flex items-start space-x-3"
+                        initial={{ opacity: 0, x: -10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.6, delay: 1.3 + index * 0.1 }}
                       >
-                        <div className="bg-gray-50 border-l-4 border-gray-900 p-6 rounded-r-lg">
-                          <div className="flex items-center space-x-3 mb-3">
-                            <div className="w-2 h-2 bg-gray-900 rounded-full" />
-                            <span className="text-sm font-medium text-gray-600 tracking-wider uppercase">
-                              JOIN OUR TEAM
-                            </span>
-                          </div>
-                          <p className="text-base text-gray-700 mb-4">
-                            「ゼッタイやる」精神を持つ人材を募集中
-                          </p>
-                          <motion.div
-                            whileHover={{ x: 5 }}
-                            className="flex items-center text-gray-900 font-medium cursor-pointer"
-                          >
-                            <span className="text-base">採用情報を見る</span>
-                            <ArrowRight className="ml-2 w-4 h-4" />
-                          </motion.div>
-                        </div>
+                        <div className="w-1 h-1 bg-white/70 rounded-full mt-3 flex-shrink-0" />
+                        <span className="text-base text-white/80 leading-relaxed">{point}</span>
                       </motion.div>
-                    </motion.div>
+                    ))}
                   </div>
-                </div>
+                </motion.div>
               </motion.div>
             </div>
           </div>

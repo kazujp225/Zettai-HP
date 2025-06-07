@@ -13,6 +13,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { ArrowLeft, ArrowRight, CheckCircle2, Rocket, Send, Sparkles } from "lucide-react"
+import { AnimatedTestimonials } from "@/components/ui/animated-testimonials"
 
 // フォームの型定義
 type FormData = {
@@ -39,6 +40,45 @@ export default function JoinForm() {
   const [step, setStep] = useState(1)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
+
+  // 参加者の声データ
+  const testimonials = [
+    {
+      quote:
+        "ZettAIで半年間学んで、今では自分でAIプロダクトを開発できるようになりました。実践的な学びが最高でした！",
+      name: "山田 太郎",
+      designation: "東京大学 工学部 3年",
+      src: "https://api.dicebear.com/7.x/avataaars/svg?seed=yamada&backgroundColor=b6e3f4",
+    },
+    {
+      quote:
+        "未経験から始めましたが、メンターの方々のサポートが手厚く、今では実際のプロジェクトに参加しています。",
+      name: "佐藤 花子",
+      designation: "慶應義塾大学 商学部 2年",
+      src: "https://api.dicebear.com/7.x/avataaars/svg?seed=sato&backgroundColor=ffd5dc&accessories=prescription02&mouth=smile&eyebrows=default&eyes=happy&hair=long&hairColor=black",
+    },
+    {
+      quote:
+        "ビジネスとテクノロジーの両方を学べる環境が素晴らしい。起業に向けて最高の準備ができています。",
+      name: "鈴木 健太",
+      designation: "早稲田大学 政治経済学部 4年",
+      src: "https://api.dicebear.com/7.x/avataaars/svg?seed=suzuki&backgroundColor=c0e8f7&mouth=smile&eyebrows=defaultNatural&eyes=default&hair=shortFlat&hairColor=black",
+    },
+    {
+      quote:
+        "高校生でも参加できて、最先端のAI技術に触れられる。同世代の仲間と切磋琢磨できる環境が刺激的です。",
+      name: "田中 美咲",
+      designation: "開成高等学校 2年",
+      src: "https://api.dicebear.com/7.x/avataaars/svg?seed=tanaka&backgroundColor=ffe5e5&accessories=prescription01&mouth=smile&eyebrows=upDown&eyes=happy&hair=longButNotTooLong&hairColor=black",
+    },
+    {
+      quote:
+        "社会人でも柔軟に参加できるプログラムで、キャリアチェンジを実現できました。新しい挑戦の第一歩になりました。",
+      name: "高橋 誠",
+      designation: "元大手IT企業 エンジニア",
+      src: "https://api.dicebear.com/7.x/avataaars/svg?seed=takahashi&backgroundColor=d5e8ff&mouth=serious&eyebrows=default&eyes=default&hair=shortCurly&hairColor=black&accessories=prescription01",
+    },
+  ]
 
   // フォームデータの初期値
   const [formData, setFormData] = useState<FormData>({
@@ -218,13 +258,22 @@ export default function JoinForm() {
   return (
     <div className="min-h-screen bg-white text-black pt-32 pb-20">
       <div className="container mx-auto px-4">
+        <div className="text-center mb-12">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 text-black">
+            ZettAIに<span className="text-red-500">JOIN</span>する
+          </h1>
+          <p className="text-xl text-gray-600">熱意ある仲間と一緒に、未来を創りませんか？</p>
+        </div>
+
+        {/* 参加者の声セクション */}
+        <div className="mb-20">
+          <h2 className="text-3xl font-bold text-center mb-8 text-black">
+            参加者の<span className="text-emerald-400">声</span>
+          </h2>
+          <AnimatedTestimonials testimonials={testimonials} autoplay={true} />
+        </div>
+
         <div className="max-w-2xl mx-auto">
-          <div className="mb-8 text-center">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4 text-black">
-              ZettAIに<span className="text-red-500">JOIN</span>する
-            </h1>
-            <p className="text-xl text-gray-600">熱意ある仲間と一緒に、未来を創りませんか？</p>
-          </div>
 
           {/* ステッププログレス */}
           <div className="mb-8">

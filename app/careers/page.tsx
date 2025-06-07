@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge"
 import { Rocket, Users, Brain, Target, CheckCircle2, MapPin, Clock, DollarSign, Star, GraduationCap, Code, ChartBar, ArrowRight } from 'lucide-react'
 import Link from 'next/link'
 import CardSwap, { Card } from '@/components/CardSwapClient'
+import { AnimatedTestimonials } from '@/components/ui/animated-testimonials'
 
 const fadeInUp = {
   initial: { opacity: 0, y: 30 },
@@ -24,6 +25,39 @@ const staggerChildren = {
 
 export default function CareersPage() {
   const prefersReducedMotion = useReducedMotion()
+  
+  const testimonials = [
+    {
+      quote: "困難に直面しても諦めず、最後まで責任を持ってやり抜く。これが私たちの最も大切にする価値観です。学歴や経験ではなく、この「やり抜く力」こそが成功の鍵だと信じています。",
+      name: "山田 太郎",
+      designation: "CEO / 創業者",
+      src: "/placeholder-user.jpg"
+    },
+    {
+      quote: "AI技術は日進月歩で進化しています。私たちは常に学習し、新しい技術やアイデアを積極的に取り入れ、お客様により良い価値を提供し続けます。",
+      name: "佐藤 花子",
+      designation: "CTO / 技術責任者",
+      src: "/placeholder-user.jpg"
+    },
+    {
+      quote: "一人ひとりの強みを活かし、お互いを尊重し支え合うチームワークを大切にします。多様な背景を持つメンバーが協力することで、より大きな成果を生み出します。",
+      name: "鈴木 一郎",
+      designation: "人事部長",
+      src: "/placeholder-user.jpg"
+    },
+    {
+      quote: "ZETTAIでは実力主義を徹底しています。年齢や学歴に関係なく、成果と貢献度で正当に評価されるため、若手でも大きな裁量を持って働けます。",
+      name: "田中 美咲",
+      designation: "プロダクトマネージャー",
+      src: "/placeholder-user.jpg"
+    },
+    {
+      quote: "最新のAI技術に触れながら、社会に大きなインパクトを与えるプロダクトを開発できる。エンジニアとしてこれ以上の環境はありません。",
+      name: "伊藤 健太",
+      designation: "リードエンジニア",
+      src: "/placeholder-user.jpg"
+    }
+  ]
   
   const jobPositions = [
     {
@@ -85,9 +119,9 @@ export default function CareersPage() {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section with Card Swap */}
-      <section className="relative min-h-screen bg-gradient-to-br from-blue-50 to-white pt-12 lg:pt-16">
-        <div className="container mx-auto px-4">
-          <div className="grid lg:grid-cols-2 gap-12 items-center min-h-[calc(100vh-6rem)] lg:min-h-[calc(100vh-8rem)] py-12">
+      <section className="relative min-h-screen bg-gradient-to-br from-blue-50 to-white pt-20 lg:pt-24">
+        <div className="container mx-auto px-4 h-full">
+          <div className="grid lg:grid-cols-2 gap-12 items-center min-h-[calc(100vh-5rem)] lg:min-h-[calc(100vh-6rem)]">
             
             {/* 左側: 既存のテキストコンテンツ */}
             <motion.div
@@ -155,16 +189,18 @@ export default function CareersPage() {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8, delay: 0.3 }}
-              className="hidden lg:block relative"
-              style={{ height: '600px' }}
+              className="hidden lg:flex lg:items-center lg:justify-center relative"
             >
-              <CardSwap
-                cardDistance={60}
-                verticalDistance={70}
-                delay={5000}
-                pauseOnHover={false}
-                easing="elastic"
-              >
+              <div className="w-full h-[600px] flex items-center justify-center pt-20">
+                <CardSwap
+                  cardDistance={60}
+                  verticalDistance={70}
+                  delay={5000}
+                  pauseOnHover={false}
+                  easing="elastic"
+                  width={400}
+                  height={500}
+                >
                 <Card className="bg-gradient-to-br from-blue-500 to-purple-600 text-white p-8">
                   <div className="h-full flex flex-col justify-between">
                     <div>
@@ -253,7 +289,8 @@ export default function CareersPage() {
                     </Button>
                   </div>
                 </Card>
-              </CardSwap>
+                </CardSwap>
+              </div>
             </motion.div>
           </div>
           
@@ -549,51 +586,83 @@ export default function CareersPage() {
         </div>
       </section>
 
-      {/* Culture Section */}
+      {/* Culture Section with Animated Testimonials */}
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
           <motion.div
             initial="initial"
             whileInView="animate"
             viewport={{ once: true }}
-            variants={staggerChildren}
-            className="max-w-4xl mx-auto"
+            variants={fadeInUp}
+            className="text-center mb-12"
           >
-            <motion.div variants={fadeInUp} className="text-center mb-16">
-              <h2 className="text-4xl font-bold text-gray-900 mb-6">
-                私たちが大切にする価値観
-              </h2>
-              <p className="text-lg text-gray-600">
-                ZETTAIで働く全てのメンバーが共有する価値観です。
-              </p>
-            </motion.div>
-
-            <div className="space-y-8">
-              <motion.div variants={fadeInUp} className="bg-blue-50 rounded-2xl p-8">
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">ゼッタイやる</h3>
-                <p className="text-gray-700 leading-relaxed">
-                  困難に直面しても諦めず、最後まで責任を持ってやり抜く。これが私たちの最も大切にする価値観です。
-                  学歴や経験ではなく、この「やり抜く力」こそが成功の鍵だと信じています。
-                </p>
-              </motion.div>
-
-              <motion.div variants={fadeInUp} className="bg-emerald-50 rounded-2xl p-8">
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">学習し続ける</h3>
-                <p className="text-gray-700 leading-relaxed">
-                  AI技術は日進月歩で進化しています。私たちは常に学習し、新しい技術やアイデアを積極的に取り入れ、
-                  お客様により良い価値を提供し続けます。
-                </p>
-              </motion.div>
-
-              <motion.div variants={fadeInUp} className="bg-purple-50 rounded-2xl p-8">
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">チームワーク</h3>
-                <p className="text-gray-700 leading-relaxed">
-                  一人ひとりの強みを活かし、お互いを尊重し支え合うチームワークを大切にします。
-                  多様な背景を持つメンバーが協力することで、より大きな成果を生み出します。
-                </p>
-              </motion.div>
+            <h2 className="text-4xl font-bold text-gray-900 mb-6">
+              私たちが大切にする価値観
+            </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-8">
+              ZETTAIで働く全てのメンバーが共有する価値観です。
+            </p>
+            
+            {/* Values Hero Image Card */}
+            <div className="max-w-4xl mx-auto mb-12">
+              <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 p-1">
+                <div className="relative bg-white rounded-xl p-8 md:p-12">
+                  <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 opacity-50 rounded-xl"></div>
+                  <div className="relative z-10">
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
+                      <div className="text-center">
+                        <div className="w-16 h-16 mx-auto mb-3 bg-blue-100 rounded-full flex items-center justify-center">
+                          <svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                          </svg>
+                        </div>
+                        <h3 className="font-bold text-gray-900">革新</h3>
+                        <p className="text-sm text-gray-600">Innovation</p>
+                      </div>
+                      <div className="text-center">
+                        <div className="w-16 h-16 mx-auto mb-3 bg-purple-100 rounded-full flex items-center justify-center">
+                          <svg className="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                          </svg>
+                        </div>
+                        <h3 className="font-bold text-gray-900">協働</h3>
+                        <p className="text-sm text-gray-600">Collaboration</p>
+                      </div>
+                      <div className="text-center">
+                        <div className="w-16 h-16 mx-auto mb-3 bg-pink-100 rounded-full flex items-center justify-center">
+                          <svg className="w-8 h-8 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                          </svg>
+                        </div>
+                        <h3 className="font-bold text-gray-900">挑戦</h3>
+                        <p className="text-sm text-gray-600">Challenge</p>
+                      </div>
+                      <div className="text-center">
+                        <div className="w-16 h-16 mx-auto mb-3 bg-green-100 rounded-full flex items-center justify-center">
+                          <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                          </svg>
+                        </div>
+                        <h3 className="font-bold text-gray-900">責任</h3>
+                        <p className="text-sm text-gray-600">Responsibility</p>
+                      </div>
+                    </div>
+                    <div className="text-center">
+                      <p className="text-lg font-semibold text-gray-900 mb-2">
+                        "ゼッタイやる" を合言葉に
+                      </p>
+                      <p className="text-gray-600">
+                        私たちは、不可能を可能にする情熱と、最後までやり抜く責任感を持って、<br className="hidden md:block" />
+                        AIの力で社会に価値を届けます。
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </motion.div>
+          
+          <AnimatedTestimonials testimonials={testimonials} autoplay={true} />
         </div>
       </section>
 
