@@ -85,7 +85,7 @@ export default function CareersPage() {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section with Card Swap */}
-      <section className="relative min-h-screen bg-gradient-to-br from-blue-50 to-white pt-24 lg:pt-32">
+      <section className="relative min-h-screen bg-gradient-to-br from-blue-50 to-white pt-12 lg:pt-16">
         <div className="container mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-12 items-center min-h-[calc(100vh-6rem)] lg:min-h-[calc(100vh-8rem)] py-12">
             
