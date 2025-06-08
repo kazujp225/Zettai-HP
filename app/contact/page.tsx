@@ -276,7 +276,7 @@ export default function ContactPage() {
                           <Button 
                             type="submit" 
                             disabled={isSubmitting || submitSuccess}
-                            className="w-full h-14 bg-gray-900 hover:bg-gray-800 text-white text-base font-medium"
+                            className="w-full h-10 sm:h-12 lg:h-14 bg-gray-900 hover:bg-gray-800 text-white text-sm sm:text-base font-medium"
                           >
                             {submitSuccess ? (
                               <>
@@ -308,20 +308,22 @@ export default function ContactPage() {
                     animate="animate"
                     variants={fadeInUp}
                   >
-                    <Card className="border-0 shadow-xl">
-                      <CardHeader className="pb-8 px-8 pt-8">
-                        <CardTitle className="text-2xl font-bold text-gray-900">
+                    <Card className="border-0 shadow-md sm:shadow-lg lg:shadow-xl">
+                      <CardHeader className="pb-4 sm:pb-6 lg:pb-8 px-4 sm:px-6 lg:px-8 pt-4 sm:pt-6 lg:pt-8">
+                        <CardTitle className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900">
                           採用エントリーフォーム
                         </CardTitle>
-                        <CardDescription className="text-gray-600 mt-2">
-                          キャリア採用、新卒採用、インターンシップのご応募を受け付けています
+                        <CardDescription className="text-xs sm:text-sm lg:text-base text-gray-600 mt-1 sm:mt-2">
+                          キャリア採用、新卒採用、<br className="sm:hidden" />
+                          インターンシップのご応募を受け付けています
                         </CardDescription>
                       </CardHeader>
-                      <CardContent className="px-8 pb-8">
-                        <form onSubmit={handleCareerSubmit} className="space-y-6">
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <CardContent className="px-4 sm:px-6 lg:px-8 pb-4 sm:pb-6 lg:pb-8">
+                        <form onSubmit={handleCareerSubmit} className="space-y-4 sm:space-y-5 lg:space-y-6">
+                          {/* Mobile: Horizontal layout */}
+                          <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:gap-6">
                             <div>
-                              <label htmlFor="career-name" className="block text-sm font-medium text-gray-700 mb-2">
+                              <label htmlFor="career-name" className="block text-xs sm:text-sm font-medium text-gray-700 mb-1.5 sm:mb-2">
                                 お名前 <span className="text-red-500">*</span>
                               </label>
                               <Input
@@ -330,14 +332,14 @@ export default function ContactPage() {
                                 value={careerFormData.name}
                                 onChange={handleCareerInputChange}
                                 required
-                                className="h-12"
+                                className="h-9 sm:h-10 lg:h-12 text-sm sm:text-base"
                                 placeholder="山田 太郎"
                               />
                             </div>
 
                             <div>
-                              <label htmlFor="career-email" className="block text-sm font-medium text-gray-700 mb-2">
-                                メールアドレス <span className="text-red-500">*</span>
+                              <label htmlFor="career-email" className="block text-xs sm:text-sm font-medium text-gray-700 mb-1.5 sm:mb-2">
+                                メール <span className="text-red-500">*</span>
                               </label>
                               <Input
                                 id="career-email"
@@ -346,15 +348,15 @@ export default function ContactPage() {
                                 value={careerFormData.email}
                                 onChange={handleCareerInputChange}
                                 required
-                                className="h-12"
-                                placeholder="yamada@example.com"
+                                className="h-9 sm:h-10 lg:h-12 text-sm sm:text-base"
+                                placeholder="mail@example.com"
                               />
                             </div>
                           </div>
 
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                          <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:gap-6">
                             <div>
-                              <label htmlFor="career-phone" className="block text-sm font-medium text-gray-700 mb-2">
+                              <label htmlFor="career-phone" className="block text-xs sm:text-sm font-medium text-gray-700 mb-1.5 sm:mb-2">
                                 電話番号
                               </label>
                               <Input
@@ -363,20 +365,20 @@ export default function ContactPage() {
                                 type="tel"
                                 value={careerFormData.phone}
                                 onChange={handleCareerInputChange}
-                                className="h-12"
+                                className="h-9 sm:h-10 lg:h-12 text-sm sm:text-base"
                                 placeholder="090-1234-5678"
                               />
                             </div>
 
                             <div>
-                              <label htmlFor="career-position" className="block text-sm font-medium text-gray-700 mb-2">
+                              <label htmlFor="career-position" className="block text-xs sm:text-sm font-medium text-gray-700 mb-1.5 sm:mb-2">
                                 希望職種 <span className="text-red-500">*</span>
                               </label>
                               <Select 
                                 onValueChange={(value) => setCareerFormData((prev) => ({ ...prev, position: value }))}
                                 required
                               >
-                                <SelectTrigger className="h-12">
+                                <SelectTrigger className="h-9 sm:h-10 lg:h-12 text-sm sm:text-base">
                                   <SelectValue placeholder="選択してください" />
                                 </SelectTrigger>
                                 <SelectContent>
@@ -392,7 +394,7 @@ export default function ContactPage() {
                           </div>
 
                           <div>
-                            <label htmlFor="career-message" className="block text-sm font-medium text-gray-700 mb-2">
+                            <label htmlFor="career-message" className="block text-xs sm:text-sm font-medium text-gray-700 mb-1.5 sm:mb-2">
                               自己PR・志望動機 <span className="text-red-500">*</span>
                             </label>
                             <Textarea
@@ -401,8 +403,8 @@ export default function ContactPage() {
                               value={careerFormData.message}
                               onChange={handleCareerInputChange}
                               required
-                              className="min-h-[150px]"
-                              rows={6}
+                              className="min-h-[100px] sm:min-h-[120px] lg:min-h-[150px] text-sm sm:text-base"
+                              rows={4}
                               placeholder="あなたの経験、スキル、ZETTAIで実現したいことをお聞かせください"
                             />
                           </div>
@@ -410,7 +412,7 @@ export default function ContactPage() {
                           <Button 
                             type="submit" 
                             disabled={isSubmitting || submitSuccess}
-                            className="w-full h-14 bg-gray-900 hover:bg-gray-800 text-white text-base font-medium"
+                            className="w-full h-10 sm:h-12 lg:h-14 bg-gray-900 hover:bg-gray-800 text-white text-sm sm:text-base font-medium"
                           >
                             {submitSuccess ? (
                               <>
@@ -448,42 +450,72 @@ export default function ContactPage() {
                         <CardTitle className="text-lg font-bold text-gray-900">会社情報</CardTitle>
                       </CardHeader>
                       <CardContent className="space-y-4">
-                        <div>
-                          <h4 className="font-medium text-gray-900 mb-1">株式会社ZETTAI</h4>
-                          <p className="text-sm text-gray-600">AI技術開発・コンサルティング</p>
+                        {/* Mobile: Horizontal layout for contact info */}
+                        <div className="grid grid-cols-2 gap-3 sm:hidden">
+                          <div className="bg-gray-50 rounded-lg p-3">
+                            <Mail className="h-4 w-4 text-gray-400 mb-1" />
+                            <p className="text-xs font-medium text-gray-900">メール</p>
+                            <a href="mailto:contact@zettai.ai" className="text-xs text-blue-600 hover:text-blue-800 break-all">
+                              contact@zettai.ai
+                            </a>
+                          </div>
+                          <div className="bg-gray-50 rounded-lg p-3">
+                            <Phone className="h-4 w-4 text-gray-400 mb-1" />
+                            <p className="text-xs font-medium text-gray-900">電話</p>
+                            <a href="tel:0364555000" className="text-xs text-blue-600 hover:text-blue-800">
+                              03-6455-5000
+                            </a>
+                            <p className="text-xs text-gray-500">平日 9:00-18:00</p>
+                          </div>
                         </div>
                         
-                        <div className="space-y-3">
-                          <div className="flex items-start">
-                            <MapPin className="h-4 w-4 text-gray-400 mt-0.5 mr-3 flex-shrink-0" />
-                            <div>
-                              <p className="text-sm font-medium text-gray-900">本社</p>
-                              <p className="text-sm text-gray-600">
-                                〒150-0043<br />
-                                東京都渋谷区道玄坂1-2-3<br />
-                                渋谷フクラス 15F
-                              </p>
-                            </div>
+                        <div className="bg-gray-50 rounded-lg p-3 sm:hidden">
+                          <MapPin className="h-4 w-4 text-gray-400 mb-1" />
+                          <p className="text-xs font-medium text-gray-900">本社</p>
+                          <p className="text-xs text-gray-600">
+                            〒150-0043 東京都渋谷区道玄坂1-2-3
+                          </p>
+                        </div>
+                        
+                        {/* Desktop Layout */}
+                        <div className="hidden sm:block">
+                          <div>
+                            <h4 className="font-medium text-gray-900 mb-1">株式会社ZETTAI</h4>
+                            <p className="text-sm text-gray-600">AI技術開発・コンサルティング</p>
                           </div>
-
-                          <div className="flex items-start">
-                            <Mail className="h-4 w-4 text-gray-400 mt-0.5 mr-3 flex-shrink-0" />
-                            <div>
-                              <p className="text-sm font-medium text-gray-900">メール</p>
-                              <a href="mailto:contact@zettai.ai" className="text-sm text-blue-600 hover:text-blue-800">
-                                contact@zettai.ai
-                              </a>
+                          
+                          <div className="space-y-3">
+                            <div className="flex items-start">
+                              <MapPin className="h-4 w-4 text-gray-400 mt-0.5 mr-3 flex-shrink-0" />
+                              <div>
+                                <p className="text-sm font-medium text-gray-900">本社</p>
+                                <p className="text-sm text-gray-600">
+                                  〒150-0043<br />
+                                  東京都渋谷区道玄坂1-2-3<br />
+                                  渋谷フクラス 15F
+                                </p>
+                              </div>
                             </div>
-                          </div>
 
-                          <div className="flex items-start">
-                            <Phone className="h-4 w-4 text-gray-400 mt-0.5 mr-3 flex-shrink-0" />
-                            <div>
-                              <p className="text-sm font-medium text-gray-900">電話</p>
-                              <a href="tel:0364555000" className="text-sm text-blue-600 hover:text-blue-800">
-                                03-6455-5000
-                              </a>
-                              <p className="text-xs text-gray-500 mt-1">平日 9:00-18:00</p>
+                            <div className="flex items-start">
+                              <Mail className="h-4 w-4 text-gray-400 mt-0.5 mr-3 flex-shrink-0" />
+                              <div>
+                                <p className="text-sm font-medium text-gray-900">メール</p>
+                                <a href="mailto:contact@zettai.ai" className="text-sm text-blue-600 hover:text-blue-800">
+                                  contact@zettai.ai
+                                </a>
+                              </div>
+                            </div>
+
+                            <div className="flex items-start">
+                              <Phone className="h-4 w-4 text-gray-400 mt-0.5 mr-3 flex-shrink-0" />
+                              <div>
+                                <p className="text-sm font-medium text-gray-900">電話</p>
+                                <a href="tel:0364555000" className="text-sm text-blue-600 hover:text-blue-800">
+                                  03-6455-5000
+                                </a>
+                                <p className="text-xs text-gray-500 mt-1">平日 9:00-18:00</p>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -498,14 +530,34 @@ export default function ContactPage() {
                     transition={{ duration: 0.6, delay: 0.3 }}
                   >
                     <Card className="border-gray-200">
-                      <CardHeader>
-                        <CardTitle className="text-lg font-bold text-gray-900 flex items-center">
+                      <CardHeader className="pb-3 sm:pb-4">
+                        <CardTitle className="text-base sm:text-lg font-bold text-gray-900 flex items-center">
                           <Clock className="h-4 w-4 mr-2" />
                           対応時間
                         </CardTitle>
                       </CardHeader>
-                      <CardContent>
-                        <div className="space-y-3">
+                      <CardContent className="pt-0 sm:pt-0">
+                        {/* Mobile: Horizontal layout */}
+                        <div className="sm:hidden">
+                          <div className="grid grid-cols-2 gap-3 mb-3">
+                            <div className="bg-gray-50 rounded-lg p-3">
+                              <p className="text-xs font-medium text-gray-900 mb-1">営業時間</p>
+                              <p className="text-xs text-gray-600">平日 9:00-18:00</p>
+                            </div>
+                            <div className="bg-gray-50 rounded-lg p-3">
+                              <p className="text-xs font-medium text-gray-900 mb-1">返信目安</p>
+                              <p className="text-xs text-gray-600">24時間以内</p>
+                            </div>
+                          </div>
+                          <div className="bg-blue-50 rounded-lg p-3">
+                            <p className="text-xs text-gray-600 text-center">
+                              土日祝日・年末年始は翌営業日の対応
+                            </p>
+                          </div>
+                        </div>
+                        
+                        {/* Desktop Layout */}
+                        <div className="hidden sm:block space-y-3">
                           <div>
                             <p className="text-sm font-medium text-gray-900">営業時間</p>
                             <p className="text-sm text-gray-600">平日 9:00 - 18:00</p>
@@ -531,14 +583,37 @@ export default function ContactPage() {
                     transition={{ duration: 0.6, delay: 0.4 }}
                   >
                     <Card className="border-gray-200">
-                      <CardHeader>
-                        <CardTitle className="text-lg font-bold text-gray-900 flex items-center">
+                      <CardHeader className="pb-3 sm:pb-4">
+                        <CardTitle className="text-base sm:text-lg font-bold text-gray-900 flex items-center">
                           <FileText className="h-4 w-4 mr-2" />
                           資料ダウンロード
                         </CardTitle>
                       </CardHeader>
-                      <CardContent>
-                        <div className="space-y-2">
+                      <CardContent className="pt-0 sm:pt-0">
+                        {/* Mobile: Horizontal Grid Layout */}
+                        <div className="sm:hidden grid grid-cols-3 gap-2">
+                          <Button variant="outline" className="h-auto py-3 px-2 flex flex-col items-center justify-center text-center" asChild>
+                            <Link href="/download/company-profile">
+                              <FileText className="h-5 w-5 mb-1 text-gray-500" />
+                              <span className="text-xs">会社案内</span>
+                            </Link>
+                          </Button>
+                          <Button variant="outline" className="h-auto py-3 px-2 flex flex-col items-center justify-center text-center" asChild>
+                            <Link href="/download/service-guide">
+                              <FileText className="h-5 w-5 mb-1 text-gray-500" />
+                              <span className="text-xs">サービス資料</span>
+                            </Link>
+                          </Button>
+                          <Button variant="outline" className="h-auto py-3 px-2 flex flex-col items-center justify-center text-center" asChild>
+                            <Link href="/download/case-studies">
+                              <FileText className="h-5 w-5 mb-1 text-gray-500" />
+                              <span className="text-xs">導入事例集</span>
+                            </Link>
+                          </Button>
+                        </div>
+                        
+                        {/* Desktop Layout */}
+                        <div className="hidden sm:block space-y-2">
                           <Button variant="outline" className="w-full justify-start h-10" asChild>
                             <Link href="/download/company-profile">
                               会社案内

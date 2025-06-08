@@ -5,8 +5,9 @@ import { motion, useInView, useReducedMotion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card } from "@/components/ui/card"
-import { Rocket, ArrowRight, TrendingUp, Users, Brain, Building, Target, CheckCircle2 } from 'lucide-react'
+import { Rocket, ArrowRight, TrendingUp, Users, Brain, Building, Target, CheckCircle2, Clock, Mail, Phone } from 'lucide-react'
 import { JoinCtaButton } from "@/components/join-cta-button"
+import Link from 'next/link'
 
 const fadeInUp = {
   initial: { opacity: 0, y: 30 },
@@ -860,65 +861,6 @@ export default function Home() {
               })}
             </div>
 
-            {/* Enhanced Bottom CTA Section */}
-            <motion.div 
-              variants={fadeInUp}
-              className="text-center bg-gradient-to-r from-gray-900 via-blue-900 to-purple-900 rounded-3xl p-12 shadow-2xl relative overflow-hidden"
-            >
-              {/* Background Art */}
-              <div className="absolute inset-0 bg-gradient-to-r from-gray-900/90 via-blue-900/90 to-purple-900/90" />
-              <motion.div 
-                className="absolute top-0 left-0 w-full h-full opacity-10"
-                initial={{ scale: 0.8 }}
-                whileInView={{ scale: 1 }}
-                transition={{ duration: 1 }}
-              >
-                <svg viewBox="0 0 400 400" className="w-full h-full">
-                  <circle cx="100" cy="100" r="2" fill="white" opacity="0.6" />
-                  <circle cx="200" cy="150" r="1.5" fill="white" opacity="0.4" />
-                  <circle cx="300" cy="80" r="2.5" fill="white" opacity="0.5" />
-                  <circle cx="150" cy="250" r="1" fill="white" opacity="0.7" />
-                  <circle cx="350" cy="200" r="2" fill="white" opacity="0.3" />
-                </svg>
-              </motion.div>
-              
-              <div className="relative z-10">
-                <motion.h3 
-                  className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-3 lg:mb-6"
-                  initial={{ y: 20, opacity: 0 }}
-                  whileInView={{ y: 0, opacity: 1 }}
-                  transition={{ duration: 0.6 }}
-                >
-                  一緒に未来を創りませんか？
-                </motion.h3>
-                <motion.p 
-                  className="text-sm sm:text-base lg:text-xl text-gray-300 mb-6 lg:mb-8 max-w-2xl mx-auto px-4 lg:px-0"
-                  initial={{ y: 20, opacity: 0 }}
-                  whileInView={{ y: 0, opacity: 1 }}
-                  transition={{ duration: 0.6, delay: 0.2 }}
-                >
-                  あなたの企業のAI導入を、3つのコア事業で総合的にサポートします。
-                </motion.p>
-                <motion.div 
-                  className="flex gap-3 justify-center px-4 lg:px-0"
-                  initial={{ y: 20, opacity: 0 }}
-                  whileInView={{ y: 0, opacity: 1 }}
-                  transition={{ duration: 0.6, delay: 0.4 }}
-                >
-                  <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="flex-1 sm:flex-none">
-                    <Button size="default" className="bg-white text-gray-900 hover:bg-gray-100 shadow-lg w-full sm:w-auto text-sm lg:text-base h-10 lg:h-11">
-                      無料相談を始める
-                      <ArrowRight className="ml-1.5 w-4 h-4 lg:w-5 lg:h-5" />
-                    </Button>
-                  </motion.div>
-                  <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="flex-1 sm:flex-none">
-                    <Button size="default" variant="outline" className="border-white bg-white/10 text-white hover:bg-white hover:text-gray-900 transition-colors w-full sm:w-auto text-sm lg:text-base h-10 lg:h-11">
-                      事業詳細を見る
-                    </Button>
-                  </motion.div>
-                </motion.div>
-              </div>
-            </motion.div>
           </motion.div>
         </div>
       </section>
@@ -1204,54 +1146,92 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CTA Section - Mobile Optimized */}
-      <section className="py-8 lg:py-20 bg-gradient-to-b from-gray-900 to-black text-white">
+      {/* CTA Section - Human-Centered Design */}
+      <section className="py-12 lg:py-24 bg-white">
         <div className="container mx-auto px-4">
           <motion.div
             initial="initial"
             whileInView="animate"
             viewport={{ once: true }}
             variants={fadeInUp}
-            className="max-w-3xl mx-auto"
+            className="max-w-4xl mx-auto"
           >
             {/* Desktop Layout */}
-            <div className="hidden lg:block text-center">
-              <h2 className="text-4xl font-bold mb-6">
-                一緒に未来を創りませんか？
-              </h2>
-              <p className="text-xl text-gray-300 mb-12">
-                あなたの企業のAI導入を全力でサポートします。
-              </p>
+            <div className="hidden lg:block">
+              <div className="text-center mb-12">
+                <h2 className="text-4xl lg:text-5xl font-light text-gray-900 mb-6">
+                  <span className="font-normal">まずは</span>
+                  <span className="font-bold">お話</span>
+                  <span className="font-normal">しませんか</span>
+                </h2>
+                <p className="text-xl text-gray-600 leading-relaxed">
+                  貴社の課題をお聞かせください。<br />
+                  最適なAIソリューションをご提案いたします。
+                </p>
+              </div>
 
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault()
-                  window.location.href = '/contact'
-                }}
-                className="max-w-md mx-auto"
-              >
-                <div className="flex gap-4">
-                  <Input
-                    type="email"
-                    placeholder="メールアドレス"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="flex-1 bg-white/10 border-white/20 text-white placeholder:text-white/60 h-12"
-                    required
-                  />
-                  <Button 
-                    type="submit" 
-                    className="bg-blue-600 hover:bg-blue-700 px-6 h-12"
-                  >
-                    相談する
-                    <Rocket className="ml-2 w-4 h-4" />
-                  </Button>
+              <div className="bg-gray-50 rounded-2xl p-12">
+                <div className="grid md:grid-cols-2 gap-12 items-center">
+                  <div className="space-y-6">
+                    <div className="flex items-start space-x-4">
+                      <div className="w-12 h-12 bg-emerald-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                        <CheckCircle2 className="w-6 h-6 text-emerald-600" />
+                      </div>
+                      <div>
+                        <h3 className="font-semibold text-gray-900 mb-1">初回相談無料</h3>
+                        <p className="text-gray-600">まずは気軽にご相談ください</p>
+                      </div>
+                    </div>
+                    <div className="flex items-start space-x-4">
+                      <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                        <Clock className="w-6 h-6 text-blue-600" />
+                      </div>
+                      <div>
+                        <h3 className="font-semibold text-gray-900 mb-1">迅速な対応</h3>
+                        <p className="text-gray-600">24時間以内にご返信いたします</p>
+                      </div>
+                    </div>
+                    <div className="flex items-start space-x-4">
+                      <div className="w-12 h-12 bg-teal-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                        <Users className="w-6 h-6 text-teal-600" />
+                      </div>
+                      <div>
+                        <h3 className="font-semibold text-gray-900 mb-1">専門チーム対応</h3>
+                        <p className="text-gray-600">経験豊富な専門家がサポート</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <form
+                      onSubmit={(e) => {
+                        e.preventDefault()
+                        window.location.href = '/contact'
+                      }}
+                      className="space-y-4"
+                    >
+                      <Input
+                        type="email"
+                        placeholder="メールアドレス"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        className="w-full h-14 px-6 text-lg border-gray-300 focus:border-gray-500"
+                        required
+                      />
+                      <Button 
+                        type="submit" 
+                        className="w-full h-14 bg-gray-900 hover:bg-gray-800 text-white text-lg font-medium"
+                      >
+                        無料相談を申し込む
+                        <ArrowRight className="ml-2 w-5 h-5" />
+                      </Button>
+                      <p className="text-sm text-gray-500 text-center">
+                        お問い合わせ内容は秘密厳守いたします
+                      </p>
+                    </form>
+                  </div>
                 </div>
-              </form>
-
-              <p className="mt-6 text-sm text-gray-400">
-                お問い合わせから24時間以内にご返信いたします。
-              </p>
+              </div>
             </div>
 
             {/* Mobile Layout */}
@@ -1260,26 +1240,53 @@ export default function Home() {
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8 }}
-                className="text-center space-y-6"
+                className="space-y-8"
               >
-                {/* Icon and Badge */}
-                <div className="flex justify-center">
-                  <div className="bg-gradient-to-br from-blue-500 to-purple-600 rounded-full p-6 shadow-2xl">
-                    <Rocket className="w-8 h-8 text-white" />
-                  </div>
-                </div>
-
                 {/* Heading */}
-                <div>
-                  <h2 className="text-2xl font-bold mb-3">
-                    一緒に未来を<br />創りませんか？
+                <div className="text-center">
+                  <h2 className="text-2xl sm:text-3xl font-light text-gray-900 mb-4">
+                    <span className="font-normal">まずは</span>
+                    <span className="font-bold">お話</span>
+                    <span className="font-normal">しませんか</span>
                   </h2>
-                  <p className="text-base text-gray-300 px-4">
-                    あなたの企業のAI導入を<br />全力でサポートします。
+                  <p className="text-base text-gray-600 px-4">
+                    貴社の課題をお聞かせください。<br />
+                    最適なAIソリューションをご提案いたします。
                   </p>
                 </div>
 
-                {/* Form - Stacked Layout */}
+                {/* Benefits */}
+                <div className="bg-gray-50 rounded-xl p-6 space-y-4">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-10 h-10 bg-emerald-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                      <CheckCircle2 className="w-5 h-5 text-emerald-600" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-gray-900 text-sm">初回相談無料</h3>
+                      <p className="text-gray-600 text-xs">まずは気軽にご相談ください</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center space-x-3">
+                    <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                      <Clock className="w-5 h-5 text-blue-600" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-gray-900 text-sm">迅速な対応</h3>
+                      <p className="text-gray-600 text-xs">24時間以内にご返信</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center space-x-3">
+                    <div className="w-10 h-10 bg-teal-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                      <Users className="w-5 h-5 text-teal-600" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-gray-900 text-sm">専門チーム対応</h3>
+                      <p className="text-gray-600 text-xs">経験豊富な専門家がサポート</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Form */}
                 <form
                   onSubmit={(e) => {
                     e.preventDefault()
@@ -1287,72 +1294,46 @@ export default function Home() {
                   }}
                   className="space-y-4 px-4"
                 >
-                  <motion.div
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.6, delay: 0.3 }}
-                  >
-                    <Input
-                      type="email"
-                      placeholder="メールアドレスを入力"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      className="w-full bg-white/10 border-white/20 text-white placeholder:text-white/60 h-14 px-4 text-base rounded-xl"
-                      required
-                    />
-                  </motion.div>
+                  <Input
+                    type="email"
+                    placeholder="メールアドレスを入力"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="w-full h-14 px-4 text-base border-gray-300 focus:border-gray-500 rounded-xl"
+                    required
+                  />
                   
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.5 }}
+                  <Button 
+                    type="submit" 
+                    className="w-full h-14 bg-gray-900 hover:bg-gray-800 text-white text-base font-medium rounded-xl min-h-[56px] touch-manipulation"
                   >
-                    <Button 
-                      type="submit" 
-                      className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 h-14 text-base font-semibold rounded-xl shadow-lg transition-all duration-300 min-h-[56px] touch-manipulation"
-                    >
-                      無料相談を始める
-                      <Rocket className="ml-2 w-5 h-5" />
-                    </Button>
-                  </motion.div>
+                    無料相談を申し込む
+                    <ArrowRight className="ml-2 w-5 h-5" />
+                  </Button>
+                  
+                  <p className="text-xs text-gray-500 text-center">
+                    お問い合わせ内容は秘密厳守いたします
+                  </p>
                 </form>
 
-                {/* Response Time */}
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  whileInView={{ opacity: 1 }}
-                  transition={{ duration: 0.6, delay: 0.7 }}
-                  className="bg-white/5 backdrop-blur-sm rounded-xl p-4 mx-4 border border-white/10"
-                >
-                  <div className="flex items-center justify-center space-x-2 text-sm">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-                    <span className="text-gray-300">24時間以内にご返信</span>
+                {/* Contact Options */}
+                <div className="border-t pt-6">
+                  <p className="text-xs text-gray-500 text-center mb-4">その他のお問い合わせ方法</p>
+                  <div className="grid grid-cols-2 gap-3 px-4">
+                    <Button variant="outline" size="sm" className="h-10" asChild>
+                      <Link href="/contact">
+                        <Mail className="w-4 h-4 mr-2" />
+                        メールで相談
+                      </Link>
+                    </Button>
+                    <Button variant="outline" size="sm" className="h-10" asChild>
+                      <Link href="/contact">
+                        <Phone className="w-4 h-4 mr-2" />
+                        電話で相談
+                      </Link>
+                    </Button>
                   </div>
-                </motion.div>
-
-                {/* Alternative CTAs */}
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.9 }}
-                  className="pt-4 space-y-3"
-                >
-                  <p className="text-xs text-gray-400 uppercase tracking-wider">その他のお問い合わせ</p>
-                  <div className="flex justify-center space-x-6">
-                    <a href="/contact" className="text-gray-300 hover:text-white transition-colors">
-                      <div className="text-center">
-                        <Building className="w-6 h-6 mx-auto mb-1" />
-                        <span className="text-xs">企業相談</span>
-                      </div>
-                    </a>
-                    <a href="/contact" className="text-gray-300 hover:text-white transition-colors">
-                      <div className="text-center">
-                        <Users className="w-6 h-6 mx-auto mb-1" />
-                        <span className="text-xs">採用相談</span>
-                      </div>
-                    </a>
-                  </div>
-                </motion.div>
+                </div>
               </motion.div>
             </div>
           </motion.div>
