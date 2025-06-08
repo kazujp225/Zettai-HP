@@ -119,19 +119,19 @@ export default function CareersPage() {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section with Card Swap - Mobile Optimized */}
-      <section className="relative min-h-screen lg:min-h-screen bg-gradient-to-br from-blue-50 to-white pt-20 sm:pt-20 lg:pt-24">
-        <div className="container mx-auto px-4 h-full">
-          <div className="grid lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-12 items-center min-h-[calc(100vh-5rem)] lg:min-h-[calc(100vh-6rem)]">
+      <section className="relative min-h-screen lg:min-h-screen bg-gradient-to-br from-blue-50 to-white">
+        <div className="container mx-auto px-4 h-full pt-20 sm:pt-24 lg:pt-28">
+          <div className="grid lg:grid-cols-2 gap-6 sm:gap-10 lg:gap-12 items-start lg:items-center lg:min-h-[calc(100vh-7rem)]">
             
             {/* 左側: 既存のテキストコンテンツ - Mobile Optimized */}
             <motion.div
               initial={{ opacity: 0, x: -50 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
-              className="space-y-4 sm:space-y-6 lg:space-y-8"
+              className="space-y-3 sm:space-y-6 lg:space-y-8 py-2 sm:py-0"
             >
               <div>
-                <Badge className="mb-3 sm:mb-4 lg:mb-6 bg-red-100 text-red-700 hover:bg-red-100 text-xs sm:text-sm">
+                <Badge className="mb-2 sm:mb-4 lg:mb-6 bg-red-100 text-red-700 hover:bg-red-100 text-xs sm:text-sm">
                   <Star className="w-3 h-3 sm:w-4 sm:h-4 mr-1.5 sm:mr-2" />
                   JOIN ZETTAI
                 </Badge>
@@ -305,7 +305,7 @@ export default function CareersPage() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.5 }}
-            className="lg:hidden space-y-4 pb-8"
+            className="lg:hidden space-y-3 pb-6"
           >
             {/* 主要ポジション紹介 - 静的カード */}
             <div className="bg-gradient-to-br from-blue-500 to-cyan-600 rounded-xl p-4 text-white">
