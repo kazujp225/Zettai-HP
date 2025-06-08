@@ -20,6 +20,10 @@ export function SiteHeader() {
   const pathname = usePathname()
   const [isScrolled, setIsScrolled] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  
+  // ホームページ以外では常に不透明にする
+  const isHomePage = pathname === '/'
+  const shouldBeOpaque = !isHomePage || isScrolled
 
   useEffect(() => {
     const handleScroll = () => {
@@ -36,7 +40,7 @@ export function SiteHeader() {
       transition={{ duration: 0.5 }}
       className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-        isScrolled
+        shouldBeOpaque
           ? "bg-white/95 backdrop-blur-md shadow-lg"
           : "bg-transparent"
       )}
@@ -55,7 +59,7 @@ export function SiteHeader() {
             <motion.div 
               className={cn(
                 "w-8 h-8 border-2 border-solid",
-                isScrolled ? "border-gray-800" : "border-white"
+                shouldBeOpaque ? "border-gray-800" : "border-white"
               )}
               style={{ borderRadius: '2px' }}
               whileHover={{ 
@@ -69,7 +73,7 @@ export function SiteHeader() {
               <motion.div 
                 className={cn(
                   "h-0.5 w-full",
-                  isScrolled ? "bg-gray-800" : "bg-white"
+                  shouldBeOpaque ? "bg-gray-800" : "bg-white"
                 )}
                 initial={{ scaleX: 0 }}
                 animate={{ scaleX: 1 }}
@@ -78,7 +82,7 @@ export function SiteHeader() {
               <motion.div 
                 className={cn(
                   "h-0.5 w-3 ml-auto",
-                  isScrolled ? "bg-gray-800" : "bg-white"
+                  shouldBeOpaque ? "bg-gray-800" : "bg-white"
                 )}
                 initial={{ scaleX: 0 }}
                 animate={{ scaleX: 1 }}
@@ -87,7 +91,7 @@ export function SiteHeader() {
               <motion.div 
                 className={cn(
                   "h-0.5 w-full",
-                  isScrolled ? "bg-gray-800" : "bg-white"
+                  shouldBeOpaque ? "bg-gray-800" : "bg-white"
                 )}
                 initial={{ scaleX: 0 }}
                 animate={{ scaleX: 1 }}
@@ -106,7 +110,7 @@ export function SiteHeader() {
             <motion.span 
               className={cn(
                 "font-bold text-xl tracking-tight transition-colors duration-300",
-                isScrolled ? "text-gray-900" : "text-white"
+                shouldBeOpaque ? "text-gray-900" : "text-white"
               )}
               whileHover={{ 
                 letterSpacing: '0.05em',
@@ -138,8 +142,8 @@ export function SiteHeader() {
               className={cn(
                 "relative font-medium transition-colors group",
                 pathname === item.href
-                  ? isScrolled ? "text-red-600" : "text-red-400"
-                  : isScrolled ? "text-gray-700 hover:text-red-600" : "text-gray-300 hover:text-white"
+                  ? shouldBeOpaque ? "text-red-600" : "text-red-400"
+                  : shouldBeOpaque ? "text-gray-700 hover:text-red-600" : "text-gray-300 hover:text-white"
               )}
             >
               {item.label}
@@ -165,7 +169,7 @@ export function SiteHeader() {
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           className={cn(
             "md:hidden p-2 rounded-lg transition-colors",
-            isScrolled ? "text-gray-900 hover:bg-gray-100" : "text-white hover:bg-white/10"
+            shouldBeOpaque ? "text-gray-900 hover:bg-gray-100" : "text-white hover:bg-white/10"
           )}
           aria-label="Toggle menu"
         >

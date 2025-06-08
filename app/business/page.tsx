@@ -81,8 +81,8 @@ export default function BusinessPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Hero Section */}
-      <section className="pt-32 pb-20 bg-gradient-to-br from-gray-50 to-white">
+      {/* Hero Section - Mobile Optimized */}
+      <section className="pt-20 sm:pt-24 lg:pt-32 pb-8 sm:pb-12 lg:pb-20 bg-gradient-to-br from-gray-50 to-white">
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -90,27 +90,32 @@ export default function BusinessPage() {
             transition={{ duration: 0.8 }}
             className="max-w-4xl mx-auto text-center"
           >
-            <Badge className="mb-6 bg-blue-100 text-blue-700 hover:bg-blue-100">
-              <Zap className="w-4 h-4 mr-2" />
+            <Badge className="mb-3 sm:mb-4 lg:mb-6 bg-blue-100 text-blue-700 hover:bg-blue-100 text-xs sm:text-sm">
+              <Zap className="w-3 h-3 sm:w-4 sm:h-4 mr-1.5 sm:mr-2" />
               AI導入率100%達成
             </Badge>
-            <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
-              AIで企業の可能性を<br />最大化する事業
+            <h1 className="text-2xl sm:text-3xl lg:text-5xl xl:text-6xl font-bold text-gray-900 mb-3 sm:mb-4 lg:mb-6">
+              AIで企業の可能性を<br className="sm:hidden" />
+              <span className="sm:hidden">最大化する</span>
+              <span className="hidden sm:inline">最大化する事業</span>
             </h1>
-            <p className="text-xl text-gray-600 mb-12 leading-relaxed">
-              人材・技術・戦略の3つの軸で、企業のAI導入を総合的にサポート。<br />
-              単なるツール提供ではなく、本質的な価値創造を実現します。
+            <p className="text-sm sm:text-base lg:text-xl text-gray-600 mb-6 sm:mb-8 lg:mb-12 leading-relaxed px-4 sm:px-0">
+              人材・技術・戦略の3つの軸で、<br className="sm:hidden" />
+              企業のAI導入を総合的にサポート。<br className="hidden sm:inline" />
+              単なるツール提供ではなく、<br className="sm:hidden" />
+              本質的な価値創造を実現します。
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" asChild>
+            <div className="flex gap-3 justify-center px-4 sm:px-0">
+              <Button size="default" className="flex-1 sm:flex-none text-sm sm:text-base h-10 sm:h-11 lg:h-12" asChild>
                 <Link href="/contact">
                   事業相談をする
-                  <ArrowRight className="ml-2 w-5 h-5" />
+                  <ArrowRight className="ml-1.5 sm:ml-2 w-4 h-4 sm:w-5 sm:h-5" />
                 </Link>
               </Button>
               <Button 
-                size="lg" 
+                size="default" 
                 variant="outline"
+                className="flex-1 sm:flex-none text-sm sm:text-base h-10 sm:h-11 lg:h-12"
                 onClick={() => document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' })}
               >
                 サービス詳細を見る
@@ -120,8 +125,8 @@ export default function BusinessPage() {
         </div>
       </section>
 
-      {/* Services Section */}
-      <section id="services" className="py-20 bg-white">
+      {/* Services Section - Mobile Optimized */}
+      <section id="services" className="py-8 sm:py-12 lg:py-20 bg-white">
         <div className="container mx-auto px-4">
           <motion.div
             initial="initial"
@@ -130,16 +135,67 @@ export default function BusinessPage() {
             variants={staggerChildren}
             className="max-w-6xl mx-auto"
           >
-            <motion.div variants={fadeInUp} className="text-center mb-16">
-              <h2 className="text-4xl font-bold text-gray-900 mb-6">
+            <motion.div variants={fadeInUp} className="text-center mb-6 sm:mb-10 lg:mb-16">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-2 sm:mb-4 lg:mb-6">
                 3つのコア事業
               </h2>
-              <p className="text-lg text-gray-600">
-                AI人材・技術・戦略の3つの軸で、企業のDX推進を総合的にサポートします。
+              <p className="text-sm sm:text-base lg:text-lg text-gray-600 px-4 sm:px-0">
+                AI人材・技術・戦略の3つの軸で、<br className="sm:hidden" />
+                企業のDX推進を総合的にサポートします。
               </p>
             </motion.div>
 
-            <div className="space-y-12">
+            {/* Mobile Layout - Compact Cards */}
+            <div className="lg:hidden space-y-4">
+              {services.map((service, index) => (
+                <motion.div key={index} variants={fadeInUp}>
+                  <div className={`${service.bgColor} rounded-xl border border-gray-200 overflow-hidden`}>
+                    {/* Mobile Header */}
+                    <div className="p-4 border-b border-gray-200">
+                      <div className="flex items-center space-x-3">
+                        <div className={`w-12 h-12 ${service.iconBg} rounded-lg flex items-center justify-center flex-shrink-0`}>
+                          <service.icon className={`w-6 h-6 ${service.iconColor}`} />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <h3 className="text-lg font-bold text-gray-900">{service.title}</h3>
+                          <p className="text-xs text-gray-600">{service.subtitle}</p>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    {/* Mobile Content */}
+                    <div className="p-4 space-y-3">
+                      <p className="text-sm text-gray-700 leading-relaxed">
+                        {service.description}
+                      </p>
+                      
+                      {/* Compact Features List */}
+                      <div className="bg-white rounded-lg p-3">
+                        <h4 className="text-xs font-semibold text-gray-900 mb-2">主要サービス</h4>
+                        <ul className="space-y-1.5">
+                          {service.features.map((feature, featureIndex) => (
+                            <li key={featureIndex} className="flex items-start">
+                              <CheckCircle2 className="w-3.5 h-3.5 text-green-500 mt-0.5 mr-2 flex-shrink-0" />
+                              <span className="text-xs text-gray-600">{feature}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                      
+                      <Button size="sm" className="w-full bg-white text-gray-800 hover:bg-gray-50 shadow-sm" asChild>
+                        <Link href="/contact">
+                          詳しく相談する
+                          <ArrowRight className="ml-1.5 w-3.5 h-3.5" />
+                        </Link>
+                      </Button>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+            
+            {/* Desktop Layout - Keep Original */}
+            <div className="hidden lg:block space-y-12">
               {services.map((service, index) => (
                 <motion.div key={index} variants={fadeInUp}>
                   <Card className={`p-8 border-0 shadow-lg ${service.bgColor}`}>
@@ -182,8 +238,8 @@ export default function BusinessPage() {
         </div>
       </section>
 
-      {/* Achievements Section */}
-      <section className="py-20 bg-gray-50">
+      {/* Achievements Section - Mobile Optimized */}
+      <section className="py-8 sm:py-12 lg:py-20 bg-gray-50">
         <div className="container mx-auto px-4">
           <motion.div
             initial="initial"
@@ -192,22 +248,23 @@ export default function BusinessPage() {
             variants={staggerChildren}
             className="max-w-6xl mx-auto"
           >
-            <motion.div variants={fadeInUp} className="text-center mb-16">
-              <h2 className="text-4xl font-bold text-gray-900 mb-6">
+            <motion.div variants={fadeInUp} className="text-center mb-6 sm:mb-10 lg:mb-16">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-2 sm:mb-4 lg:mb-6">
                 実績・成果
               </h2>
-              <p className="text-lg text-gray-600">
+              <p className="text-sm sm:text-base lg:text-lg text-gray-600 px-4 sm:px-0">
                 数字で見るZETTAIの成果と実績
               </p>
             </motion.div>
 
-            <div className="grid md:grid-cols-4 gap-8">
+            {/* Mobile Layout - 2x2 Grid */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 lg:gap-8">
               {achievements.map((achievement, index) => (
                 <motion.div key={index} variants={fadeInUp}>
-                  <Card className="p-6 text-center bg-white border-0 shadow-lg hover:shadow-xl transition-shadow">
-                    <div className="text-4xl font-bold text-blue-600 mb-2">{achievement.number}</div>
-                    <div className="text-lg font-semibold text-gray-900 mb-2">{achievement.label}</div>
-                    <div className="text-sm text-gray-600">{achievement.description}</div>
+                  <Card className="p-3 sm:p-4 lg:p-6 text-center bg-white border-0 shadow-md lg:shadow-lg hover:shadow-lg lg:hover:shadow-xl transition-shadow">
+                    <div className="text-xl sm:text-2xl lg:text-4xl font-bold text-blue-600 mb-1 lg:mb-2">{achievement.number}</div>
+                    <div className="text-xs sm:text-sm lg:text-lg font-semibold text-gray-900 mb-0.5 lg:mb-2">{achievement.label}</div>
+                    <div className="text-xs lg:text-sm text-gray-600 hidden sm:block">{achievement.description}</div>
                   </Card>
                 </motion.div>
               ))}
@@ -216,8 +273,8 @@ export default function BusinessPage() {
         </div>
       </section>
 
-      {/* Vision Section */}
-      <section className="py-20 bg-white">
+      {/* Vision Section - Mobile Optimized */}
+      <section className="py-8 sm:py-12 lg:py-20 bg-white">
         <div className="container mx-auto px-4">
           <motion.div
             initial="initial"
@@ -226,45 +283,47 @@ export default function BusinessPage() {
             variants={fadeInUp}
             className="max-w-4xl mx-auto text-center"
           >
-            <h2 className="text-4xl font-bold text-gray-900 mb-6">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-2 sm:mb-4 lg:mb-6">
               私たちのビジョン
             </h2>
-            <p className="text-lg text-gray-600 mb-12">
-              5年以内に売上100億円を達成し、日本のAI導入を加速する
+            <p className="text-sm sm:text-base lg:text-lg text-gray-600 mb-6 sm:mb-8 lg:mb-12 px-4 sm:px-0">
+              5年以内に売上100億円を達成し、<br className="sm:hidden" />
+              日本のAI導入を加速する
             </p>
 
-            <div className="grid md:grid-cols-2 gap-8 mb-12">
-              <Card className="p-6 bg-blue-50 border-blue-200">
-                <div className="flex items-center mb-4">
-                  <Target className="w-6 h-6 text-blue-600 mr-3" />
-                  <h3 className="text-xl font-bold text-gray-900">2029年目標</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 lg:gap-8 mb-6 sm:mb-8 lg:mb-12">
+              <Card className="p-4 sm:p-5 lg:p-6 bg-blue-50 border-blue-200">
+                <div className="flex items-center mb-2 sm:mb-3 lg:mb-4">
+                  <Target className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600 mr-2 sm:mr-3" />
+                  <h3 className="text-base sm:text-lg lg:text-xl font-bold text-gray-900">2029年目標</h3>
                 </div>
-                <div className="text-3xl font-bold text-blue-600 mb-2">100億円</div>
-                <p className="text-gray-700">年間売上目標達成</p>
+                <div className="text-2xl sm:text-3xl font-bold text-blue-600 mb-1 lg:mb-2">100億円</div>
+                <p className="text-sm sm:text-base text-gray-700">年間売上目標達成</p>
               </Card>
 
-              <Card className="p-6 bg-emerald-50 border-emerald-200">
-                <div className="flex items-center mb-4">
-                  <Globe className="w-6 h-6 text-emerald-600 mr-3" />
-                  <h3 className="text-xl font-bold text-gray-900">社会インパクト</h3>
+              <Card className="p-4 sm:p-5 lg:p-6 bg-emerald-50 border-emerald-200">
+                <div className="flex items-center mb-2 sm:mb-3 lg:mb-4">
+                  <Globe className="w-5 h-5 sm:w-6 sm:h-6 text-emerald-600 mr-2 sm:mr-3" />
+                  <h3 className="text-base sm:text-lg lg:text-xl font-bold text-gray-900">社会インパクト</h3>
                 </div>
-                <div className="text-3xl font-bold text-emerald-600 mb-2">10,000社</div>
-                <p className="text-gray-700">AI導入支援企業数</p>
+                <div className="text-2xl sm:text-3xl font-bold text-emerald-600 mb-1 lg:mb-2">10,000社</div>
+                <p className="text-sm sm:text-base text-gray-700">AI導入支援企業数</p>
               </Card>
             </div>
 
-            <div className="bg-gradient-to-r from-blue-50 to-emerald-50 rounded-2xl p-8">
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">
+            <div className="bg-gradient-to-r from-blue-50 to-emerald-50 rounded-xl lg:rounded-2xl p-4 sm:p-6 lg:p-8">
+              <h3 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 mb-2 sm:mb-3 lg:mb-4">
                 持続可能な成長モデル
               </h3>
-              <p className="text-gray-700 leading-relaxed mb-6">
-                単なる売上拡大ではなく、顧客価値の創造と社会課題の解決を通じて、<br />
+              <p className="text-sm sm:text-base text-gray-700 leading-relaxed mb-4 sm:mb-5 lg:mb-6">
+                単なる売上拡大ではなく、<br className="sm:hidden" />
+                顧客価値の創造と社会課題の解決を通じて、<br className="hidden sm:inline" />
                 長期的に成長し続ける企業を目指します。
               </p>
-              <Button size="lg" asChild>
+              <Button size="default" className="w-full sm:w-auto text-sm sm:text-base h-10 sm:h-11 lg:h-12" asChild>
                 <Link href="/contact">
                   ビジョン実現に参加する
-                  <Rocket className="ml-2 w-5 h-5" />
+                  <Rocket className="ml-1.5 sm:ml-2 w-4 h-4 sm:w-5 sm:h-5" />
                 </Link>
               </Button>
             </div>
@@ -272,8 +331,8 @@ export default function BusinessPage() {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-20 bg-gray-900 text-white">
+      {/* CTA Section - Mobile Optimized */}
+      <section className="py-8 sm:py-12 lg:py-20 bg-gray-900 text-white">
         <div className="container mx-auto px-4">
           <motion.div
             initial="initial"
@@ -282,28 +341,28 @@ export default function BusinessPage() {
             variants={fadeInUp}
             className="max-w-3xl mx-auto text-center"
           >
-            <h2 className="text-4xl font-bold mb-6">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-3 sm:mb-4 lg:mb-6">
               一緒にAIで未来を創りませんか？
             </h2>
-            <p className="text-xl text-gray-300 mb-12">
+            <p className="text-sm sm:text-base lg:text-xl text-gray-300 mb-6 sm:mb-8 lg:mb-12 px-4 sm:px-0">
               あなたの企業のAI導入を全力でサポートします。
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" className="bg-blue-600 hover:bg-blue-700" asChild>
+            <div className="flex gap-3 justify-center px-4 sm:px-0">
+              <Button size="default" className="bg-blue-600 hover:bg-blue-700 flex-1 sm:flex-none text-sm sm:text-base h-10 sm:h-11 lg:h-12" asChild>
                 <Link href="/contact">
                   事業相談をする
-                  <ArrowRight className="ml-2 w-5 h-5" />
+                  <ArrowRight className="ml-1.5 sm:ml-2 w-4 h-4 sm:w-5 sm:h-5" />
                 </Link>
               </Button>
-              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-gray-900" asChild>
+              <Button size="default" variant="outline" className="border-white bg-white/10 text-white hover:bg-white hover:text-gray-900 flex-1 sm:flex-none text-sm sm:text-base h-10 sm:h-11 lg:h-12" asChild>
                 <Link href="/careers">
                   採用情報を見る
                 </Link>
               </Button>
             </div>
 
-            <p className="mt-8 text-sm text-gray-400">
+            <p className="mt-6 sm:mt-8 text-xs sm:text-sm text-gray-400">
               お問い合わせから24時間以内にご返信いたします。
             </p>
           </motion.div>

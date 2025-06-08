@@ -71,6 +71,34 @@ function AnimatedCounter({ target, suffix = "", duration = 2000, className = "" 
 export default function Home() {
   const [email, setEmail] = useState("")
   const prefersReducedMotion = useReducedMotion()
+  const videoRef = useRef<HTMLVideoElement>(null)
+  const mobileVideoRef = useRef<HTMLVideoElement>(null)
+
+  // モバイルでの自動再生を確実にする
+  useEffect(() => {
+    const playVideo = async (video: HTMLVideoElement | null) => {
+      if (video) {
+        try {
+          // mutedを再度設定して確実に音声をオフに
+          video.muted = true
+          await video.play()
+        } catch (error) {
+          console.log('Video autoplay failed:', error)
+          // ユーザーインタラクション後に再生を試みる
+          const playOnInteraction = () => {
+            video.play()
+            document.removeEventListener('touchstart', playOnInteraction)
+            document.removeEventListener('click', playOnInteraction)
+          }
+          document.addEventListener('touchstart', playOnInteraction, { once: true })
+          document.addEventListener('click', playOnInteraction, { once: true })
+        }
+      }
+    }
+
+    playVideo(videoRef.current)
+    playVideo(mobileVideoRef.current)
+  }, [])
 
   return (
     <div className="bg-white overflow-x-hidden">
@@ -82,10 +110,13 @@ export default function Home() {
             {/* Desktop Background - Video optimized for 16:9 */}
             <div className="absolute inset-0 overflow-hidden bg-black">
               <video
+                ref={videoRef}
                 autoPlay
                 loop
                 muted
                 playsInline
+                preload="auto"
+                webkit-playsinline="true"
                 className="w-full h-full object-cover"
                 style={{
                   minWidth: '100%',
@@ -180,10 +211,13 @@ export default function Home() {
             {/* Mobile Background - Video optimized for portrait */}
             <div className="absolute inset-0 overflow-hidden bg-black">
               <video
+                ref={mobileVideoRef}
                 autoPlay
                 loop
                 muted
                 playsInline
+                preload="auto"
+                webkit-playsinline="true"
                 className="w-full h-full object-cover"
                 style={{
                   minWidth: '100%',
@@ -292,7 +326,7 @@ export default function Home() {
                     <Button 
                       variant="outline"
                       onClick={() => document.getElementById('why-ai')?.scrollIntoView({ behavior: 'smooth' })}
-                      className="w-full border-2 border-white/80 text-white hover:bg-white hover:text-gray-900 py-4 text-base font-medium rounded-xl min-h-[56px] touch-manipulation backdrop-blur-sm transition-colors"
+                      className="w-full border-2 border-white/80 bg-white/10 text-white hover:bg-white hover:text-gray-900 py-4 text-base font-medium rounded-xl min-h-[56px] touch-manipulation backdrop-blur-sm transition-colors"
                     >
                       詳しく見る
                     </Button>
@@ -878,7 +912,7 @@ export default function Home() {
                     </Button>
                   </motion.div>
                   <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="flex-1 sm:flex-none">
-                    <Button size="default" variant="outline" className="border-white text-white hover:bg-white hover:text-gray-900 transition-colors w-full sm:w-auto text-sm lg:text-base h-10 lg:h-11">
+                    <Button size="default" variant="outline" className="border-white bg-white/10 text-white hover:bg-white hover:text-gray-900 transition-colors w-full sm:w-auto text-sm lg:text-base h-10 lg:h-11">
                       事業詳細を見る
                     </Button>
                   </motion.div>
