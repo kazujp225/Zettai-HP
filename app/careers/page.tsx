@@ -683,7 +683,7 @@ export default function CareersPage() {
               あなたの「ゼッタイやる」気持ちを、私たちは全力でサポートします。
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex gap-4 justify-center">
               <Button size="lg" className="bg-blue-600 hover:bg-blue-700" asChild>
                 <Link href="/contact">
                   まずは相談する

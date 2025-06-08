@@ -101,7 +101,7 @@ export default function OfficersPage() {
   return (
     <div className="min-h-screen bg-white overflow-x-hidden">
       {/* Hero Section - Mobile Optimized */}
-      <section className="pt-24 lg:pt-32 pb-12 lg:pb-20 bg-gradient-to-br from-gray-50 to-white">
+      <section className="pt-20 lg:pt-32 pb-8 lg:pb-20 bg-gradient-to-br from-gray-50 to-white">
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 30 }}
@@ -109,14 +109,12 @@ export default function OfficersPage() {
             transition={{ duration: prefersReducedMotion ? 0 : 0.8 }}
             className="max-w-4xl mx-auto text-center"
           >
-            <Badge className="mb-4 lg:mb-6 bg-blue-100 text-blue-700 hover:bg-blue-100 text-sm">
-              <Users className="w-3 lg:w-4 h-3 lg:h-4 mr-2" />
-              エキスパートチーム
-            </Badge>
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 mb-4 lg:mb-6 leading-tight">
-              多様な経験と専門性で<br className="hidden sm:block" />未来を創る経営陣
+            <h1 className="text-2xl sm:text-3xl lg:text-5xl xl:text-6xl font-bold text-gray-900 mb-3 lg:mb-6 leading-tight">
+              多様な経験と専門性で<br className="sm:hidden" />
+              <span className="sm:hidden">未来を創る</span>
+              <span className="hidden sm:inline">未来を創る経営陣</span>
             </h1>
-            <p className="text-base lg:text-xl text-gray-600 mb-8 lg:mb-12 leading-relaxed max-w-3xl mx-auto">
+            <p className="text-sm sm:text-base lg:text-xl text-gray-600 mb-6 lg:mb-12 leading-relaxed max-w-3xl mx-auto px-4 lg:px-0">
               中卒から東大卒まで、多様なバックグラウンドを持つメンバーが<br className="hidden lg:block" />
               「ゼッタイやる」精神のもと、100億円企業を目指します。
             </p>
@@ -133,7 +131,7 @@ export default function OfficersPage() {
       </section>
 
       {/* Officers Section - Mobile Optimized */}
-      <section id="officers" className="py-12 lg:py-20 bg-white">
+      <section id="officers" className="py-8 lg:py-20 bg-white">
         <div className="container mx-auto px-4">
           <motion.div
             initial="initial"
@@ -144,17 +142,101 @@ export default function OfficersPage() {
           >
             <motion.div 
               variants={prefersReducedMotion ? { initial: {}, animate: {} } : fadeInUp} 
-              className="text-center mb-12 lg:mb-16"
+              className="text-center mb-6 lg:mb-16"
             >
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 lg:mb-6">
+              <h2 className="text-2xl sm:text-3xl lg:text-5xl font-bold text-gray-900 mb-2 lg:mb-6">
                 役員紹介
               </h2>
-              <p className="text-base lg:text-lg text-gray-600 max-w-2xl mx-auto">
+              <p className="text-sm sm:text-base lg:text-lg text-gray-600 max-w-2xl mx-auto px-4 lg:px-0">
                 それぞれの専門分野で実績を積んだプロフェッショナルが結集
               </p>
             </motion.div>
 
-            <div className="space-y-8 lg:space-y-12">
+            {/* Mobile Layout - Compact Design */}
+            <div className="lg:hidden space-y-4">
+              {officers.map((officer, index) => (
+                <motion.div 
+                  key={index} 
+                  variants={prefersReducedMotion ? { initial: {}, animate: {} } : fadeInUp}
+                >
+                  <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+                    {/* Mobile Header */}
+                    <div className="bg-gradient-to-r from-gray-50 to-blue-50 p-4 border-b border-gray-200">
+                      <div className="flex items-center space-x-4">
+                        <div className="w-16 h-16 bg-gray-200 rounded-full overflow-hidden flex-shrink-0">
+                          <img 
+                            src={officer.avatar} 
+                            alt={officer.name}
+                            className="w-full h-full object-cover"
+                            loading="lazy"
+                          />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <h3 className="text-lg font-bold text-gray-900 truncate">{officer.name}</h3>
+                          <p className="text-sm font-medium text-blue-600">{officer.position}</p>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    {/* Mobile Content - Collapsible */}
+                    <div className="p-4 space-y-4">
+                      {/* Description */}
+                      <p className="text-sm text-gray-700 leading-relaxed line-clamp-3">
+                        {officer.description}
+                      </p>
+                      
+                      {/* Key Info Grid */}
+                      <div className="grid grid-cols-2 gap-3">
+                        {/* Background */}
+                        <div className="bg-gray-50 rounded-lg p-3">
+                          <h4 className="text-xs font-semibold text-gray-900 mb-2 flex items-center">
+                            <Briefcase className="w-3 h-3 mr-1" />
+                            経歴
+                          </h4>
+                          <p className="text-xs text-gray-600 line-clamp-2">
+                            {officer.background[0]}
+                          </p>
+                        </div>
+                        
+                        {/* Expertise */}
+                        <div className="bg-blue-50 rounded-lg p-3">
+                          <h4 className="text-xs font-semibold text-gray-900 mb-2 flex items-center">
+                            <Star className="w-3 h-3 mr-1" />
+                            専門
+                          </h4>
+                          <p className="text-xs text-gray-600 line-clamp-2">
+                            {officer.expertise.slice(0, 2).join('、')}
+                          </p>
+                        </div>
+                      </div>
+                      
+                      {/* Philosophy Quote */}
+                      <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg p-3">
+                        <p className="text-xs text-gray-700 italic line-clamp-2">
+                          "{officer.philosophy}"
+                        </p>
+                      </div>
+                      
+                      {/* Social Links */}
+                      <div className="flex justify-center gap-2 pt-2">
+                        <Button size="sm" variant="outline" className="p-1.5 h-8 w-8">
+                          <Linkedin className="w-3.5 h-3.5" />
+                        </Button>
+                        <Button size="sm" variant="outline" className="p-1.5 h-8 w-8">
+                          <Twitter className="w-3.5 h-3.5" />
+                        </Button>
+                        <Button size="sm" variant="outline" className="p-1.5 h-8 w-8">
+                          <Mail className="w-3.5 h-3.5" />
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+            
+            {/* Desktop Layout - Keep Original */}
+            <div className="hidden lg:block space-y-8 lg:space-y-12">
               {officers.map((officer, index) => (
                 <motion.div 
                   key={index} 
@@ -240,7 +322,7 @@ export default function OfficersPage() {
       </section>
 
       {/* Advisors Section */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-8 lg:py-20 bg-gray-50">
         <div className="container mx-auto px-4">
           <motion.div
             initial="initial"
@@ -249,16 +331,44 @@ export default function OfficersPage() {
             variants={staggerChildren}
             className="max-w-4xl mx-auto"
           >
-            <motion.div variants={fadeInUp} className="text-center mb-16">
-              <h2 className="text-4xl font-bold text-gray-900 mb-6">
+            <motion.div variants={fadeInUp} className="text-center mb-6 lg:mb-16">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-2 lg:mb-6">
                 アドバイザー
               </h2>
-              <p className="text-lg text-gray-600">
+              <p className="text-sm sm:text-base lg:text-lg text-gray-600 px-4 lg:px-0">
                 業界トップクラスの経験と知見を持つアドバイザーが成長を支援
               </p>
             </motion.div>
 
-            <div className="grid md:grid-cols-2 gap-8">
+            {/* Mobile Layout - Compact Cards */}
+            <div className="md:hidden space-y-3">
+              {advisors.map((advisor, index) => (
+                <motion.div key={index} variants={fadeInUp}>
+                  <div className="bg-white rounded-lg border border-gray-200 p-4">
+                    <div className="flex items-start space-x-3">
+                      <div className="w-12 h-12 bg-gray-200 rounded-full flex-shrink-0"></div>
+                      <div className="flex-1 min-w-0">
+                        <h3 className="text-base font-bold text-gray-900">{advisor.name}</h3>
+                        <p className="text-sm font-medium text-blue-600 mb-2">{advisor.position}</p>
+                        <p className="text-xs text-gray-600 leading-relaxed mb-2 line-clamp-2">
+                          {advisor.description}
+                        </p>
+                        <div className="flex flex-wrap gap-1">
+                          {advisor.expertise.map((skill, skillIndex) => (
+                            <span key={skillIndex} className="text-xs bg-gray-100 text-gray-700 px-2 py-0.5 rounded-full">
+                              {skill}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+            
+            {/* Desktop Layout - Keep Original */}
+            <div className="hidden md:grid md:grid-cols-2 gap-8">
               {advisors.map((advisor, index) => (
                 <motion.div key={index} variants={fadeInUp}>
                   <Card className="p-6 bg-white border-0 shadow-lg h-full">
@@ -287,7 +397,7 @@ export default function OfficersPage() {
       </section>
 
       {/* Company Culture Section */}
-      <section className="py-20 bg-white">
+      <section className="py-8 lg:py-20 bg-white">
         <div className="container mx-auto px-4">
           <motion.div
             initial="initial"
@@ -296,14 +406,41 @@ export default function OfficersPage() {
             variants={fadeInUp}
             className="max-w-4xl mx-auto text-center"
           >
-            <h2 className="text-4xl font-bold text-gray-900 mb-6">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-2 lg:mb-6">
               組織文化・価値観
             </h2>
-            <p className="text-lg text-gray-600 mb-12">
+            <p className="text-sm sm:text-base lg:text-lg text-gray-600 mb-6 lg:mb-12 px-4 lg:px-0">
               多様性を力に変える組織づくり
             </p>
 
-            <div className="grid md:grid-cols-3 gap-8 mb-12">
+            {/* Mobile Layout - Horizontal Scroll */}
+            <div className="md:hidden mb-6">
+              <div className="flex overflow-x-auto gap-3 pb-2 -mx-4 px-4 snap-x snap-mandatory">
+                {[
+                  { icon: Trophy, color: "blue", title: "実力主義", text: "学歴・年齢・経験に関係なく、成果と貢献度で正当に評価" },
+                  { icon: Users, color: "emerald", title: "多様性", text: "異なる背景を持つメンバーが協力して大きな成果を創出" },
+                  { icon: Target, color: "purple", title: "ゼッタイやる", text: "困難に直面しても諦めず、最後まで責任を持ってやり抜く" }
+                ].map((item, index) => {
+                  const IconComponent = item.icon
+                  return (
+                    <div key={index} className={`flex-none w-64 bg-${item.color}-50 rounded-xl p-4 border border-${item.color}-200 snap-center`}>
+                      <div className="flex items-start space-x-3">
+                        <div className={`w-10 h-10 bg-${item.color}-100 rounded-lg flex items-center justify-center flex-shrink-0`}>
+                          <IconComponent className={`w-5 h-5 text-${item.color}-600`} />
+                        </div>
+                        <div className="flex-1">
+                          <h3 className="text-base font-bold text-gray-900 mb-1">{item.title}</h3>
+                          <p className="text-xs text-gray-700 leading-relaxed">{item.text}</p>
+                        </div>
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+            
+            {/* Desktop Layout - Keep Original */}
+            <div className="hidden md:grid md:grid-cols-3 gap-8 mb-12">
               <Card className="p-6 bg-blue-50 border-blue-200">
                 <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-4">
                   <Trophy className="w-6 h-6 text-blue-600" />
@@ -335,22 +472,22 @@ export default function OfficersPage() {
               </Card>
             </div>
 
-            <div className="bg-gradient-to-r from-blue-50 to-emerald-50 rounded-2xl p-8">
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">
+            <div className="bg-gradient-to-r from-blue-50 to-emerald-50 rounded-xl lg:rounded-2xl p-4 sm:p-6 lg:p-8">
+              <h3 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 mb-2 lg:mb-4">
                 一緒に100億円企業を創りませんか？
               </h3>
-              <p className="text-gray-700 leading-relaxed mb-6">
-                私たちは「人」を最も大切にする会社です。あなたの成長が会社の成長です。<br />
+              <p className="text-sm sm:text-base text-gray-700 leading-relaxed mb-4 lg:mb-6">
+                私たちは「人」を最も大切にする会社です。<br className="hidden sm:inline" />
                 多様な経験とスキルを持つ仲間と一緒に、AIで未来を創りましょう。
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button size="lg" asChild>
+              <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                <Button size="default" className="w-full sm:w-auto" asChild>
                   <Link href="/careers">
                     採用情報を見る
-                    <ArrowRight className="ml-2 w-5 h-5" />
+                    <ArrowRight className="ml-2 w-4 h-4" />
                   </Link>
                 </Button>
-                <Button size="lg" variant="outline" asChild>
+                <Button size="default" variant="outline" className="w-full sm:w-auto" asChild>
                   <Link href="/contact">
                     カジュアル面談を申し込む
                   </Link>
