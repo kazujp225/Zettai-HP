@@ -352,17 +352,28 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Why AI Now Section - Mobile Optimized */}
-      <section id="why-ai" className="py-8 lg:py-20 bg-white">
+      {/* Why AI Now Section - Redesigned */}
+      <section id="why-ai" className="py-8 lg:py-20 bg-gradient-to-b from-white to-gray-50">
         <div className="container mx-auto px-4">
           <motion.div
             initial="initial"
             whileInView="animate"
             viewport={{ once: true, margin: "-100px" }}
             variants={prefersReducedMotion ? { initial: {}, animate: {} } : fadeInUp}
-            className="max-w-5xl mx-auto"
+            className="max-w-6xl mx-auto"
           >
+            {/* Header with improved visual hierarchy */}
             <div className="text-center mb-8 lg:mb-16">
+              <motion.div
+                initial={{ scale: 0.9, opacity: 0 }}
+                whileInView={{ scale: 1, opacity: 1 }}
+                transition={{ duration: 0.6 }}
+                className="inline-block mb-4"
+              >
+                <span className="px-4 py-2 bg-gradient-to-r from-red-100 to-orange-100 text-red-700 text-sm font-semibold rounded-full">
+                  2030年まで残り6年
+                </span>
+              </motion.div>
               <h2 className="text-2xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-3 lg:mb-6">
                 なぜ今、AIなのか？
               </h2>
@@ -371,88 +382,90 @@ export default function Home() {
               </p>
             </div>
 
-            {/* Desktop Card Layout */}
-            <div className="hidden md:grid md:grid-cols-3 gap-6 lg:gap-8 mb-12 lg:mb-16">
-              <Card className="p-6 lg:p-8 text-center border-gray-200 shadow-sm hover:shadow-md transition-shadow">
-                <div className="w-12 lg:w-16 h-12 lg:h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4 lg:mb-6">
-                  <TrendingUp className="w-6 lg:w-8 h-6 lg:h-8 text-red-600" />
-                </div>
-                <h3 className="text-lg lg:text-xl font-bold text-gray-900 mb-3 lg:mb-4">労働力不足</h3>
-                <p className="text-sm lg:text-base text-gray-600 leading-relaxed">
-                  2030年まで644万人の働き手が不足。AI導入は選択肢ではなく必須条件です。
-                </p>
-              </Card>
-
-              <Card className="p-6 lg:p-8 text-center border-gray-200 shadow-sm hover:shadow-md transition-shadow">
-                <div className="w-12 lg:w-16 h-12 lg:h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4 lg:mb-6">
-                  <Building className="w-6 lg:w-8 h-6 lg:h-8 text-blue-600" />
-                </div>
-                <h3 className="text-lg lg:text-xl font-bold text-gray-900 mb-3 lg:mb-4">競争力格差</h3>
-                <p className="text-sm lg:text-base text-gray-600 leading-relaxed">
-                  AI導入企業と未導入企業の生産性格差は年々拡大。早期導入が生存戦略です。
-                </p>
-              </Card>
-
-              <Card className="p-6 lg:p-8 text-center border-gray-200 shadow-sm hover:shadow-md transition-shadow">
-                <div className="w-12 lg:w-16 h-12 lg:h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4 lg:mb-6">
-                  <Brain className="w-6 lg:w-8 h-6 lg:h-8 text-green-600" />
-                </div>
-                <h3 className="text-lg lg:text-xl font-bold text-gray-900 mb-3 lg:mb-4">技術革新</h3>
-                <p className="text-sm lg:text-base text-gray-600 leading-relaxed">
-                  ChatGPT登場で実用的AIが現実に。今こそ導入のベストタイミングです。
-                </p>
-              </Card>
-            </div>
-
-            {/* Mobile-Optimized Layout - Compact Design */}
-            <div className="md:hidden mb-8">
-              <div className="bg-gray-50 rounded-2xl p-4">
-                <div className="space-y-3">
+            {/* Desktop Timeline Layout */}
+            <div className="hidden lg:block mb-16">
+              <div className="relative">
+                {/* Timeline Line */}
+                <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-red-200 via-blue-200 to-green-200 transform -translate-x-1/2" />
+                
+                {/* Timeline Items */}
+                <div className="space-y-16">
                   {[
                     {
                       icon: TrendingUp,
-                      iconColor: "text-red-600",
-                      bgColor: "bg-red-100",
-                      title: "労働力不足",
+                      color: "red",
+                      title: "労働力不足の危機",
                       stat: "644万人",
-                      description: "2030年までの不足人数"
+                      statLabel: "不足予測",
+                      description: "2030年までに644万人の働き手が不足。もはやAI導入は選択肢ではなく、企業存続のための必須条件です。",
+                      points: ["生産年齢人口の急激な減少", "業務効率化が急務", "AI活用で人材不足を補完"]
                     },
                     {
                       icon: Building,
-                      iconColor: "text-blue-600",
-                      bgColor: "bg-blue-100",
-                      title: "競争力格差",
+                      color: "blue",
+                      title: "競争力格差の拡大",
                       stat: "2.5倍",
-                      description: "AI導入企業の生産性"
+                      statLabel: "生産性格差",
+                      description: "AI導入企業と未導入企業の生産性格差は年々拡大。早期導入が競争優位性を決定づけます。",
+                      points: ["業務自動化による効率化", "データ活用による意思決定", "新規ビジネスの創出"]
                     },
                     {
                       icon: Brain,
-                      iconColor: "text-green-600",
-                      bgColor: "bg-green-100",
-                      title: "技術革新",
+                      color: "green",
+                      title: "技術革新の転換点",
                       stat: "今",
-                      description: "AI導入の最適時期"
+                      statLabel: "導入最適期",
+                      description: "ChatGPT登場により実用的AIが現実に。技術が成熟し、導入コストも現実的な水準に到達しました。",
+                      points: ["AI技術の急速な進化", "導入障壁の低下", "実用的なユースケース"]
                     }
                   ].map((item, index) => {
                     const IconComponent = item.icon
+                    const isEven = index % 2 === 0
+                    
                     return (
                       <motion.div
                         key={index}
-                        initial={{ opacity: 0, x: -20 }}
+                        initial={{ opacity: 0, x: isEven ? -50 : 50 }}
                         whileInView={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.5, delay: index * 0.1 }}
+                        transition={{ duration: 0.8, delay: index * 0.2 }}
                         viewport={{ once: true }}
-                        className="flex items-center space-x-3"
+                        className={`relative flex items-center ${isEven ? 'justify-start' : 'justify-end'}`}
                       >
-                        <div className={`w-10 h-10 ${item.bgColor} rounded-lg flex items-center justify-center flex-shrink-0`}>
-                          <IconComponent className={`w-5 h-5 ${item.iconColor}`} />
+                        {/* Timeline Node */}
+                        <div className="absolute left-1/2 transform -translate-x-1/2 z-10">
+                          <motion.div
+                            whileHover={{ scale: 1.2 }}
+                            className={`w-12 h-12 bg-${item.color}-100 rounded-full flex items-center justify-center border-4 border-white shadow-lg`}
+                          >
+                            <IconComponent className={`w-6 h-6 text-${item.color}-600`} />
+                          </motion.div>
                         </div>
-                        <div className="flex-1 min-w-0">
-                          <h3 className="text-sm font-bold text-gray-900">{item.title}</h3>
-                          <div className="flex items-baseline space-x-2">
-                            <span className={`text-lg font-bold ${item.iconColor}`}>{item.stat}</span>
-                            <span className="text-xs text-gray-600 truncate">{item.description}</span>
-                          </div>
+                        
+                        {/* Content Card */}
+                        <div className={`w-5/12 ${isEven ? 'pr-8 text-right' : 'pl-8 text-left'}`}>
+                          <motion.div
+                            whileHover={{ y: -5 }}
+                            className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100"
+                          >
+                            <div className={`flex items-center gap-4 mb-4 ${isEven ? 'justify-end' : 'justify-start'}`}>
+                              <div>
+                                <h3 className="text-xl font-bold text-gray-900">{item.title}</h3>
+                                <div className={`flex items-baseline gap-2 mt-1 ${isEven ? 'justify-end' : 'justify-start'}`}>
+                                  <span className={`text-3xl font-bold text-${item.color}-600`}>{item.stat}</span>
+                                  <span className="text-sm text-gray-500">{item.statLabel}</span>
+                                </div>
+                              </div>
+                            </div>
+                            <p className="text-gray-600 mb-4 leading-relaxed">{item.description}</p>
+                            <div className="space-y-2">
+                              {item.points.map((point, idx) => (
+                                <div key={idx} className={`flex items-center gap-2 text-sm text-gray-700 ${isEven ? 'justify-end' : 'justify-start'}`}>
+                                  <CheckCircle2 className={`w-4 h-4 text-${item.color}-500 flex-shrink-0`} />
+                                  <span>{point}</span>
+                                </div>
+                              ))}
+                            </div>
+                          </motion.div>
                         </div>
                       </motion.div>
                     )
@@ -461,15 +474,156 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="bg-gray-50 rounded-xl lg:rounded-2xl p-4 sm:p-6 lg:p-8 text-center">
-              <h3 className="text-base sm:text-xl lg:text-2xl font-bold text-gray-900 mb-2 lg:mb-4">
-                AIは未来への投資ではなく、現在の必需品
-              </h3>
-              <p className="text-sm sm:text-base lg:text-lg text-gray-600 leading-relaxed">
-                私たちは、企業がAIを活用して競争力を維持・向上できるよう、<br className="hidden lg:block" />
-                包括的なソリューションを提供します。
-              </p>
+            {/* Tablet Layout */}
+            <div className="hidden md:block lg:hidden mb-12">
+              <div className="grid md:grid-cols-3 gap-6">
+                {[
+                  {
+                    icon: TrendingUp,
+                    color: "red",
+                    title: "労働力不足",
+                    stat: "644万人",
+                    description: "2030年まで644万人の働き手が不足。AI導入は選択肢ではなく必須条件です。"
+                  },
+                  {
+                    icon: Building,
+                    color: "blue",
+                    title: "競争力格差",
+                    stat: "2.5倍",
+                    description: "AI導入企業と未導入企業の生産性格差は年々拡大。早期導入が生存戦略です。"
+                  },
+                  {
+                    icon: Brain,
+                    color: "green",
+                    title: "技術革新",
+                    stat: "今",
+                    description: "ChatGPT登場で実用的AIが現実に。今こそ導入のベストタイミングです。"
+                  }
+                ].map((item, index) => {
+                  const IconComponent = item.icon
+                  return (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, y: 30 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, delay: index * 0.1 }}
+                      whileHover={{ y: -5 }}
+                      className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all"
+                    >
+                      <div className={`w-16 h-16 bg-${item.color}-100 rounded-2xl flex items-center justify-center mb-4`}>
+                        <IconComponent className={`w-8 h-8 text-${item.color}-600`} />
+                      </div>
+                      <h3 className="text-xl font-bold text-gray-900 mb-2">{item.title}</h3>
+                      <div className={`text-3xl font-bold text-${item.color}-600 mb-3`}>{item.stat}</div>
+                      <p className="text-gray-600 leading-relaxed">{item.description}</p>
+                    </motion.div>
+                  )
+                })}
+              </div>
             </div>
+
+            {/* Mobile Layout - Story Format */}
+            <div className="md:hidden mb-8">
+              <div className="space-y-6">
+                {[
+                  {
+                    icon: TrendingUp,
+                    color: "red",
+                    title: "労働力不足",
+                    stat: "644万人",
+                    statLabel: "不足予測",
+                    description: "2030年までの不足人数",
+                    detail: "もはやAI導入は選択肢ではなく必須"
+                  },
+                  {
+                    icon: Building,
+                    color: "blue",
+                    title: "競争力格差",
+                    stat: "2.5倍",
+                    statLabel: "生産性差",
+                    description: "AI導入企業の生産性",
+                    detail: "早期導入が競争優位を決定づける"
+                  },
+                  {
+                    icon: Brain,
+                    color: "green",
+                    title: "技術革新",
+                    stat: "今",
+                    statLabel: "最適時期",
+                    description: "AI導入の最適時期",
+                    detail: "技術成熟とコスト低下の好機"
+                  }
+                ].map((item, index) => {
+                  const IconComponent = item.icon
+                  return (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, y: 30 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, delay: index * 0.15 }}
+                      viewport={{ once: true }}
+                      className="relative"
+                    >
+                      {/* Connection Line */}
+                      {index < 2 && (
+                        <div className="absolute left-6 top-16 bottom-0 w-0.5 bg-gradient-to-b from-gray-300 to-transparent" />
+                      )}
+                      
+                      <div className="bg-white rounded-2xl p-5 shadow-md border border-gray-100">
+                        <div className="flex items-start gap-4">
+                          {/* Icon */}
+                          <div className={`w-12 h-12 bg-${item.color}-100 rounded-xl flex items-center justify-center flex-shrink-0`}>
+                            <IconComponent className={`w-6 h-6 text-${item.color}-600`} />
+                          </div>
+                          
+                          {/* Content */}
+                          <div className="flex-1">
+                            <h3 className="text-lg font-bold text-gray-900 mb-1">{item.title}</h3>
+                            <div className="flex items-baseline gap-2 mb-2">
+                              <span className={`text-2xl font-bold text-${item.color}-600`}>{item.stat}</span>
+                              <span className="text-sm text-gray-500">{item.statLabel}</span>
+                            </div>
+                            <p className="text-sm text-gray-600 mb-1">{item.description}</p>
+                            <p className="text-xs text-gray-700 font-medium">{item.detail}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </motion.div>
+                  )
+                })}
+              </div>
+            </div>
+
+            {/* Call to Action */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+              className="relative overflow-hidden bg-gradient-to-r from-gray-900 to-gray-800 rounded-xl lg:rounded-2xl p-6 sm:p-8 lg:p-12 text-center"
+            >
+              {/* Background Pattern */}
+              <div className="absolute inset-0 opacity-10">
+                <div className="absolute -top-24 -right-24 w-48 h-48 bg-white rounded-full" />
+                <div className="absolute -bottom-24 -left-24 w-48 h-48 bg-white rounded-full" />
+              </div>
+              
+              <div className="relative z-10">
+                <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-3 lg:mb-4">
+                  AIは未来への投資ではなく、現在の必需品
+                </h3>
+                <p className="text-sm sm:text-base lg:text-lg text-gray-300 leading-relaxed mb-6 lg:mb-8 max-w-2xl mx-auto">
+                  私たちは、企業がAIを活用して競争力を維持・向上できるよう、<br className="hidden lg:block" />
+                  包括的なソリューションを提供します。
+                </p>
+                <Button
+                  onClick={() => document.getElementById('contact-form')?.scrollIntoView({ behavior: 'smooth' })}
+                  className="bg-white text-gray-900 hover:bg-gray-100 font-semibold px-6 py-3 lg:px-8 lg:py-4 text-sm lg:text-base"
+                >
+                  AIソリューションについて相談する
+                  <ArrowRight className="ml-2 w-4 h-4 lg:w-5 lg:h-5" />
+                </Button>
+              </div>
+            </motion.div>
           </motion.div>
         </div>
       </section>
@@ -480,7 +634,7 @@ export default function Home() {
         <div className="absolute inset-0">
           {/* Geometric Background Shapes */}
           <motion.div 
-            className="absolute top-20 right-10 w-64 h-64 bg-gradient-to-br from-blue-100/30 to-purple-100/20 rounded-full blur-3xl"
+            className="absolute top-20 right-10 w-64 h-64 bg-gradient-to-br from-blue-100/30 to-slate-100/20 rounded-full blur-3xl"
             animate={{ 
               scale: [1, 1.2, 1],
               rotate: [0, 180, 360]
@@ -563,15 +717,15 @@ export default function Home() {
                 whileInView={{ scale: 1, opacity: 1 }}
                 transition={{ duration: 0.8 }}
               >
-                <span className="px-3 py-1.5 lg:px-4 lg:py-2 bg-gradient-to-r from-blue-100 to-purple-100 text-blue-800 text-xs lg:text-sm font-semibold rounded-full border border-blue-200">
+                <span className="px-3 py-1.5 lg:px-4 lg:py-2 bg-gradient-to-r from-blue-100 to-slate-100 text-blue-800 text-xs lg:text-sm font-semibold rounded-full border border-blue-200">
                   3つのコア事業で企業をサポート
                 </span>
               </motion.div>
               <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold mb-3 lg:mb-8">
                 <span className="text-gray-900">私たちの</span><br className="sm:hidden" />
-                <span className="sm:hidden text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-600 to-emerald-600">コアビジネス</span>
+                <span className="sm:hidden text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-slate-600 to-emerald-600">コアビジネス</span>
                 <br className="hidden sm:block" />
-                <span className="hidden sm:inline text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-600 to-emerald-600">
+                <span className="hidden sm:inline text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-slate-600 to-emerald-600">
                   コアビジネス
                 </span>
               </h2>
@@ -723,10 +877,10 @@ export default function Home() {
                 whileHover={{ y: -8, scale: 1.02 }}
                 transition={{ duration: 0.3 }}
               >
-                <Card className="relative p-8 bg-gradient-to-br from-white to-purple-50/50 border-0 shadow-xl hover:shadow-2xl transition-all duration-500 h-full overflow-hidden">
+                <Card className="relative p-8 bg-gradient-to-br from-white to-slate-50/50 border-0 shadow-xl hover:shadow-2xl transition-all duration-500 h-full overflow-hidden">
                   {/* Card Background Art */}
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-purple-200/30 to-transparent rounded-bl-full" />
-                  <div className="absolute -bottom-4 -left-4 w-24 h-24 bg-gradient-to-tr from-purple-100/40 to-transparent rounded-full" />
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-slate-200/30 to-transparent rounded-bl-full" />
+                  <div className="absolute -bottom-4 -left-4 w-24 h-24 bg-gradient-to-tr from-slate-100/40 to-transparent rounded-full" />
                   
                   <div className="relative z-10">
                     <motion.div 
@@ -736,14 +890,14 @@ export default function Home() {
                       transition={{ duration: 0.6, delay: 0.2 }}
                     >
                       <motion.div 
-                        className="w-16 h-16 bg-gradient-to-r from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center mr-4 shadow-lg"
+                        className="w-16 h-16 bg-gradient-to-r from-slate-500 to-slate-600 rounded-2xl flex items-center justify-center mr-4 shadow-lg"
                         whileHover={{ rotate: 5, scale: 1.1 }}
                       >
                         <Building className="w-8 h-8 text-white" />
                       </motion.div>
                       <div>
                         <h3 className="text-2xl font-bold text-gray-900 mb-1">AI総合商社</h3>
-                        <p className="text-purple-600 font-medium">One-Stop Solution</p>
+                        <p className="text-slate-600 font-medium">One-Stop Solution</p>
                       </div>
                     </motion.div>
                     
@@ -762,7 +916,7 @@ export default function Home() {
                           transition={{ duration: 0.4, delay: 0.3 + index * 0.1 }}
                         >
                           <motion.div
-                            className="w-2 h-2 bg-purple-500 rounded-full mt-2.5 mr-4 flex-shrink-0"
+                            className="w-2 h-2 bg-slate-500 rounded-full mt-2.5 mr-4 flex-shrink-0"
                             whileHover={{ scale: 1.5 }}
                           />
                           <span className="text-gray-700 group-hover:text-gray-900 transition-colors">{item}</span>
@@ -771,10 +925,10 @@ export default function Home() {
                     </div>
                     
                     <motion.div 
-                      className="pt-4 border-t border-purple-100"
+                      className="pt-4 border-t border-slate-100"
                       whileHover={{ x: 5 }}
                     >
-                      <div className="flex items-center text-purple-600 font-medium">
+                      <div className="flex items-center text-slate-600 font-medium">
                         <span>詳しく見る</span>
                         <ArrowRight className="w-4 h-4 ml-2" />
                       </div>
@@ -809,9 +963,9 @@ export default function Home() {
                 },
                 {
                   icon: Rocket,
-                  iconBg: "bg-purple-500",
-                  bgColor: "bg-purple-50", 
-                  borderColor: "border-l-purple-500",
+                  iconBg: "bg-slate-500",
+                  bgColor: "bg-slate-50", 
+                  borderColor: "border-l-slate-500",
                   title: "自動化AI導入事業",
                   subtitle: "AI Automation Solutions",
                   description: "業務プロセスの効率化を実現する自動化AIの導入支援で、企業の生産性向上と競争力強化をサポートします。",

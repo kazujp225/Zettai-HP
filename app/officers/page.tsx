@@ -211,7 +211,7 @@ export default function OfficersPage() {
                       </div>
                       
                       {/* Philosophy Quote */}
-                      <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg p-3">
+                      <div className="bg-gradient-to-r from-blue-50 to-slate-50 rounded-lg p-3">
                         <p className="text-xs text-gray-700 italic line-clamp-2">
                           "{officer.philosophy}"
                         </p>
@@ -306,7 +306,7 @@ export default function OfficersPage() {
 
                         <div className="bg-gray-50 rounded-lg p-4">
                           <h4 className="font-semibold text-gray-900 mb-2 flex items-center">
-                            <BookOpen className="w-5 h-5 mr-2 text-purple-600" />
+                            <BookOpen className="w-5 h-5 mr-2 text-slate-600" />
                             経営哲学
                           </h4>
                           <p className="text-gray-700 italic">"{officer.philosophy}"</p>
@@ -419,7 +419,7 @@ export default function OfficersPage() {
                 {[
                   { icon: Trophy, color: "blue", title: "実力主義", text: "学歴・年齢・経験に関係なく、成果と貢献度で正当に評価" },
                   { icon: Users, color: "emerald", title: "多様性", text: "異なる背景を持つメンバーが協力して大きな成果を創出" },
-                  { icon: Target, color: "purple", title: "ゼッタイやる", text: "困難に直面しても諦めず、最後まで責任を持ってやり抜く" }
+                  { icon: Target, color: "slate", title: "ゼッタイやる", text: "困難に直面しても諦めず、最後まで責任を持ってやり抜く" }
                 ].map((item, index) => {
                   const IconComponent = item.icon
                   return (
@@ -461,9 +461,9 @@ export default function OfficersPage() {
                 </p>
               </Card>
 
-              <Card className="p-6 bg-purple-50 border-purple-200">
-                <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mx-auto mb-4">
-                  <Target className="w-6 h-6 text-purple-600" />
+              <Card className="p-6 bg-slate-50 border-slate-200">
+                <div className="w-12 h-12 bg-slate-100 rounded-lg flex items-center justify-center mx-auto mb-4">
+                  <Target className="w-6 h-6 text-slate-600" />
                 </div>
                 <h3 className="text-xl font-bold text-gray-900 mb-3">ゼッタイやる</h3>
                 <p className="text-gray-700 text-sm">

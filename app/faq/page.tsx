@@ -392,8 +392,8 @@ export default function FAQPage() {
 
               <motion.div variants={fadeInUp}>
                 <Card className="p-6 text-center bg-white border-0 shadow-lg hover:shadow-xl transition-shadow h-full">
-                  <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mx-auto mb-4">
-                    <HelpCircle className="w-6 h-6 text-purple-600" />
+                  <div className="w-12 h-12 bg-slate-100 rounded-lg flex items-center justify-center mx-auto mb-4">
+                    <HelpCircle className="w-6 h-6 text-slate-600" />
                   </div>
                   <h3 className="text-lg font-semibold text-gray-900 mb-3">事業について</h3>
                   <p className="text-gray-600 text-sm mb-4">サービス内容や事業詳細について</p>

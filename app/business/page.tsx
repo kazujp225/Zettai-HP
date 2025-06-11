@@ -66,9 +66,9 @@ export default function BusinessPage() {
         "継続的メンテナンス・アップデート",
         "コスト最適化・効果測定"
       ],
-      bgColor: "bg-purple-50",
-      iconColor: "text-purple-600",
-      iconBg: "bg-purple-100"
+      bgColor: "bg-slate-50",
+      iconColor: "text-slate-600",
+      iconBg: "bg-slate-100"
     }
   ]
 
