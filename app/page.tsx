@@ -221,7 +221,7 @@ export default function Home() {
                   if (video2Loaded) setVideosLoaded(true)
                 }}
                 loading="eager"
-                fetchpriority="high"
+                fetchPriority="high"
                 className="w-full h-full object-cover transition-opacity duration-[2000ms]"
                 style={{
                   minWidth: '100%',
@@ -255,7 +255,7 @@ export default function Home() {
                   if (video1Loaded) setVideosLoaded(true)
                 }}
                 loading="eager"
-                fetchpriority="high"
+                fetchPriority="high"
                 className="w-full h-full object-cover transition-opacity duration-[2000ms]"
                 style={{
                   minWidth: '100%',
@@ -368,7 +368,7 @@ export default function Home() {
                   if (video1Loaded) setVideosLoaded(true)
                 }}
                 loading="eager"
-                fetchpriority="high"
+                fetchPriority="high"
                 className="w-full h-full object-cover transition-opacity duration-[2000ms]"
                 style={{
                   minWidth: '100%',
@@ -402,7 +402,7 @@ export default function Home() {
                   if (video1Loaded) setVideosLoaded(true)
                 }}
                 loading="eager"
-                fetchpriority="high"
+                fetchPriority="high"
                 className="w-full h-full object-cover transition-opacity duration-[2000ms]"
                 style={{
                   minWidth: '100%',
