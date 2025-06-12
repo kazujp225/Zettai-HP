@@ -224,35 +224,39 @@ export default function Home() {
         if (isTransitioning) return
         isTransitioning = true
 
+        const scheduleNextSwitch = () => {
+          // 次の切り替えをスケジュール
+          setTimeout(() => {
+            switchVideo()
+          }, 10000)
+        }
+
         if (currentActiveVideo === 1) {
           // Video1からVideo2への切り替え
-          video1.style.opacity = '0'
-          video2.style.opacity = '1'
-          currentActiveVideo = 2
+          // 8秒後にフェード開始（2秒のトランジション）
           setTimeout(() => {
+            video1.style.opacity = '0'
+            video2.style.opacity = '1'
+            currentActiveVideo = 2
             isTransitioning = false
-          }, 1000)
+            scheduleNextSwitch()
+          }, 8000)
         } else {
           // Video2からVideo1への切り替え
-          video2.style.opacity = '0'
-          video1.style.opacity = '1'
-          currentActiveVideo = 1
           setTimeout(() => {
+            video2.style.opacity = '0'
+            video1.style.opacity = '1'
+            currentActiveVideo = 1
             isTransitioning = false
-          }, 1000)
+            scheduleNextSwitch()
+          }, 8000)
         }
       }
 
-      // タイマーベースの切り替え（10秒ごと）
-      const switchInterval = setInterval(() => {
-        if (!isTransitioning) {
-          switchVideo()
-        }
-      }, 10000)
+      // 即座に最初の切り替えをスケジュール
+      switchVideo()
 
-      cleanupFunctions.push(() => {
-        clearInterval(switchInterval)
-      })
+      // クリーンアップは不要（intervalを使わないため）
     }
 
     // 初期設定と再生開始
@@ -262,8 +266,8 @@ export default function Home() {
         // 初期状態の設定
         videoRef.current.style.opacity = '1'
         videoRef2.current.style.opacity = '0'
-        videoRef.current.style.transition = 'opacity 1s ease-in-out'
-        videoRef2.current.style.transition = 'opacity 1s ease-in-out'
+        videoRef.current.style.transition = 'opacity 2s ease-in-out'
+        videoRef2.current.style.transition = 'opacity 2s ease-in-out'
         
         // プリロードが完了してから再生開始
         const waitForVideos = async () => {
@@ -283,8 +287,8 @@ export default function Home() {
       if (mobileVideoRef.current && mobileVideoRef2.current) {
         mobileVideoRef.current.style.opacity = '1'
         mobileVideoRef2.current.style.opacity = '0'
-        mobileVideoRef.current.style.transition = 'opacity 1s ease-in-out'
-        mobileVideoRef2.current.style.transition = 'opacity 1s ease-in-out'
+        mobileVideoRef.current.style.transition = 'opacity 2s ease-in-out'
+        mobileVideoRef2.current.style.transition = 'opacity 2s ease-in-out'
         
         // 同様に両方の動画を同時再生
         await playVideo(mobileVideoRef.current)
@@ -420,7 +424,7 @@ export default function Home() {
                 autoPlay={true}
                 muted={true}
                 playsInline={true}
-                loop={true}
+                loop={false}
                 poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1920' height='1080'%3E%3Crect width='1920' height='1080' fill='%23000000'/%3E%3C/svg%22"
                 controls={false}
                 preload="auto"
@@ -435,7 +439,7 @@ export default function Home() {
                 }}
                 loading="eager"
                 fetchpriority="high"
-                className="w-full h-full object-cover transition-opacity duration-1000"
+                className="w-full h-full object-cover transition-opacity duration-[2000ms]"
                 style={{
                   minWidth: '100%',
                   minHeight: '100%',
@@ -456,7 +460,7 @@ export default function Home() {
                 autoPlay={true}
                 muted={true}
                 playsInline={true}
-                loop={true}
+                loop={false}
                 poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1920' height='1080'%3E%3Crect width='1920' height='1080' fill='%23000000'/%3E%3C/svg%22"
                 controls={false}
                 preload="auto"
@@ -470,7 +474,7 @@ export default function Home() {
                 }}
                 loading="eager"
                 fetchpriority="high"
-                className="w-full h-full object-cover transition-opacity duration-1000"
+                className="w-full h-full object-cover transition-opacity duration-[2000ms]"
                 style={{
                   minWidth: '100%',
                   minHeight: '100%',
@@ -574,7 +578,7 @@ export default function Home() {
                 autoPlay={true}
                 muted={true}
                 playsInline={true}
-                loop={true}
+                loop={false}
                 poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1920' height='1080'%3E%3Crect width='1920' height='1080' fill='%23000000'/%3E%3C/svg%22"
                 controls={false}
                 preload="auto"
@@ -588,7 +592,7 @@ export default function Home() {
                 }}
                 loading="eager"
                 fetchpriority="high"
-                className="w-full h-full object-cover transition-opacity duration-1000"
+                className="w-full h-full object-cover transition-opacity duration-[2000ms]"
                 style={{
                   minWidth: '100%',
                   minHeight: '100%',
@@ -609,7 +613,7 @@ export default function Home() {
                 autoPlay={true}
                 muted={true}
                 playsInline={true}
-                loop={true}
+                loop={false}
                 poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1920' height='1080'%3E%3Crect width='1920' height='1080' fill='%23000000'/%3E%3C/svg%22"
                 controls={false}
                 preload="auto"
@@ -623,7 +627,7 @@ export default function Home() {
                 }}
                 loading="eager"
                 fetchpriority="high"
-                className="w-full h-full object-cover transition-opacity duration-1000"
+                className="w-full h-full object-cover transition-opacity duration-[2000ms]"
                 style={{
                   minWidth: '100%',
                   minHeight: '100%',
