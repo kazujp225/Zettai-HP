@@ -21,7 +21,7 @@ export function JoinCtaButton({
     switch (variant) {
       case "primary":
         return {
-          className: `bg-red-600 hover:bg-red-700 text-white ${className}`,
+          className: `bg-emerald-600 hover:bg-emerald-700 text-white ${className}`,
         }
       case "secondary":
         return {
@@ -34,7 +34,7 @@ export function JoinCtaButton({
         }
       default:
         return {
-          className: `bg-red-600 hover:bg-red-700 text-white ${className}`,
+          className: `bg-emerald-600 hover:bg-emerald-700 text-white ${className}`,
         }
     }
   }

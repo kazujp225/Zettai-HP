@@ -73,19 +73,20 @@ export default function Home() {
   const [email, setEmail] = useState("")
   const prefersReducedMotion = useReducedMotion()
   const videoRef = useRef<HTMLVideoElement>(null)
+  const videoRef2 = useRef<HTMLVideoElement>(null)
   const mobileVideoRef = useRef<HTMLVideoElement>(null)
+  const mobileVideoRef2 = useRef<HTMLVideoElement>(null)
+  const [currentVideo, setCurrentVideo] = useState(1)
 
-  // モバイルでの自動再生を確実にする
+  // 動画の自動再生と切り替えロジック
   useEffect(() => {
     const playVideo = async (video: HTMLVideoElement | null) => {
       if (video) {
         try {
-          // mutedを再度設定して確実に音声をオフに
           video.muted = true
           await video.play()
         } catch (error) {
           console.log('Video autoplay failed:', error)
-          // ユーザーインタラクション後に再生を試みる
           const playOnInteraction = () => {
             video.play()
             document.removeEventListener('touchstart', playOnInteraction)
@@ -97,8 +98,82 @@ export default function Home() {
       }
     }
 
-    playVideo(videoRef.current)
-    playVideo(mobileVideoRef.current)
+    let cleanupFunctions: (() => void)[] = []
+
+    const handleVideoTransition = (video1: HTMLVideoElement, video2: HTMLVideoElement) => {
+      let isTransitioning = false
+      let currentActiveVideo = 1 // ローカル状態として管理
+
+      const switchVideo = () => {
+        if (isTransitioning) return
+        isTransitioning = true
+
+        if (currentActiveVideo === 1) {
+          // Video1からVideo2への切り替え
+          video1.style.opacity = '0'
+          video2.style.opacity = '1'
+          video2.currentTime = 0
+          playVideo(video2)
+          currentActiveVideo = 2
+          setTimeout(() => {
+            isTransitioning = false
+          }, 1000)
+        } else {
+          // Video2からVideo1への切り替え
+          video2.style.opacity = '0'
+          video1.style.opacity = '1'
+          video1.currentTime = 0
+          playVideo(video1)
+          currentActiveVideo = 1
+          setTimeout(() => {
+            isTransitioning = false
+          }, 1000)
+        }
+      }
+
+      const handleTimeUpdate1 = () => {
+        // Video1がアクティブかつ9.5秒経過時に切り替え
+        if (currentActiveVideo === 1 && video1.currentTime >= 9.5 && !isTransitioning) {
+          switchVideo()
+        }
+      }
+
+      const handleTimeUpdate2 = () => {
+        // Video2がアクティブかつ9.5秒経過時に切り替え
+        if (currentActiveVideo === 2 && video2.currentTime >= 9.5 && !isTransitioning) {
+          switchVideo()
+        }
+      }
+
+      video1.addEventListener('timeupdate', handleTimeUpdate1)
+      video2.addEventListener('timeupdate', handleTimeUpdate2)
+
+      cleanupFunctions.push(() => {
+        video1.removeEventListener('timeupdate', handleTimeUpdate1)
+        video2.removeEventListener('timeupdate', handleTimeUpdate2)
+      })
+    }
+
+    // 初期設定
+    if (videoRef.current && videoRef2.current) {
+      videoRef2.current.style.opacity = '0'
+      videoRef2.current.style.transition = 'opacity 1s ease-in-out'
+      videoRef.current.style.transition = 'opacity 1s ease-in-out'
+      playVideo(videoRef.current)
+      handleVideoTransition(videoRef.current, videoRef2.current)
+    }
+
+    if (mobileVideoRef.current && mobileVideoRef2.current) {
+      mobileVideoRef2.current.style.opacity = '0'
+      mobileVideoRef2.current.style.transition = 'opacity 1s ease-in-out'
+      mobileVideoRef.current.style.transition = 'opacity 1s ease-in-out'
+      playVideo(mobileVideoRef.current)
+      handleVideoTransition(mobileVideoRef.current, mobileVideoRef2.current)
+    }
+
+    return () => {
+      cleanupFunctions.forEach(cleanup => cleanup())
+    }
   }, [])
 
   return (
@@ -110,15 +185,15 @@ export default function Home() {
           <div className="relative w-full h-[100vh] min-h-[600px] max-h-[800px]">
             {/* Desktop Background - Video optimized for 16:9 */}
             <div className="absolute inset-0 overflow-hidden bg-black">
+              {/* First Video */}
               <video
                 ref={videoRef}
                 autoPlay
-                loop
                 muted
                 playsInline
                 preload="auto"
                 webkit-playsinline="true"
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover transition-opacity duration-1000"
                 style={{
                   minWidth: '100%',
                   minHeight: '100%',
@@ -127,17 +202,40 @@ export default function Home() {
                   position: 'absolute',
                   top: '50%',
                   left: '50%',
-                  transform: 'translate(-50%, -50%)'
+                  transform: 'translate(-50%, -50%)',
+                  opacity: 1
                 }}
               >
                 <source src="/hirosectionvideo.mp4" type="video/mp4" />
               </video>
+              {/* Second Video */}
+              <video
+                ref={videoRef2}
+                muted
+                playsInline
+                preload="auto"
+                webkit-playsinline="true"
+                className="w-full h-full object-cover transition-opacity duration-1000"
+                style={{
+                  minWidth: '100%',
+                  minHeight: '100%',
+                  width: 'auto',
+                  height: 'auto',
+                  position: 'absolute',
+                  top: '50%',
+                  left: '50%',
+                  transform: 'translate(-50%, -50%)',
+                  opacity: 0
+                }}
+              >
+                <source src="/hirosectionvideo2.mp4" type="video/mp4" />
+              </video>
               {/* Dark overlay for text readability */}
-              <div className="absolute inset-0 bg-black/30" />
+              <div className="absolute inset-0 bg-black/30 z-10" />
             </div>
 
             {/* Desktop Content - Repositioned to top-left with better positioning for 16:9 video */}
-            <div className="absolute top-24 left-12 z-10 max-w-2xl">
+            <div className="absolute top-24 left-12 z-20 max-w-2xl">
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -211,15 +309,15 @@ export default function Home() {
           <div className="relative w-full h-screen min-h-[600px]">
             {/* Mobile Background - Video optimized for portrait */}
             <div className="absolute inset-0 overflow-hidden bg-black">
+              {/* First Video */}
               <video
                 ref={mobileVideoRef}
                 autoPlay
-                loop
                 muted
                 playsInline
                 preload="auto"
                 webkit-playsinline="true"
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover transition-opacity duration-1000"
                 style={{
                   minWidth: '100%',
                   minHeight: '100%',
@@ -228,17 +326,40 @@ export default function Home() {
                   position: 'absolute',
                   top: '50%',
                   left: '50%',
-                  transform: 'translate(-50%, -50%)'
+                  transform: 'translate(-50%, -50%)',
+                  opacity: 1
                 }}
               >
                 <source src="/hirosectionvideo.mp4" type="video/mp4" />
               </video>
+              {/* Second Video */}
+              <video
+                ref={mobileVideoRef2}
+                muted
+                playsInline
+                preload="auto"
+                webkit-playsinline="true"
+                className="w-full h-full object-cover transition-opacity duration-1000"
+                style={{
+                  minWidth: '100%',
+                  minHeight: '100%',
+                  width: 'auto',
+                  height: 'auto',
+                  position: 'absolute',
+                  top: '50%',
+                  left: '50%',
+                  transform: 'translate(-50%, -50%)',
+                  opacity: 0
+                }}
+              >
+                <source src="/hirosectionvideo2.mp4" type="video/mp4" />
+              </video>
               {/* Dark overlay for text readability - stronger for mobile */}
-              <div className="absolute inset-0 bg-black/50" />
+              <div className="absolute inset-0 bg-black/50 z-10" />
             </div>
 
             {/* Mobile Content - Positioned for video background */}
-            <div className="absolute inset-0 flex flex-col justify-center px-6 py-20 z-10">
+            <div className="absolute inset-0 flex flex-col justify-center px-6 py-20 z-20">
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -316,7 +437,7 @@ export default function Home() {
                 >
                   <motion.div whileTap={{ scale: 0.98 }} className="flex-1">
                     <JoinCtaButton 
-                      className="w-full bg-red-600 hover:bg-red-700 text-white py-4 text-base font-semibold rounded-xl shadow-lg min-h-[56px] touch-manipulation backdrop-blur-sm"
+                      className="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-4 text-base font-semibold rounded-xl shadow-lg min-h-[56px] touch-manipulation backdrop-blur-sm"
                     >
                       無料相談を始める
                       <ArrowRight className="ml-2 w-5 h-5" />
@@ -370,7 +491,7 @@ export default function Home() {
                 transition={{ duration: 0.6 }}
                 className="inline-block mb-4"
               >
-                <span className="px-4 py-2 bg-gradient-to-r from-red-100 to-orange-100 text-red-700 text-sm font-semibold rounded-full">
+                <span className="px-4 py-2 bg-gradient-to-r from-emerald-100 to-emerald-200 text-emerald-700 text-sm font-semibold rounded-full">
                   2030年まで残り6年
                 </span>
               </motion.div>
