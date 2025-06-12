@@ -84,6 +84,7 @@ export default function Home() {
   const [showContent, setShowContent] = useState(false)
   const [loadingProgress, setLoadingProgress] = useState(0)
   const [isFirstVisit, setIsFirstVisit] = useState(true)
+  const [videosPreloaded, setVideosPreloaded] = useState(false)
 
   // 初回アクセスの判定
   useEffect(() => {
@@ -91,6 +92,7 @@ export default function Home() {
     if (hasVisited) {
       setIsFirstVisit(false)
       setShowContent(true)
+      setVideosPreloaded(true)
     } else {
       sessionStorage.setItem('hasVisitedZettai', 'true')
     }
@@ -100,8 +102,8 @@ export default function Home() {
   useEffect(() => {
     if (!isFirstVisit) return // 2回目以降はスキップ
 
-    // 最低6秒はローディングを表示
-    const minLoadingTime = 6000
+    // 最低10秒はローディングを表示（動画読み込みを確実に待つ）
+    const minLoadingTime = 10000
     const startTime = Date.now()
     let videosActuallyLoaded = false
     let progressValue = 0
@@ -109,8 +111,8 @@ export default function Home() {
     // プログレスバーのアニメーション
     const progressInterval = setInterval(() => {
       if (!videosActuallyLoaded) {
-        // 動画が読み込まれていない間は80%までしか進まない
-        progressValue = Math.min(progressValue + 1.5, 80)
+        // 動画が読み込まれていない間は90%までしか進まない
+        progressValue = Math.min(progressValue + 0.9, 90)
         setLoadingProgress(progressValue)
       }
     }, 100)
@@ -151,14 +153,15 @@ export default function Home() {
       videosActuallyLoaded = true
       clearInterval(progressInterval)
       
-      // 80%から100%までアニメーション
+      // 90%から100%までアニメーション
       const animateToComplete = () => {
-        let currentProgress = 80
+        let currentProgress = 90
         const completeInterval = setInterval(() => {
-          currentProgress += 4
+          currentProgress += 2
           setLoadingProgress(currentProgress)
           if (currentProgress >= 100) {
             clearInterval(completeInterval)
+            setVideosPreloaded(true)
             
             // 最低表示時間を確保
             const elapsedTime = Date.now() - startTime
@@ -262,15 +265,13 @@ export default function Home() {
         videoRef.current.style.transition = 'opacity 1s ease-in-out'
         videoRef2.current.style.transition = 'opacity 1s ease-in-out'
         
-        // 両方の動画が準備できたら同時に再生開始
+        // プリロードが完了してから再生開始
         const waitForVideos = async () => {
-          if (video1Loaded && video2Loaded && showContent) {
-            // ローディング完了後、少し待ってから再生
-            setTimeout(async () => {
-              await playVideo(videoRef.current)
-              await playVideo(videoRef2.current)
-              handleVideoTransition(videoRef.current, videoRef2.current)
-            }, 100)
+          if (video1Loaded && video2Loaded && videosPreloaded && showContent) {
+            // プリロード完了確認後に再生
+            await playVideo(videoRef.current)
+            await playVideo(videoRef2.current)
+            handleVideoTransition(videoRef.current, videoRef2.current)
           } else {
             setTimeout(waitForVideos, 50)
           }
@@ -298,7 +299,7 @@ export default function Home() {
     return () => {
       cleanupFunctions.forEach(cleanup => cleanup())
     }
-  }, [video1Loaded, video2Loaded, showContent])
+  }, [video1Loaded, video2Loaded, showContent, videosPreloaded])
 
   // ローディング画面（初回のみ）
   if (isFirstVisit && !showContent) {
@@ -380,9 +381,10 @@ export default function Home() {
             transition={{ delay: 0.5 }}
           >
             <p className="text-gray-400 text-sm mb-2">
-              {loadingProgress < 30 && "システムを初期化中..."}
-              {loadingProgress >= 30 && loadingProgress < 60 && "コンテンツを準備中..."}
-              {loadingProgress >= 60 && loadingProgress < 90 && "最適化を実行中..."}
+              {loadingProgress < 25 && "システムを初期化中..."}
+              {loadingProgress >= 25 && loadingProgress < 50 && "ビデオリソースをダウンロード中..."}
+              {loadingProgress >= 50 && loadingProgress < 75 && "コンテンツを最適化中..."}
+              {loadingProgress >= 75 && loadingProgress < 90 && "最終処理を実行中..."}
               {loadingProgress >= 90 && "まもなく完了..."}
             </p>
             
@@ -419,8 +421,10 @@ export default function Home() {
                 muted={true}
                 playsInline={true}
                 loop={true}
+                poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1920' height='1080'%3E%3Crect width='1920' height='1080' fill='%23000000'/%3E%3C/svg%"
                 controls={false}
                 preload="auto"
+                crossOrigin="anonymous"
                 webkit-playsinline="true"
                 x-webkit-airplay="deny"
                 disablePictureInPicture
@@ -453,8 +457,10 @@ export default function Home() {
                 muted={true}
                 playsInline={true}
                 loop={true}
+                poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1920' height='1080'%3E%3Crect width='1920' height='1080' fill='%23000000'/%3E%3C/svg%"
                 controls={false}
                 preload="auto"
+                crossOrigin="anonymous"
                 webkit-playsinline="true"
                 x-webkit-airplay="deny"
                 disablePictureInPicture
@@ -569,8 +575,10 @@ export default function Home() {
                 muted={true}
                 playsInline={true}
                 loop={true}
+                poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1920' height='1080'%3E%3Crect width='1920' height='1080' fill='%23000000'/%3E%3C/svg%"
                 controls={false}
                 preload="auto"
+                crossOrigin="anonymous"
                 webkit-playsinline="true"
                 x-webkit-airplay="deny"
                 disablePictureInPicture
@@ -602,8 +610,10 @@ export default function Home() {
                 muted={true}
                 playsInline={true}
                 loop={true}
+                poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1920' height='1080'%3E%3Crect width='1920' height='1080' fill='%23000000'/%3E%3C/svg%"
                 controls={false}
                 preload="auto"
+                crossOrigin="anonymous"
                 webkit-playsinline="true"
                 x-webkit-airplay="deny"
                 disablePictureInPicture
