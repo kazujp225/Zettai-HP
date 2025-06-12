@@ -82,19 +82,55 @@ export default function Home() {
   const [video1Loaded, setVideo1Loaded] = useState(false)
   const [video2Loaded, setVideo2Loaded] = useState(false)
   const [showContent, setShowContent] = useState(false)
+  const [loadingProgress, setLoadingProgress] = useState(0)
+  const [isFirstVisit, setIsFirstVisit] = useState(true)
+
+  // 初回アクセスの判定
+  useEffect(() => {
+    const hasVisited = sessionStorage.getItem('hasVisitedZettai')
+    if (hasVisited) {
+      setIsFirstVisit(false)
+      setShowContent(true)
+    } else {
+      sessionStorage.setItem('hasVisitedZettai', 'true')
+    }
+  }, [])
 
   // 動画のプリロードと再生管理
   useEffect(() => {
-    // 最低3秒はローディングを表示
-    const minLoadingTime = 3000
+    if (!isFirstVisit) return // 2回目以降はスキップ
+
+    // 最低6秒はローディングを表示
+    const minLoadingTime = 6000
     const startTime = Date.now()
+    
+    // プログレスバーのアニメーション
+    const progressInterval = setInterval(() => {
+      setLoadingProgress(prev => {
+        const next = prev + (100 / (minLoadingTime / 100))
+        return next >= 95 ? 95 : next // 95%で一旦停止
+      })
+    }, 100)
 
     // 動画をプリロードして準備
-    const preloadVideo = async (videoUrl: string): Promise<void> => {
+    const preloadVideo = async (videoUrl: string, onProgress?: (progress: number) => void): Promise<void> => {
       return new Promise((resolve) => {
         const video = document.createElement('video')
         video.src = videoUrl
         video.load()
+        
+        // プログレスイベント
+        video.addEventListener('progress', () => {
+          if (video.buffered.length > 0) {
+            const bufferedEnd = video.buffered.end(video.buffered.length - 1)
+            const duration = video.duration
+            if (duration > 0) {
+              const progress = (bufferedEnd / duration) * 100
+              if (onProgress) onProgress(progress)
+            }
+          }
+        })
+        
         video.addEventListener('canplaythrough', () => resolve(), { once: true })
       })
     }
@@ -105,16 +141,24 @@ export default function Home() {
       preloadVideo('/hirosectionvideo2.mp4')
     ]).then(() => {
       console.log('All videos preloaded')
+      clearInterval(progressInterval)
+      
+      // 100%までアニメーション
+      setLoadingProgress(100)
       
       // 最低表示時間を確保
       const elapsedTime = Date.now() - startTime
-      const remainingTime = Math.max(0, minLoadingTime - elapsedTime)
+      const remainingTime = Math.max(500, minLoadingTime - elapsedTime)
       
       setTimeout(() => {
         setShowContent(true)
       }, remainingTime)
     })
-  }, [])
+    
+    return () => {
+      clearInterval(progressInterval)
+    }
+  }, [isFirstVisit])
 
   // 動画の自動再生を最優先で実行
   useLayoutEffect(() => {
@@ -228,16 +272,104 @@ export default function Home() {
     }
   }, [video1Loaded, video2Loaded, showContent])
 
-  // ローディング画面
-  if (!showContent) {
+  // ローディング画面（初回のみ）
+  if (isFirstVisit && !showContent) {
     return (
-      <div className="fixed inset-0 bg-black flex items-center justify-center z-50">
-        <div className="text-center">
-          <div className="relative w-20 h-20 mx-auto mb-8">
-            <div className="absolute inset-0 border-4 border-gray-800 rounded-full"></div>
-            <div className="absolute inset-0 border-4 border-t-white rounded-full animate-spin"></div>
+      <div className="fixed inset-0 bg-black flex items-center justify-center z-50 overflow-hidden">
+        {/* 背景アニメーション */}
+        <div className="absolute inset-0">
+          {[...Array(20)].map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute w-1 h-1 bg-white/20 rounded-full"
+              initial={{
+                x: Math.random() * window.innerWidth,
+                y: Math.random() * window.innerHeight,
+              }}
+              animate={{
+                x: Math.random() * window.innerWidth,
+                y: Math.random() * window.innerHeight,
+              }}
+              transition={{
+                duration: Math.random() * 10 + 10,
+                repeat: Infinity,
+                repeatType: "reverse",
+                ease: "linear"
+              }}
+            />
+          ))}
+        </div>
+        
+        <div className="relative z-10 w-full max-w-md px-8">
+          {/* ロゴアニメーション */}
+          <motion.div 
+            className="text-center mb-12"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <motion.h1 
+              className="text-5xl md:text-6xl font-bold text-white mb-2"
+              animate={{ 
+                backgroundImage: [
+                  "linear-gradient(to right, #fff, #fff)",
+                  "linear-gradient(to right, #059669, #10b981)",
+                  "linear-gradient(to right, #fff, #fff)"
+                ]
+              }}
+              transition={{ duration: 3, repeat: Infinity }}
+              style={{
+                backgroundClip: "text",
+                WebkitBackgroundClip: "text",
+                color: "transparent"
+              }}
+            >
+              ZETTAI
+            </motion.h1>
+            <p className="text-gray-400 text-sm tracking-widest">AIで未来を創る</p>
+          </motion.div>
+          
+          {/* プログレスバー */}
+          <div className="mb-8">
+            <div className="relative h-3 bg-gray-900 rounded-full overflow-hidden">
+              <motion.div 
+                className="absolute inset-y-0 left-0 bg-gradient-to-r from-emerald-500 to-emerald-400 rounded-full"
+                initial={{ width: "0%" }}
+                animate={{ width: `${loadingProgress}%` }}
+                transition={{ duration: 0.3 }}
+              />
+              <div className="absolute inset-0 flex items-center justify-center">
+                <span className="text-xs font-medium text-white">{Math.round(loadingProgress)}%</span>
+              </div>
+            </div>
           </div>
-          <p className="text-white text-lg font-light tracking-wider animate-pulse">ZETTAI Inc.</p>
+          
+          {/* ステータスメッセージ */}
+          <motion.div 
+            className="text-center"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.5 }}
+          >
+            <p className="text-gray-400 text-sm mb-2">
+              {loadingProgress < 30 && "システムを初期化中..."}
+              {loadingProgress >= 30 && loadingProgress < 60 && "コンテンツを準備中..."}
+              {loadingProgress >= 60 && loadingProgress < 90 && "最適化を実行中..."}
+              {loadingProgress >= 90 && "まもなく完了..."}
+            </p>
+            
+            {/* AI関連のファクト */}
+            <motion.p 
+              className="text-xs text-gray-500 italic"
+              animate={{ opacity: [0.5, 1, 0.5] }}
+              transition={{ duration: 2, repeat: Infinity }}
+            >
+              {loadingProgress < 25 && "AIは2030年までに日本のGDPを50兆円押し上げる"}
+              {loadingProgress >= 25 && loadingProgress < 50 && "644万人の労働力不足をAIが解決"}
+              {loadingProgress >= 50 && loadingProgress < 75 && "AI導入企業の生産性は2.5倍に"}
+              {loadingProgress >= 75 && "ZETTAIは5年で売上100億円を目指す"}
+            </motion.p>
+          </motion.div>
         </div>
       </div>
     )
