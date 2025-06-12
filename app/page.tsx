@@ -79,6 +79,29 @@ export default function Home() {
   const [currentVideo, setCurrentVideo] = useState(1)
   const [videosLoaded, setVideosLoaded] = useState(false)
   const [isFirstVideoReady, setIsFirstVideoReady] = useState(false)
+  const [video1Loaded, setVideo1Loaded] = useState(false)
+  const [video2Loaded, setVideo2Loaded] = useState(false)
+
+  // 動画のプリロードと再生管理
+  useEffect(() => {
+    // 動画をプリロードして準備
+    const preloadVideo = async (videoUrl: string): Promise<void> => {
+      return new Promise((resolve) => {
+        const video = document.createElement('video')
+        video.src = videoUrl
+        video.load()
+        video.addEventListener('canplaythrough', () => resolve(), { once: true })
+      })
+    }
+
+    // 両方の動画をプリロード
+    Promise.all([
+      preloadVideo('/hirosectionvideo.mp4'),
+      preloadVideo('/hirosectionvideo2.mp4')
+    ]).then(() => {
+      console.log('All videos preloaded')
+    })
+  }, [])
 
   // 動画の自動再生を最優先で実行
   useLayoutEffect(() => {
@@ -89,33 +112,10 @@ export default function Home() {
         video.muted = true
         video.setAttribute('muted', 'true')
         
-        // 複数の再生試行方法
-        const attemptPlay = async () => {
-          try {
-            const playPromise = video.play()
-            if (playPromise !== undefined) {
-              await playPromise
-              console.log('Video playing successfully')
-            }
-          } catch (error) {
-            console.error('Play attempt failed:', error)
-          }
+        const playPromise = video.play()
+        if (playPromise !== undefined) {
+          await playPromise
         }
-        
-        // 即座に再生を試みる
-        await attemptPlay()
-        
-        // readyStateが十分でない場合のフォールバック
-        if (video.paused) {
-          video.addEventListener('loadedmetadata', attemptPlay, { once: true })
-          video.addEventListener('loadeddata', attemptPlay, { once: true })
-          video.addEventListener('canplay', attemptPlay, { once: true })
-          video.addEventListener('canplaythrough', attemptPlay, { once: true })
-        }
-        
-        // 動画の読み込みを促進
-        video.load()
-        
       } catch (error) {
         console.log('Video autoplay failed:', error)
         // ユーザーインタラクション時の再生
@@ -123,11 +123,9 @@ export default function Home() {
           video.play().catch(console.error)
           document.removeEventListener('touchstart', playOnInteraction)
           document.removeEventListener('click', playOnInteraction)
-          document.removeEventListener('scroll', playOnInteraction)
         }
         document.addEventListener('touchstart', playOnInteraction, { once: true })
         document.addEventListener('click', playOnInteraction, { once: true })
-        document.addEventListener('scroll', playOnInteraction, { once: true })
       }
     }
 
@@ -143,91 +141,79 @@ export default function Home() {
 
         if (currentActiveVideo === 1) {
           // Video1からVideo2への切り替え
-          video2.currentTime = 0
-          playVideo(video2).then(() => {
-            video1.style.opacity = '0'
-            video2.style.opacity = '1'
-            currentActiveVideo = 2
-            setTimeout(() => {
-              isTransitioning = false
-              video1.pause()
-            }, 500)
-          })
+          video1.style.opacity = '0'
+          video2.style.opacity = '1'
+          currentActiveVideo = 2
+          setTimeout(() => {
+            isTransitioning = false
+          }, 300)
         } else {
           // Video2からVideo1への切り替え
-          video1.currentTime = 0
-          playVideo(video1).then(() => {
-            video2.style.opacity = '0'
-            video1.style.opacity = '1'
-            currentActiveVideo = 1
-            setTimeout(() => {
-              isTransitioning = false
-              video2.pause()
-            }, 500)
-          })
+          video2.style.opacity = '0'
+          video1.style.opacity = '1'
+          currentActiveVideo = 1
+          setTimeout(() => {
+            isTransitioning = false
+          }, 300)
         }
       }
 
-      const handleTimeUpdate1 = () => {
-        // Video1がアクティブかつ9.5秒経過時に切り替え
-        if (currentActiveVideo === 1 && video1.currentTime >= 9.5 && !isTransitioning) {
-          console.log('Switching from video 1 to video 2')
+      // タイマーベースの切り替え（10秒ごと）
+      const switchInterval = setInterval(() => {
+        if (!isTransitioning) {
           switchVideo()
         }
-      }
-
-      const handleTimeUpdate2 = () => {
-        // Video2がアクティブかつ9.5秒経過時に切り替え
-        if (currentActiveVideo === 2 && video2.currentTime >= 9.5 && !isTransitioning) {
-          console.log('Switching from video 2 to video 1')
-          switchVideo()
-        }
-      }
-
-      video1.addEventListener('timeupdate', handleTimeUpdate1)
-      video2.addEventListener('timeupdate', handleTimeUpdate2)
+      }, 10000)
 
       cleanupFunctions.push(() => {
-        video1.removeEventListener('timeupdate', handleTimeUpdate1)
-        video2.removeEventListener('timeupdate', handleTimeUpdate2)
+        clearInterval(switchInterval)
       })
     }
 
     // 初期設定と再生開始
     const initializeVideos = async () => {
+      // デスクトップ動画の初期化
       if (videoRef.current && videoRef2.current) {
+        // 初期状態の設定
+        videoRef.current.style.opacity = '1'
         videoRef2.current.style.opacity = '0'
-        videoRef2.current.style.transition = 'opacity 0.5s ease-in-out'
-        videoRef.current.style.transition = 'opacity 0.5s ease-in-out'
-        // 両方の動画を初期化して再生
-        await playVideo(videoRef.current)
-        await playVideo(videoRef2.current)
-        handleVideoTransition(videoRef.current, videoRef2.current)
+        videoRef.current.style.transition = 'opacity 0.3s ease-in-out'
+        videoRef2.current.style.transition = 'opacity 0.3s ease-in-out'
+        
+        // 両方の動画が準備できたら同時に再生開始
+        const waitForVideos = async () => {
+          if (video1Loaded && video2Loaded) {
+            await playVideo(videoRef.current)
+            await playVideo(videoRef2.current)
+            handleVideoTransition(videoRef.current, videoRef2.current)
+          } else {
+            setTimeout(waitForVideos, 50)
+          }
+        }
+        waitForVideos()
       }
 
+      // モバイル動画の初期化
       if (mobileVideoRef.current && mobileVideoRef2.current) {
+        mobileVideoRef.current.style.opacity = '1'
         mobileVideoRef2.current.style.opacity = '0'
-        mobileVideoRef2.current.style.transition = 'opacity 0.5s ease-in-out'
-        mobileVideoRef.current.style.transition = 'opacity 0.5s ease-in-out'
-        // 両方の動画を初期化して再生
+        mobileVideoRef.current.style.transition = 'opacity 0.3s ease-in-out'
+        mobileVideoRef2.current.style.transition = 'opacity 0.3s ease-in-out'
+        
+        // 同様に両方の動画を同時再生
         await playVideo(mobileVideoRef.current)
         await playVideo(mobileVideoRef2.current)
         handleVideoTransition(mobileVideoRef.current, mobileVideoRef2.current)
       }
     }
     
-    // 即座に実行
+    // 動画の読み込み状態を監視
     initializeVideos()
-    
-    // フォールバック
-    const timeoutId = setTimeout(initializeVideos, 50)
 
     return () => {
       cleanupFunctions.forEach(cleanup => cleanup())
-      clearTimeout(timeoutId)
-      document.removeEventListener('DOMContentLoaded', initializeVideos)
     }
-  }, [])
+  }, [video1Loaded, video2Loaded])
 
   return (
     <div className="bg-white overflow-x-hidden">
@@ -244,19 +230,20 @@ export default function Home() {
                 autoPlay={true}
                 muted={true}
                 playsInline={true}
-                loop={false}
+                loop={true}
                 controls={false}
-                preload="metadata"
+                preload="auto"
                 webkit-playsinline="true"
                 x-webkit-airplay="deny"
                 disablePictureInPicture
-                onLoadedData={() => {
+                onCanPlayThrough={() => {
+                  setVideo1Loaded(true)
                   setIsFirstVideoReady(true)
-                  setVideosLoaded(true)
+                  if (video2Loaded) setVideosLoaded(true)
                 }}
                 loading="eager"
                 fetchpriority="high"
-                className="w-full h-full object-cover transition-opacity duration-500"
+                className="w-full h-full object-cover transition-opacity duration-300"
                 style={{
                   minWidth: '100%',
                   minHeight: '100%',
@@ -277,16 +264,19 @@ export default function Home() {
                 autoPlay={true}
                 muted={true}
                 playsInline={true}
-                loop={false}
+                loop={true}
                 controls={false}
                 preload="auto"
                 webkit-playsinline="true"
                 x-webkit-airplay="deny"
                 disablePictureInPicture
-                onLoadedData={() => setVideosLoaded(true)}
+                onCanPlayThrough={() => {
+                  setVideo2Loaded(true)
+                  if (video1Loaded) setVideosLoaded(true)
+                }}
                 loading="eager"
                 fetchpriority="high"
-                className="w-full h-full object-cover transition-opacity duration-500"
+                className="w-full h-full object-cover transition-opacity duration-300"
                 style={{
                   minWidth: '100%',
                   minHeight: '100%',
@@ -390,16 +380,19 @@ export default function Home() {
                 autoPlay={true}
                 muted={true}
                 playsInline={true}
-                loop={false}
+                loop={true}
                 controls={false}
                 preload="auto"
                 webkit-playsinline="true"
                 x-webkit-airplay="deny"
                 disablePictureInPicture
-                onLoadedData={() => setVideosLoaded(true)}
+                onCanPlayThrough={() => {
+                  setVideo2Loaded(true)
+                  if (video1Loaded) setVideosLoaded(true)
+                }}
                 loading="eager"
                 fetchpriority="high"
-                className="w-full h-full object-cover transition-opacity duration-500"
+                className="w-full h-full object-cover transition-opacity duration-300"
                 style={{
                   minWidth: '100%',
                   minHeight: '100%',
@@ -420,16 +413,19 @@ export default function Home() {
                 autoPlay={true}
                 muted={true}
                 playsInline={true}
-                loop={false}
+                loop={true}
                 controls={false}
                 preload="auto"
                 webkit-playsinline="true"
                 x-webkit-airplay="deny"
                 disablePictureInPicture
-                onLoadedData={() => setVideosLoaded(true)}
+                onCanPlayThrough={() => {
+                  setVideo2Loaded(true)
+                  if (video1Loaded) setVideosLoaded(true)
+                }}
                 loading="eager"
                 fetchpriority="high"
-                className="w-full h-full object-cover transition-opacity duration-500"
+                className="w-full h-full object-cover transition-opacity duration-300"
                 style={{
                   minWidth: '100%',
                   minHeight: '100%',
