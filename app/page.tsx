@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect, useRef, useLayoutEffect } from "react"
 import { motion, useInView, useReducedMotion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -79,8 +79,8 @@ export default function Home() {
   const [currentVideo, setCurrentVideo] = useState(1)
   const [videosLoaded, setVideosLoaded] = useState(false)
 
-  // 動画の自動再生と切り替えロジック
-  useEffect(() => {
+  // 動画の自動再生を最優先で実行
+  useLayoutEffect(() => {
     const playVideo = async (video: HTMLVideoElement | null) => {
       if (!video) return
       
@@ -211,15 +211,11 @@ export default function Home() {
       }
     }
     
-    // DOMContentLoadedまたは即座に実行
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', initializeVideos)
-    } else {
-      initializeVideos()
-    }
+    // 即座に実行
+    initializeVideos()
     
-    // 少し遅延してから再度試行（フォールバック）
-    const timeoutId = setTimeout(initializeVideos, 100)
+    // フォールバック
+    const timeoutId = setTimeout(initializeVideos, 50)
 
     return () => {
       cleanupFunctions.forEach(cleanup => cleanup())
@@ -231,7 +227,7 @@ export default function Home() {
   return (
     <div className="bg-white overflow-x-hidden">
       {/* Hero Section - Mobile-First Design */}
-      <section className="relative bg-white">
+      <section className="relative bg-white" style={{ minHeight: '100vh' }}>
         {/* Desktop Hero Layout */}
         <div className="hidden lg:block">
           <div className="relative w-full h-[100vh] min-h-[600px] max-h-[800px]">
@@ -250,6 +246,8 @@ export default function Home() {
                 x-webkit-airplay="deny"
                 disablePictureInPicture
                 onLoadedData={() => setVideosLoaded(true)}
+                loading="eager"
+                fetchpriority="high"
                 className="w-full h-full object-cover transition-opacity duration-1000"
                 style={{
                   minWidth: '100%',
@@ -278,6 +276,8 @@ export default function Home() {
                 x-webkit-airplay="deny"
                 disablePictureInPicture
                 onLoadedData={() => setVideosLoaded(true)}
+                loading="eager"
+                fetchpriority="high"
                 className="w-full h-full object-cover transition-opacity duration-1000"
                 style={{
                   minWidth: '100%',
@@ -295,6 +295,10 @@ export default function Home() {
               </video>
               {/* Dark overlay for text readability */}
               <div className="absolute inset-0 bg-black/30 z-10" />
+              {/* Loading placeholder to prevent layout shift */}
+              {!videosLoaded && (
+                <div className="absolute inset-0 bg-gradient-to-b from-gray-900 to-gray-800 animate-pulse" />
+              )}
             </div>
 
             {/* Desktop Content - Repositioned to top-left with better positioning for 16:9 video */}
@@ -385,6 +389,8 @@ export default function Home() {
                 x-webkit-airplay="deny"
                 disablePictureInPicture
                 onLoadedData={() => setVideosLoaded(true)}
+                loading="eager"
+                fetchpriority="high"
                 className="w-full h-full object-cover transition-opacity duration-1000"
                 style={{
                   minWidth: '100%',
@@ -413,6 +419,8 @@ export default function Home() {
                 x-webkit-airplay="deny"
                 disablePictureInPicture
                 onLoadedData={() => setVideosLoaded(true)}
+                loading="eager"
+                fetchpriority="high"
                 className="w-full h-full object-cover transition-opacity duration-1000"
                 style={{
                   minWidth: '100%',
@@ -430,6 +438,10 @@ export default function Home() {
               </video>
               {/* Dark overlay for text readability - stronger for mobile */}
               <div className="absolute inset-0 bg-black/50 z-10" />
+              {/* Loading placeholder to prevent layout shift */}
+              {!videosLoaded && (
+                <div className="absolute inset-0 bg-gradient-to-b from-gray-900 to-gray-800 animate-pulse" />
+              )}
             </div>
 
             {/* Mobile Content - Positioned for video background */}
