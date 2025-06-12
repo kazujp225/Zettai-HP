@@ -103,35 +103,42 @@ export default function Home() {
     // 最低6秒はローディングを表示
     const minLoadingTime = 6000
     const startTime = Date.now()
+    let videosActuallyLoaded = false
+    let progressValue = 0
     
     // プログレスバーのアニメーション
     const progressInterval = setInterval(() => {
-      setLoadingProgress(prev => {
-        const next = prev + (100 / (minLoadingTime / 100))
-        return next >= 95 ? 95 : next // 95%で一旦停止
-      })
+      if (!videosActuallyLoaded) {
+        // 動画が読み込まれていない間は80%までしか進まない
+        progressValue = Math.min(progressValue + 1.5, 80)
+        setLoadingProgress(progressValue)
+      }
     }, 100)
 
     // 動画をプリロードして準備
-    const preloadVideo = async (videoUrl: string, onProgress?: (progress: number) => void): Promise<void> => {
-      return new Promise((resolve) => {
+    const preloadVideo = async (videoUrl: string): Promise<void> => {
+      return new Promise((resolve, reject) => {
         const video = document.createElement('video')
+        video.preload = 'auto'
+        video.muted = true
+        video.playsInline = true
+        
+        const timeout = setTimeout(() => {
+          reject(new Error('Video loading timeout'))
+        }, 30000) // 30秒のタイムアウト
+        
+        video.addEventListener('canplaythrough', () => {
+          clearTimeout(timeout)
+          resolve()
+        }, { once: true })
+        
+        video.addEventListener('error', () => {
+          clearTimeout(timeout)
+          reject(new Error('Video loading error'))
+        }, { once: true })
+        
         video.src = videoUrl
         video.load()
-        
-        // プログレスイベント
-        video.addEventListener('progress', () => {
-          if (video.buffered.length > 0) {
-            const bufferedEnd = video.buffered.end(video.buffered.length - 1)
-            const duration = video.duration
-            if (duration > 0) {
-              const progress = (bufferedEnd / duration) * 100
-              if (onProgress) onProgress(progress)
-            }
-          }
-        })
-        
-        video.addEventListener('canplaythrough', () => resolve(), { once: true })
       })
     }
 
@@ -141,18 +148,36 @@ export default function Home() {
       preloadVideo('/hirosectionvideo2.mp4')
     ]).then(() => {
       console.log('All videos preloaded')
+      videosActuallyLoaded = true
       clearInterval(progressInterval)
       
-      // 100%までアニメーション
-      setLoadingProgress(100)
+      // 80%から100%までアニメーション
+      const animateToComplete = () => {
+        let currentProgress = 80
+        const completeInterval = setInterval(() => {
+          currentProgress += 4
+          setLoadingProgress(currentProgress)
+          if (currentProgress >= 100) {
+            clearInterval(completeInterval)
+            
+            // 最低表示時間を確保
+            const elapsedTime = Date.now() - startTime
+            const remainingTime = Math.max(0, minLoadingTime - elapsedTime)
+            
+            setTimeout(() => {
+              setShowContent(true)
+            }, remainingTime)
+          }
+        }, 50)
+      }
       
-      // 最低表示時間を確保
-      const elapsedTime = Date.now() - startTime
-      const remainingTime = Math.max(500, minLoadingTime - elapsedTime)
-      
+      animateToComplete()
+    }).catch((error) => {
+      console.error('Video loading failed:', error)
+      // エラー時でも最低時間後にはコンテンツ表示
       setTimeout(() => {
         setShowContent(true)
-      }, remainingTime)
+      }, minLoadingTime)
     })
     
     return () => {
@@ -240,9 +265,12 @@ export default function Home() {
         // 両方の動画が準備できたら同時に再生開始
         const waitForVideos = async () => {
           if (video1Loaded && video2Loaded && showContent) {
-            await playVideo(videoRef.current)
-            await playVideo(videoRef2.current)
-            handleVideoTransition(videoRef.current, videoRef2.current)
+            // ローディング完了後、少し待ってから再生
+            setTimeout(async () => {
+              await playVideo(videoRef.current)
+              await playVideo(videoRef2.current)
+              handleVideoTransition(videoRef.current, videoRef2.current)
+            }, 100)
           } else {
             setTimeout(waitForVideos, 50)
           }
