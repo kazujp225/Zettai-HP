@@ -81,112 +81,7 @@ export default function Home() {
   const [isFirstVideoReady, setIsFirstVideoReady] = useState(false)
   const [video1Loaded, setVideo1Loaded] = useState(false)
   const [video2Loaded, setVideo2Loaded] = useState(false)
-  const [showContent, setShowContent] = useState(false)
-  const [loadingProgress, setLoadingProgress] = useState(0)
-  const [isFirstVisit, setIsFirstVisit] = useState(true)
-  const [videosPreloaded, setVideosPreloaded] = useState(false)
 
-  // 初回アクセスの判定
-  useEffect(() => {
-    const hasVisited = sessionStorage.getItem('hasVisitedZettai')
-    if (hasVisited) {
-      setIsFirstVisit(false)
-      setShowContent(true)
-      setVideosPreloaded(true)
-    } else {
-      sessionStorage.setItem('hasVisitedZettai', 'true')
-    }
-  }, [])
-
-  // 動画のプリロードと再生管理
-  useEffect(() => {
-    if (!isFirstVisit) return // 2回目以降はスキップ
-
-    // 最低10秒はローディングを表示（動画読み込みを確実に待つ）
-    const minLoadingTime = 10000
-    const startTime = Date.now()
-    let videosActuallyLoaded = false
-    let progressValue = 0
-    
-    // プログレスバーのアニメーション
-    const progressInterval = setInterval(() => {
-      if (!videosActuallyLoaded) {
-        // 動画が読み込まれていない間は90%までしか進まない
-        progressValue = Math.min(progressValue + 0.9, 90)
-        setLoadingProgress(progressValue)
-      }
-    }, 100)
-
-    // 動画をプリロードして準備
-    const preloadVideo = async (videoUrl: string): Promise<void> => {
-      return new Promise((resolve, reject) => {
-        const video = document.createElement('video')
-        video.preload = 'auto'
-        video.muted = true
-        video.playsInline = true
-        
-        const timeout = setTimeout(() => {
-          reject(new Error('Video loading timeout'))
-        }, 30000) // 30秒のタイムアウト
-        
-        video.addEventListener('canplaythrough', () => {
-          clearTimeout(timeout)
-          resolve()
-        }, { once: true })
-        
-        video.addEventListener('error', () => {
-          clearTimeout(timeout)
-          reject(new Error('Video loading error'))
-        }, { once: true })
-        
-        video.src = videoUrl
-        video.load()
-      })
-    }
-
-    // 両方の動画をプリロード
-    Promise.all([
-      preloadVideo('/hirosectionvideo.mp4'),
-      preloadVideo('/hirosectionvideo2.mp4')
-    ]).then(() => {
-      console.log('All videos preloaded')
-      videosActuallyLoaded = true
-      clearInterval(progressInterval)
-      
-      // 90%から100%までアニメーション
-      const animateToComplete = () => {
-        let currentProgress = 90
-        const completeInterval = setInterval(() => {
-          currentProgress += 2
-          setLoadingProgress(currentProgress)
-          if (currentProgress >= 100) {
-            clearInterval(completeInterval)
-            setVideosPreloaded(true)
-            
-            // 最低表示時間を確保
-            const elapsedTime = Date.now() - startTime
-            const remainingTime = Math.max(0, minLoadingTime - elapsedTime)
-            
-            setTimeout(() => {
-              setShowContent(true)
-            }, remainingTime)
-          }
-        }, 50)
-      }
-      
-      animateToComplete()
-    }).catch((error) => {
-      console.error('Video loading failed:', error)
-      // エラー時でも最低時間後にはコンテンツ表示
-      setTimeout(() => {
-        setShowContent(true)
-      }, minLoadingTime)
-    })
-    
-    return () => {
-      clearInterval(progressInterval)
-    }
-  }, [isFirstVisit])
 
   // 動画の自動再生を最優先で実行
   useLayoutEffect(() => {
@@ -269,18 +164,10 @@ export default function Home() {
         videoRef.current.style.transition = 'opacity 2s ease-in-out'
         videoRef2.current.style.transition = 'opacity 2s ease-in-out'
         
-        // プリロードが完了してから再生開始
-        const waitForVideos = async () => {
-          if (video1Loaded && video2Loaded && videosPreloaded && showContent) {
-            // プリロード完了確認後に再生
-            await playVideo(videoRef.current)
-            await playVideo(videoRef2.current)
-            handleVideoTransition(videoRef.current, videoRef2.current)
-          } else {
-            setTimeout(waitForVideos, 50)
-          }
-        }
-        waitForVideos()
+        // 即座に動画を再生開始
+        playVideo(videoRef.current)
+        playVideo(videoRef2.current)
+        handleVideoTransition(videoRef.current, videoRef2.current)
       }
 
       // モバイル動画の初期化
@@ -303,111 +190,8 @@ export default function Home() {
     return () => {
       cleanupFunctions.forEach(cleanup => cleanup())
     }
-  }, [video1Loaded, video2Loaded, showContent, videosPreloaded])
+  }, [])
 
-  // ローディング画面（初回のみ）
-  if (isFirstVisit && !showContent) {
-    return (
-      <div className="fixed inset-0 bg-black flex items-center justify-center z-50 overflow-hidden">
-        {/* 背景アニメーション */}
-        <div className="absolute inset-0">
-          {[...Array(20)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute w-1 h-1 bg-white/20 rounded-full"
-              initial={{
-                x: `${Math.random() * 100}%`,
-                y: `${Math.random() * 100}%`,
-              }}
-              animate={{
-                x: `${Math.random() * 100}%`,
-                y: `${Math.random() * 100}%`,
-              }}
-              transition={{
-                duration: Math.random() * 10 + 10,
-                repeat: Infinity,
-                repeatType: "reverse",
-                ease: "linear"
-              }}
-            />
-          ))}
-        </div>
-        
-        <div className="relative z-10 w-full max-w-md px-8">
-          {/* ロゴアニメーション */}
-          <motion.div 
-            className="text-center mb-12"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            <motion.h1 
-              className="text-5xl md:text-6xl font-bold text-white mb-2"
-              animate={{ 
-                backgroundImage: [
-                  "linear-gradient(to right, #fff, #fff)",
-                  "linear-gradient(to right, #059669, #10b981)",
-                  "linear-gradient(to right, #fff, #fff)"
-                ]
-              }}
-              transition={{ duration: 3, repeat: Infinity }}
-              style={{
-                backgroundClip: "text",
-                WebkitBackgroundClip: "text",
-                color: "transparent"
-              }}
-            >
-              ZETTAI
-            </motion.h1>
-            <p className="text-gray-400 text-sm tracking-widest">AIで未来を創る</p>
-          </motion.div>
-          
-          {/* プログレスバー */}
-          <div className="mb-8">
-            <div className="relative h-3 bg-gray-900 rounded-full overflow-hidden">
-              <motion.div 
-                className="absolute inset-y-0 left-0 bg-gradient-to-r from-emerald-500 to-emerald-400 rounded-full"
-                initial={{ width: "0%" }}
-                animate={{ width: `${loadingProgress}%` }}
-                transition={{ duration: 0.3 }}
-              />
-              <div className="absolute inset-0 flex items-center justify-center">
-                <span className="text-xs font-medium text-white">{Math.round(loadingProgress)}%</span>
-              </div>
-            </div>
-          </div>
-          
-          {/* ステータスメッセージ */}
-          <motion.div 
-            className="text-center"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.5 }}
-          >
-            <p className="text-gray-400 text-sm mb-2">
-              {loadingProgress < 25 && "システムを初期化中..."}
-              {loadingProgress >= 25 && loadingProgress < 50 && "ビデオリソースをダウンロード中..."}
-              {loadingProgress >= 50 && loadingProgress < 75 && "コンテンツを最適化中..."}
-              {loadingProgress >= 75 && loadingProgress < 90 && "最終処理を実行中..."}
-              {loadingProgress >= 90 && "まもなく完了..."}
-            </p>
-            
-            {/* AI関連のファクト */}
-            <motion.p 
-              className="text-xs text-gray-500 italic"
-              animate={{ opacity: [0.5, 1, 0.5] }}
-              transition={{ duration: 2, repeat: Infinity }}
-            >
-              {loadingProgress < 25 && "AIは2030年までに日本のGDPを50兆円押し上げる"}
-              {loadingProgress >= 25 && loadingProgress < 50 && "644万人の労働力不足をAIが解決"}
-              {loadingProgress >= 50 && loadingProgress < 75 && "AI導入企業の生産性は2.5倍に"}
-              {loadingProgress >= 75 && "ZETTAIは5年で売上100億円を目指す"}
-            </motion.p>
-          </motion.div>
-        </div>
-      </div>
-    )
-  }
 
   return (
     <div className="bg-white overflow-x-hidden">
@@ -425,7 +209,6 @@ export default function Home() {
                 muted={true}
                 playsInline={true}
                 loop={false}
-                poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1920' height='1080'%3E%3Crect width='1920' height='1080' fill='%23000000'/%3E%3C/svg%22"
                 controls={false}
                 preload="auto"
                 crossOrigin="anonymous"
@@ -461,7 +244,6 @@ export default function Home() {
                 muted={true}
                 playsInline={true}
                 loop={false}
-                poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1920' height='1080'%3E%3Crect width='1920' height='1080' fill='%23000000'/%3E%3C/svg%22"
                 controls={false}
                 preload="auto"
                 crossOrigin="anonymous"
@@ -491,10 +273,6 @@ export default function Home() {
               </video>
               {/* Dark overlay for text readability */}
               <div className="absolute inset-0 bg-black/30 z-10" />
-              {/* Poster image to show immediately */}
-              {!isFirstVideoReady && (
-                <div className="absolute inset-0 bg-black" />
-              )}
             </div>
 
             {/* Desktop Content - Repositioned to top-left with better positioning for 16:9 video */}
@@ -579,7 +357,6 @@ export default function Home() {
                 muted={true}
                 playsInline={true}
                 loop={false}
-                poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1920' height='1080'%3E%3Crect width='1920' height='1080' fill='%23000000'/%3E%3C/svg%22"
                 controls={false}
                 preload="auto"
                 crossOrigin="anonymous"
@@ -614,7 +391,6 @@ export default function Home() {
                 muted={true}
                 playsInline={true}
                 loop={false}
-                poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1920' height='1080'%3E%3Crect width='1920' height='1080' fill='%23000000'/%3E%3C/svg%22"
                 controls={false}
                 preload="auto"
                 crossOrigin="anonymous"
@@ -644,10 +420,6 @@ export default function Home() {
               </video>
               {/* Dark overlay for text readability - stronger for mobile */}
               <div className="absolute inset-0 bg-black/50 z-10" />
-              {/* Poster image to show immediately */}
-              {!isFirstVideoReady && (
-                <div className="absolute inset-0 bg-black" />
-              )}
             </div>
 
             {/* Mobile Content - Positioned for video background */}
