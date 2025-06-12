@@ -82,27 +82,51 @@ export default function Home() {
   // 動画の自動再生と切り替えロジック
   useEffect(() => {
     const playVideo = async (video: HTMLVideoElement | null) => {
-      if (video) {
-        try {
-          video.muted = true
-          // 動画がロードされるまで待つ
-          if (video.readyState >= 3) {
-            await video.play()
-          } else {
-            video.addEventListener('canplay', async () => {
-              await video.play()
-            }, { once: true })
+      if (!video) return
+      
+      try {
+        video.muted = true
+        video.setAttribute('muted', 'true')
+        
+        // 複数の再生試行方法
+        const attemptPlay = async () => {
+          try {
+            const playPromise = video.play()
+            if (playPromise !== undefined) {
+              await playPromise
+              console.log('Video playing successfully')
+            }
+          } catch (error) {
+            console.error('Play attempt failed:', error)
           }
-        } catch (error) {
-          console.log('Video autoplay failed:', error)
-          const playOnInteraction = () => {
-            video.play()
-            document.removeEventListener('touchstart', playOnInteraction)
-            document.removeEventListener('click', playOnInteraction)
-          }
-          document.addEventListener('touchstart', playOnInteraction, { once: true })
-          document.addEventListener('click', playOnInteraction, { once: true })
         }
+        
+        // 即座に再生を試みる
+        await attemptPlay()
+        
+        // readyStateが十分でない場合のフォールバック
+        if (video.paused) {
+          video.addEventListener('loadedmetadata', attemptPlay, { once: true })
+          video.addEventListener('loadeddata', attemptPlay, { once: true })
+          video.addEventListener('canplay', attemptPlay, { once: true })
+          video.addEventListener('canplaythrough', attemptPlay, { once: true })
+        }
+        
+        // 動画の読み込みを促進
+        video.load()
+        
+      } catch (error) {
+        console.log('Video autoplay failed:', error)
+        // ユーザーインタラクション時の再生
+        const playOnInteraction = () => {
+          video.play().catch(console.error)
+          document.removeEventListener('touchstart', playOnInteraction)
+          document.removeEventListener('click', playOnInteraction)
+          document.removeEventListener('scroll', playOnInteraction)
+        }
+        document.addEventListener('touchstart', playOnInteraction, { once: true })
+        document.addEventListener('click', playOnInteraction, { once: true })
+        document.addEventListener('scroll', playOnInteraction, { once: true })
       }
     }
 
@@ -164,29 +188,43 @@ export default function Home() {
       })
     }
 
-    // 初期設定
-    if (videoRef.current && videoRef2.current) {
-      videoRef2.current.style.opacity = '0'
-      videoRef2.current.style.transition = 'opacity 1s ease-in-out'
-      videoRef.current.style.transition = 'opacity 1s ease-in-out'
-      // 両方の動画を初期化して再生
-      playVideo(videoRef.current)
-      playVideo(videoRef2.current)
-      handleVideoTransition(videoRef.current, videoRef2.current)
-    }
+    // 初期設定と再生開始
+    const initializeVideos = async () => {
+      if (videoRef.current && videoRef2.current) {
+        videoRef2.current.style.opacity = '0'
+        videoRef2.current.style.transition = 'opacity 1s ease-in-out'
+        videoRef.current.style.transition = 'opacity 1s ease-in-out'
+        // 両方の動画を初期化して再生
+        await playVideo(videoRef.current)
+        await playVideo(videoRef2.current)
+        handleVideoTransition(videoRef.current, videoRef2.current)
+      }
 
-    if (mobileVideoRef.current && mobileVideoRef2.current) {
-      mobileVideoRef2.current.style.opacity = '0'
-      mobileVideoRef2.current.style.transition = 'opacity 1s ease-in-out'
-      mobileVideoRef.current.style.transition = 'opacity 1s ease-in-out'
-      // 両方の動画を初期化して再生
-      playVideo(mobileVideoRef.current)
-      playVideo(mobileVideoRef2.current)
-      handleVideoTransition(mobileVideoRef.current, mobileVideoRef2.current)
+      if (mobileVideoRef.current && mobileVideoRef2.current) {
+        mobileVideoRef2.current.style.opacity = '0'
+        mobileVideoRef2.current.style.transition = 'opacity 1s ease-in-out'
+        mobileVideoRef.current.style.transition = 'opacity 1s ease-in-out'
+        // 両方の動画を初期化して再生
+        await playVideo(mobileVideoRef.current)
+        await playVideo(mobileVideoRef2.current)
+        handleVideoTransition(mobileVideoRef.current, mobileVideoRef2.current)
+      }
     }
+    
+    // DOMContentLoadedまたは即座に実行
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initializeVideos)
+    } else {
+      initializeVideos()
+    }
+    
+    // 少し遅延してから再度試行（フォールバック）
+    const timeoutId = setTimeout(initializeVideos, 100)
 
     return () => {
       cleanupFunctions.forEach(cleanup => cleanup())
+      clearTimeout(timeoutId)
+      document.removeEventListener('DOMContentLoaded', initializeVideos)
     }
   }, [])
 
@@ -207,7 +245,7 @@ export default function Home() {
                 playsInline={true}
                 loop={false}
                 controls={false}
-                preload="metadata"
+                preload="auto"
                 webkit-playsinline="true"
                 x-webkit-airplay="deny"
                 disablePictureInPicture
@@ -235,7 +273,7 @@ export default function Home() {
                 playsInline={true}
                 loop={false}
                 controls={false}
-                preload="metadata"
+                preload="auto"
                 webkit-playsinline="true"
                 x-webkit-airplay="deny"
                 disablePictureInPicture
@@ -342,7 +380,7 @@ export default function Home() {
                 playsInline={true}
                 loop={false}
                 controls={false}
-                preload="metadata"
+                preload="auto"
                 webkit-playsinline="true"
                 x-webkit-airplay="deny"
                 disablePictureInPicture
@@ -370,7 +408,7 @@ export default function Home() {
                 playsInline={true}
                 loop={false}
                 controls={false}
-                preload="metadata"
+                preload="auto"
                 webkit-playsinline="true"
                 x-webkit-airplay="deny"
                 disablePictureInPicture
