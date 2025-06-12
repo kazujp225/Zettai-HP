@@ -283,12 +283,12 @@ export default function Home() {
               key={i}
               className="absolute w-1 h-1 bg-white/20 rounded-full"
               initial={{
-                x: Math.random() * window.innerWidth,
-                y: Math.random() * window.innerHeight,
+                x: `${Math.random() * 100}%`,
+                y: `${Math.random() * 100}%`,
               }}
               animate={{
-                x: Math.random() * window.innerWidth,
-                y: Math.random() * window.innerHeight,
+                x: `${Math.random() * 100}%`,
+                y: `${Math.random() * 100}%`,
               }}
               transition={{
                 duration: Math.random() * 10 + 10,
