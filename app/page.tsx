@@ -194,11 +194,15 @@ export default function Home() {
               {/* First Video */}
               <video
                 ref={videoRef}
-                autoPlay
-                muted
-                playsInline
+                autoPlay={true}
+                muted={true}
+                playsInline={true}
+                loop={false}
+                controls={false}
                 preload="auto"
                 webkit-playsinline="true"
+                x-webkit-airplay="deny"
+                disablePictureInPicture
                 className="w-full h-full object-cover transition-opacity duration-1000"
                 style={{
                   minWidth: '100%',
@@ -217,11 +221,15 @@ export default function Home() {
               {/* Second Video */}
               <video
                 ref={videoRef2}
-                autoPlay
-                muted
-                playsInline
+                autoPlay={true}
+                muted={true}
+                playsInline={true}
+                loop={false}
+                controls={false}
                 preload="auto"
                 webkit-playsinline="true"
+                x-webkit-airplay="deny"
+                disablePictureInPicture
                 className="w-full h-full object-cover transition-opacity duration-1000"
                 style={{
                   minWidth: '100%',
@@ -319,11 +327,15 @@ export default function Home() {
               {/* First Video */}
               <video
                 ref={mobileVideoRef}
-                autoPlay
-                muted
-                playsInline
+                autoPlay={true}
+                muted={true}
+                playsInline={true}
+                loop={false}
+                controls={false}
                 preload="auto"
                 webkit-playsinline="true"
+                x-webkit-airplay="deny"
+                disablePictureInPicture
                 className="w-full h-full object-cover transition-opacity duration-1000"
                 style={{
                   minWidth: '100%',
@@ -342,11 +354,15 @@ export default function Home() {
               {/* Second Video */}
               <video
                 ref={mobileVideoRef2}
-                autoPlay
-                muted
-                playsInline
+                autoPlay={true}
+                muted={true}
+                playsInline={true}
+                loop={false}
+                controls={false}
                 preload="auto"
                 webkit-playsinline="true"
+                x-webkit-airplay="deny"
+                disablePictureInPicture
                 className="w-full h-full object-cover transition-opacity duration-1000"
                 style={{
                   minWidth: '100%',
