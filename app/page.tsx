@@ -228,7 +228,7 @@ export default function Home() {
                   opacity: 0
                 }}
               >
-                <source src="https://res.cloudinary.com/YOUR_CLOUD_NAME/video/upload/v1234567890/hirosectionvideo2.mp4" type="video/mp4" />
+                <source src="/hirosectionvideo2.mp4" type="video/mp4" />
               </video>
               {/* Dark overlay for text readability */}
               <div className="absolute inset-0 bg-black/30 z-10" />
@@ -352,7 +352,7 @@ export default function Home() {
                   opacity: 0
                 }}
               >
-                <source src="https://res.cloudinary.com/YOUR_CLOUD_NAME/video/upload/v1234567890/hirosectionvideo2.mp4" type="video/mp4" />
+                <source src="/hirosectionvideo2.mp4" type="video/mp4" />
               </video>
               {/* Dark overlay for text readability - stronger for mobile */}
               <div className="absolute inset-0 bg-black/50 z-10" />

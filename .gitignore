@@ -30,6 +30,3 @@ next-env.d.ts
 github-profile*
 github-snake*
 **/github-profile/
-
-# large video files
-public/hirosectionvideo2.mp4
