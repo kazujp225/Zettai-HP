@@ -1,77 +1,156 @@
-# 🚀 ZettAI Corporate Website
+# 🚀 ZETTAI Inc. Corporate Website
 
 <div align="center">
-
-![ZettAI Logo](public/placeholder-logo.svg)
-
-**AIで、未来を拓く人材と企業を。**
-
-[![Next.js](https://img.shields.io/badge/Next.js-14-black?style=flat-square&logo=next.js)](https://nextjs.org/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4-38bdf8?style=flat-square&logo=tailwind-css)](https://tailwindcss.com/)
-[![Framer Motion](https://img.shields.io/badge/Framer_Motion-11-pink?style=flat-square&logo=framer)](https://www.framer.com/motion/)
-
-[🌐 Live Demo](https://zettai-hp.vercel.app) • [📚 Documentation](#documentation) • [🎯 Features](#features)
-
+  
+  <br />
+  
+  <img src="https://img.shields.io/badge/Next.js-15.2.4-black?style=for-the-badge&logo=next.js" alt="Next.js">
+  <img src="https://img.shields.io/badge/TypeScript-5.0-blue?style=for-the-badge&logo=typescript" alt="TypeScript">
+  <img src="https://img.shields.io/badge/Tailwind_CSS-3.4-38B2AC?style=for-the-badge&logo=tailwind-css" alt="Tailwind CSS">
+  <img src="https://img.shields.io/badge/Framer_Motion-11.0-FF0080?style=for-the-badge&logo=framer" alt="Framer Motion">
+  
+  <br />
+  <br />
+  
+  <h2>✨ AIで企業の未来を創る ✨</h2>
+  <p>ZETTAI Inc.の公式コーポレートサイト - Next.js 15とモダンなアニメーションライブラリで構築</p>
+  
+  <br />
+  
+  [🌐 Live Demo](https://zettai-hp.vercel.app) • [📚 Documentation](#-documentation) • [🎯 Features](#-features) • [🚀 Getting Started](#-getting-started)
+  
 </div>
 
----
-
-## ✨ About ZettAI
-
-ZettAIは、AI技術・人材・営業力の3軸で日本企業の成長と進化を支援するスタートアップです。次世代を担う若い才能とともに、**5年以内に100億円企業**を目指します。
-
-### 🎯 Our Mission
-> **「ゼッタイやる」精神で、AIの可能性を最大化し、企業と人材の成長を支援する**
+<br />
 
 ---
 
-## 🌟 Features
+## 📖 Overview
 
+ZETTAI Inc.は、AI技術・人材・営業力の3軸で日本企業の成長と進化を支援するスタートアップです。2030年までに日本が直面する労働力不足の課題に対して、AI技術を活用した本質的な解決策を提供します。
+
+### 🎯 Mission
+> **「ゼッタイやる」精神で、不可能を可能にする**
+
+### 🏆 Vision
+> **5年以内に売上100億円企業を実現し、日本のAI産業をリードする**
+
+<br />
+
+---
+
+## ✨ Features
+
+### 🎨 **Design & UI/UX**
 <table>
 <tr>
 <td width="50%">
 
-### 🎨 **Modern Design**
-- ミニマリストUIデザイン
-- 企業資料に適した洗練されたレイアウト
-- レスポンシブデザイン完全対応
+#### 📱 レスポンシブデザイン
+- モバイルファースト設計
+- 完全レスポンシブ対応
+- タッチフレンドリーなUI
 
-### 📱 **Mobile First**
-- タッチフレンドリーな48px最小タッチターゲット
-- モバイル最適化されたナビゲーション
-- アクセシビリティ完全対応
+#### 🌈 モダンアニメーション
+- Framer Motionによる滑らかな遷移
+- パーティクル背景演出
+- タイピングアニメーション
 
 </td>
 <td width="50%">
 
-### ⚡ **Performance**
-- Next.js 14 App Router
-- 画像遅延読み込み
-- モーション削減設定対応
+#### 🎯 ユーザビリティ
+- 直感的なナビゲーション
+- アクセシビリティ完全対応
+- パフォーマンス最適化
 
-### 🚀 **Interactive**
-- Framer Motion アニメーション
-- リアルタイム企業評価額カウンター
-- インタラクティブなポートフォリオ
+#### 🔧 カスタマイズ
+- shadcn/ui コンポーネント
+- Tailwind CSS カスタムテーマ
+- ダークモード対応
 
 </td>
 </tr>
 </table>
 
----
-
-## 🛠️ Tech Stack
+### 🛠 **Technical Stack**
 
 <div align="center">
 
-| Frontend | Styling | Animation | Development |
-|:--------:|:-------:|:---------:|:-----------:|
-| ![Next.js](https://img.shields.io/badge/-Next.js-000000?style=for-the-badge&logo=next.js) | ![Tailwind](https://img.shields.io/badge/-Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css) | ![Framer](https://img.shields.io/badge/-Framer_Motion-0055FF?style=for-the-badge&logo=framer) | ![TypeScript](https://img.shields.io/badge/-TypeScript-3178C6?style=for-the-badge&logo=typescript) |
-| React 18 | Responsive Design | Micro-interactions | Type Safety |
-| App Router | Component Library | Accessibility | ESLint + Prettier |
+| Category | Technology | Version | Description |
+|:--------:|:----------:|:-------:|:------------|
+| **Framework** | ![Next.js](https://img.shields.io/badge/Next.js-000?style=flat-square&logo=next.js) | 15.2.4 | React フレームワーク |
+| **Language** | ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript) | 5.0 | 型安全な開発 |
+| **Styling** | ![Tailwind](https://img.shields.io/badge/Tailwind-38B2AC?style=flat-square&logo=tailwind-css) | 3.4 | ユーティリティファーストCSS |
+| **Animation** | ![Framer](https://img.shields.io/badge/Framer-0055FF?style=flat-square&logo=framer) | 11.0 | モーションライブラリ |
+| **Particles** | ![tsParticles](https://img.shields.io/badge/tsParticles-FFD700?style=flat-square) | Latest | パーティクル効果 |
+| **Components** | ![shadcn/ui](https://img.shields.io/badge/shadcn/ui-000?style=flat-square) | Latest | UIコンポーネント |
 
 </div>
+
+<br />
+
+---
+
+## 📱 Pages & Features
+
+### 🏠 **ホームページ**
+- ヒーロービデオ背景
+- リアルタイムカウンターアニメーション
+- 5年間の成長ビジョン表示
+
+### 💼 **事業内容**
+1. **AI×現場改善型 業務効率化支援**
+2. **デベロッパーマッチングプラットフォーム**
+3. **データドリブン型 M&Aプラットフォーム**
+
+### 👥 **役員紹介**
+- ミニマルなグリッドレイアウト
+- プロフェッショナルな情報設計
+- アドバイザー紹介セクション
+
+### 🎯 **採用情報**
+- インタラクティブなパーティクル背景
+- タイピングアニメーション
+- 動的な職種選択UI
+- 社員の声（AnimatedTestimonials）
+
+### 🎓 **ブートキャンプ**
+- 次世代AIエンジニア育成プログラム
+- カリキュラム詳細
+- 参加者作品ポートフォリオ
+
+<br />
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Node.js 18.0以上
+- npm / pnpm / yarn / bun
+
+### Installation
+
+```bash
+# リポジトリのクローン
+git clone https://github.com/kazujp225/Zettai-HP.git
+cd Zettai-HP
+
+# 依存関係のインストール
+npm install
+# または
+pnpm install
+
+# 開発サーバーの起動
+npm run dev
+# または
+pnpm dev
+```
+
+開発サーバーが起動したら、[http://localhost:3000](http://localhost:3000) でサイトを確認できます。
+
+<br />
 
 ---
 
@@ -79,202 +158,194 @@ ZettAIは、AI技術・人材・営業力の3軸で日本企業の成長と進�
 
 ```
 zettai-homepage/
-├── 📁 app/                  # Next.js App Router
-│   ├── 📄 page.tsx         # ホームページ
-│   ├── 📁 bootcamp/        # ブートキャンプページ
-│   ├── 📁 business/        # 事業紹介
-│   ├── 📁 careers/         # 採用情報
-│   ├── 📁 contact/         # お問い合わせ
-│   ├── 📁 faq/            # よくある質問
-│   ├── 📁 ir/             # IR情報
-│   ├── 📁 legal/          # 利用規約・プライバシー
-│   ├── 📁 officers/       # 役員紹介
-│   └── 📁 portfolio/      # 作品ポートフォリオ
-├── 📁 components/          # 再利用可能コンポーネント
-│   ├── 📁 ui/             # Shadcn/ui コンポーネント
-│   ├── 📄 site-header.tsx # ヘッダーコンポーネント
-│   ├── 📄 site-footer.tsx # フッターコンポーネント
-│   └── 📄 join-cta-button.tsx # CTAボタン
-├── 📁 lib/                # ユーティリティ関数
-├── 📁 public/             # 静的ファイル
-└── 📁 styles/             # グローバルスタイル
+├── 📁 app/                    # Next.js App Router
+│   ├── 📄 page.tsx           # ホームページ
+│   ├── 📁 api/               # APIルート
+│   ├── 📁 business/          # 事業内容
+│   ├── 📁 officers/          # 役員紹介
+│   ├── 📁 careers/           # 採用情報
+│   ├── 📁 bootcamp/          # ブートキャンプ
+│   ├── 📁 portfolio/         # ポートフォリオ
+│   └── 📁 contact/           # お問い合わせ
+├── 📁 components/            # Reactコンポーネント
+│   ├── 📁 ui/               # shadcn/ui コンポーネント
+│   ├── 📄 site-header.tsx    # ヘッダー
+│   ├── 📄 site-footer.tsx    # フッター
+│   └── 📄 careers-hero-particles.tsx # パーティクル背景
+├── 📁 hooks/                # カスタムフック
+├── 📁 lib/                  # ユーティリティ
+├── 📁 public/               # 静的アセット
+└── 📁 styles/               # グローバルスタイル
 ```
 
----
-
-## 🚀 Getting Started
-
-### Prerequisites
-```bash
-Node.js 18.0+ 
-npm, yarn, pnpm, or bun
-```
-
-### Installation
-
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/kazujp225/Zettai-HP.git
-   cd Zettai-HP
-   ```
-
-2. **Install dependencies**
-   ```bash
-   npm install
-   # or
-   pnpm install
-   ```
-
-3. **Run the development server**
-   ```bash
-   npm run dev
-   # or
-   pnpm dev
-   ```
-
-4. **Open your browser**
-   ```
-   http://localhost:3000
-   ```
-
----
-
-## 📱 Page Overview
-
-<div align="center">
-
-| 📄 Page | 🎯 Purpose | 🔗 Route |
-|---------|------------|----------|
-| **ホーム** | 企業紹介・ミッション | `/` |
-| **事業紹介** | 3つのコア事業 | `/business` |
-| **役員紹介** | 経営陣・アドバイザー | `/officers` |
-| **採用情報** | 募集職種・企業文化 | `/careers` |
-| **ブートキャンプ** | 人材育成プログラム | `/bootcamp` |
-| **ポートフォリオ** | 参加者作品集 | `/portfolio` |
-| **IR情報** | 投資家向け情報 | `/ir` |
-| **FAQ** | よくある質問 | `/faq` |
-| **お問い合わせ** | 各種相談窓口 | `/contact` |
-| **利用規約** | 法的情報 | `/legal` |
-
-</div>
+<br />
 
 ---
 
 ## 🎨 Design System
 
 ### Color Palette
-```css
-/* Primary Colors */
---red-500: #ef4444      /* ZettAI Red */
---emerald-400: #34d399  /* Success Green */
---blue-600: #2563eb     /* Corporate Blue */
 
-/* Neutral Colors */
---gray-900: #111827     /* Dark Background */
---gray-50: #f9fafb      /* Light Background */
---white: #ffffff        /* Pure White */
+```scss
+// Primary Colors
+$red-600: #dc2626;        // ZETTAI Red
+$blue-600: #2563eb;       // Corporate Blue
+$emerald-600: #059669;    // Success Green
+
+// Neutral Colors
+$gray-900: #111827;       // Dark Text
+$gray-50: #f9fafb;        // Light Background
+$white: #ffffff;          // Pure White
+
+// Gradients
+$gradient-primary: linear-gradient(to right, $red-600, $orange-600);
+$gradient-secondary: linear-gradient(to bottom right, $gray-800, $gray-900);
 ```
 
 ### Typography
-- **Headings**: Inter (Bold 600-900)
-- **Body**: Inter (Regular 400-500)
-- **Code**: JetBrains Mono
+
+- **見出し**: Inter (Weight: 300-900)
+- **本文**: Inter (Weight: 400-500)
+- **コード**: JetBrains Mono
+
+<br />
 
 ---
 
-## 📊 Performance Metrics
+## 📈 Performance Optimization
 
-<div align="center">
+### ⚡ Core Web Vitals
+- **LCP**: < 2.5s
+- **FID**: < 100ms
+- **CLS**: < 0.1
 
-| Metric | Score | Status |
-|--------|-------|--------|
-| **Performance** | 95+ | 🟢 Excellent |
-| **Accessibility** | 100 | 🟢 Perfect |
-| **Best Practices** | 95+ | 🟢 Excellent |
-| **SEO** | 100 | 🟢 Perfect |
+### 🔧 最適化技術
+- Next.js Image による画像最適化
+- 動的インポートによるコード分割
+- React Server Components の活用
+- Tailwind CSS のツリーシェイキング
 
-*Lighthouse scores for desktop*
-
-</div>
+<br />
 
 ---
 
-## 🔧 Development Commands
+## 🚢 Deployment
 
+### Vercel (推奨)
 ```bash
-# Development
-npm run dev          # Start development server
-npm run build        # Build for production
-npm run start        # Start production server
-
-# Code Quality
-npm run lint         # Run ESLint
-npm run lint:fix     # Fix ESLint errors
-npm run type-check   # TypeScript type checking
-
-# Utilities
-npm run clean        # Clean build artifacts
-```
-
----
-
-## 🌐 Deployment
-
-### Vercel (Recommended)
-```bash
-# Deploy to Vercel
+# Vercel CLIでデプロイ
 vercel --prod
 ```
 
-### Other Platforms
-- **Netlify**: Connect Git repository
-- **AWS Amplify**: Use build settings
-- **Docker**: Use included Dockerfile
+### その他のプラットフォーム
+```bash
+# プロダクションビルド
+npm run build
+
+# プロダクションサーバー起動
+npm start
+```
+
+### 環境変数
+```env
+# .env.local
+NEXT_PUBLIC_API_URL=your_api_url
+```
+
+<br />
+
+---
+
+## 📊 Scripts
+
+```json
+{
+  "dev": "next dev",
+  "build": "next build",
+  "start": "next start",
+  "lint": "next lint",
+  "type-check": "tsc --noEmit",
+  "format": "prettier --write ."
+}
+```
+
+<br />
 
 ---
 
 ## 🤝 Contributing
 
-We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md) for details.
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-### Development Workflow
-1. **Fork** the repository
-2. **Create** a feature branch (`git checkout -b feature/amazing-feature`)
-3. **Commit** your changes (`git commit -m 'Add amazing feature'`)
-4. **Push** to the branch (`git push origin feature/amazing-feature`)
-5. **Open** a Pull Request
+### コーディング規約
+- TypeScript の strict mode を使用
+- Tailwind CSS のユーティリティクラスを優先
+- コンポーネントは関数型で作成
+- アクセシビリティを考慮した実装
+
+<br />
 
 ---
 
-## 📄 License
+## 📝 License
 
-This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
+This project is proprietary and confidential. All rights reserved by ZETTAI Inc.
+
+<br />
 
 ---
 
-## 📞 Contact & Support
+## 👥 Team
 
 <div align="center">
 
-### 🏢 ZettAI Inc.
-**Email**: [contact@zettai.ai](mailto:contact@zettai.ai)  
-**Website**: [zettai.ai](https://zettai.ai)  
-**Location**: 東京都渋谷区道玄坂1-2-3
+| Role | Name | GitHub |
+|:----:|:----:|:------:|
+| **Lead Developer** | Kazuki | [@kazujp225](https://github.com/kazujp225) |
+| **Engineering Team** | ZETTAI Inc. | - |
+| **Design Team** | ZETTAI Inc. | - |
 
-### 💬 Get in Touch
-[![Email](https://img.shields.io/badge/Email-contact@zettai.ai-red?style=flat-square&logo=gmail)](mailto:contact@zettai.ai)
-[![GitHub](https://img.shields.io/badge/GitHub-kazujp225-black?style=flat-square&logo=github)](https://github.com/kazujp225)
+</div>
+
+<br />
+
+---
+
+## 📞 Contact
+
+<div align="center">
+
+### 🏢 ZETTAI Inc.
+
+📧 **Email**: [contact@zettai.inc](mailto:contact@zettai.inc)  
+🌐 **Website**: [https://zettai.inc](https://zettai.inc)  
+📍 **Location**: 東京都
+
+<br />
+
+[![Email](https://img.shields.io/badge/Email-Contact_Us-red?style=for-the-badge&logo=gmail)](mailto:contact@zettai.inc)
+[![GitHub](https://img.shields.io/badge/GitHub-Follow-black?style=for-the-badge&logo=github)](https://github.com/kazujp225)
 
 </div>
 
 ---
 
 <div align="center">
-
-**Made with ❤️ by ZettAI Team**
-
-*Building the future, one AI solution at a time.*
-
-[![ZettAI](https://img.shields.io/badge/ZettAI-2024-red?style=flat-square)](https://zettai.ai)
-
+  
+  <br />
+  
+  **Built with ❤️ by ZETTAI Inc.**
+  
+  <p>© 2024 ZETTAI Inc. All rights reserved.</p>
+  
+  <br />
+  
+  <img src="https://img.shields.io/badge/Status-Active-success?style=flat-square" alt="Status">
+  <img src="https://img.shields.io/badge/Maintained-Yes-green?style=flat-square" alt="Maintained">
+  <img src="https://img.shields.io/badge/Version-1.0.0-blue?style=flat-square" alt="Version">
+  
 </div>
