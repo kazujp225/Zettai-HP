@@ -77,6 +77,7 @@ export default function Home() {
   const mobileVideoRef = useRef<HTMLVideoElement>(null)
   const mobileVideoRef2 = useRef<HTMLVideoElement>(null)
   const [currentVideo, setCurrentVideo] = useState(1)
+  const [videosLoaded, setVideosLoaded] = useState(false)
 
   // 動画の自動再生と切り替えロジック
   useEffect(() => {
@@ -84,7 +85,14 @@ export default function Home() {
       if (video) {
         try {
           video.muted = true
-          await video.play()
+          // 動画がロードされるまで待つ
+          if (video.readyState >= 3) {
+            await video.play()
+          } else {
+            video.addEventListener('canplay', async () => {
+              await video.play()
+            }, { once: true })
+          }
         } catch (error) {
           console.log('Video autoplay failed:', error)
           const playOnInteraction = () => {
@@ -190,7 +198,7 @@ export default function Home() {
         <div className="hidden lg:block">
           <div className="relative w-full h-[100vh] min-h-[600px] max-h-[800px]">
             {/* Desktop Background - Video optimized for 16:9 */}
-            <div className="absolute inset-0 overflow-hidden bg-black">
+            <div className="absolute inset-0 overflow-hidden bg-gradient-to-b from-gray-900 to-gray-800">
               {/* First Video */}
               <video
                 ref={videoRef}
@@ -199,10 +207,11 @@ export default function Home() {
                 playsInline={true}
                 loop={false}
                 controls={false}
-                preload="auto"
+                preload="metadata"
                 webkit-playsinline="true"
                 x-webkit-airplay="deny"
                 disablePictureInPicture
+                onLoadedData={() => setVideosLoaded(true)}
                 className="w-full h-full object-cover transition-opacity duration-1000"
                 style={{
                   minWidth: '100%',
@@ -226,10 +235,11 @@ export default function Home() {
                 playsInline={true}
                 loop={false}
                 controls={false}
-                preload="auto"
+                preload="metadata"
                 webkit-playsinline="true"
                 x-webkit-airplay="deny"
                 disablePictureInPicture
+                onLoadedData={() => setVideosLoaded(true)}
                 className="w-full h-full object-cover transition-opacity duration-1000"
                 style={{
                   minWidth: '100%',
@@ -323,7 +333,7 @@ export default function Home() {
         <div className="lg:hidden">
           <div className="relative w-full h-screen min-h-[600px]">
             {/* Mobile Background - Video optimized for portrait */}
-            <div className="absolute inset-0 overflow-hidden bg-black">
+            <div className="absolute inset-0 overflow-hidden bg-gradient-to-b from-gray-900 to-gray-800">
               {/* First Video */}
               <video
                 ref={mobileVideoRef}
@@ -332,10 +342,11 @@ export default function Home() {
                 playsInline={true}
                 loop={false}
                 controls={false}
-                preload="auto"
+                preload="metadata"
                 webkit-playsinline="true"
                 x-webkit-airplay="deny"
                 disablePictureInPicture
+                onLoadedData={() => setVideosLoaded(true)}
                 className="w-full h-full object-cover transition-opacity duration-1000"
                 style={{
                   minWidth: '100%',
@@ -359,10 +370,11 @@ export default function Home() {
                 playsInline={true}
                 loop={false}
                 controls={false}
-                preload="auto"
+                preload="metadata"
                 webkit-playsinline="true"
                 x-webkit-airplay="deny"
                 disablePictureInPicture
+                onLoadedData={() => setVideosLoaded(true)}
                 className="w-full h-full object-cover transition-opacity duration-1000"
                 style={{
                   minWidth: '100%',
