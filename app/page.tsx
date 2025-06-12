@@ -134,6 +134,7 @@ export default function Home() {
       const handleTimeUpdate1 = () => {
         // Video1がアクティブかつ9.5秒経過時に切り替え
         if (currentActiveVideo === 1 && video1.currentTime >= 9.5 && !isTransitioning) {
+          console.log('Switching from video 1 to video 2')
           switchVideo()
         }
       }
@@ -141,6 +142,7 @@ export default function Home() {
       const handleTimeUpdate2 = () => {
         // Video2がアクティブかつ9.5秒経過時に切り替え
         if (currentActiveVideo === 2 && video2.currentTime >= 9.5 && !isTransitioning) {
+          console.log('Switching from video 2 to video 1')
           switchVideo()
         }
       }
@@ -159,7 +161,9 @@ export default function Home() {
       videoRef2.current.style.opacity = '0'
       videoRef2.current.style.transition = 'opacity 1s ease-in-out'
       videoRef.current.style.transition = 'opacity 1s ease-in-out'
+      // 両方の動画を初期化して再生
       playVideo(videoRef.current)
+      playVideo(videoRef2.current)
       handleVideoTransition(videoRef.current, videoRef2.current)
     }
 
@@ -167,7 +171,9 @@ export default function Home() {
       mobileVideoRef2.current.style.opacity = '0'
       mobileVideoRef2.current.style.transition = 'opacity 1s ease-in-out'
       mobileVideoRef.current.style.transition = 'opacity 1s ease-in-out'
+      // 両方の動画を初期化して再生
       playVideo(mobileVideoRef.current)
+      playVideo(mobileVideoRef2.current)
       handleVideoTransition(mobileVideoRef.current, mobileVideoRef2.current)
     }
 
@@ -211,6 +217,7 @@ export default function Home() {
               {/* Second Video */}
               <video
                 ref={videoRef2}
+                autoPlay
                 muted
                 playsInline
                 preload="auto"
@@ -335,6 +342,7 @@ export default function Home() {
               {/* Second Video */}
               <video
                 ref={mobileVideoRef2}
+                autoPlay
                 muted
                 playsInline
                 preload="auto"
