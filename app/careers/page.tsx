@@ -6,8 +6,10 @@ import { Card as UICard } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Rocket, Users, Brain, Target, CheckCircle2, MapPin, Clock, DollarSign, Star, GraduationCap, Code, ChartBar, ArrowRight } from 'lucide-react'
 import Link from 'next/link'
-import CardSwap, { Card } from '@/components/CardSwapClient'
 import { AnimatedTestimonials } from '@/components/ui/animated-testimonials'
+import CareersHeroParticles from '@/components/careers-hero-particles'
+import { TypeAnimation } from 'react-type-animation'
+import { useState } from 'react'
 
 const fadeInUp = {
   initial: { opacity: 0, y: 30 },
@@ -25,6 +27,7 @@ const staggerChildren = {
 
 export default function CareersPage() {
   const prefersReducedMotion = useReducedMotion()
+  const [selectedPosition, setSelectedPosition] = useState<number | null>(null)
   
   const testimonials = [
     {
@@ -190,112 +193,111 @@ export default function CareersPage() {
               </div>
             </motion.div>
             
-            {/* 右側: Card Swap アニメーション (デスクトップのみ) */}
+            {/* 右側: インタラクティブな職種選択とタイピングアニメーション (デスクトップのみ) */}
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8, delay: 0.3 }}
-              className="hidden lg:flex lg:items-center lg:justify-center relative"
+              className="hidden lg:block relative"
             >
-              <div className="w-full h-[600px] flex items-center justify-center pt-20">
-                <CardSwap
-                  cardDistance={60}
-                  verticalDistance={70}
-                  delay={5000}
-                  pauseOnHover={false}
-                  easing="elastic"
-                  width={400}
-                  height={500}
+              {/* Particles Background */}
+              <div className="absolute inset-0 -mx-12">
+                <CareersHeroParticles />
+              </div>
+              
+              {/* Content */}
+              <div className="relative z-10">
+                {/* Typing Animation */}
+                <div className="mb-12">
+                  <h2 className="text-3xl font-bold text-gray-900 mb-4">
+                    私たちが探しているのは
+                  </h2>
+                  <div className="text-4xl font-bold text-blue-600 h-12">
+                    <TypeAnimation
+                      sequence={[
+                        'AIエンジニア',
+                        2000,
+                        'フルスタックエンジニア',
+                        2000,
+                        'ビジネスデベロッパー',
+                        2000,
+                        'データサイエンティスト',
+                        2000,
+                        'あなたです',
+                        3000,
+                      ]}
+                      wrapper="span"
+                      speed={50}
+                      repeat={Infinity}
+                    />
+                  </div>
+                </div>
+
+                {/* Interactive Position Cards */}
+                <div className="grid grid-cols-2 gap-4">
+                  {[
+                    { icon: Brain, title: "AIエンジニア", color: "from-blue-500 to-cyan-600", desc: "最先端技術で未来を創る" },
+                    { icon: Code, title: "フルスタックエンジニア", color: "from-teal-500 to-emerald-600", desc: "End-to-Endで価値を届ける" },
+                    { icon: Rocket, title: "ビジネスデベロッパー", color: "from-slate-600 to-gray-700", desc: "技術と事業の架け橋" },
+                    { icon: ChartBar, title: "データサイエンティスト", color: "from-indigo-500 to-blue-600", desc: "データから価値を生み出す" }
+                  ].map((position, index) => {
+                    const IconComponent = position.icon
+                    return (
+                      <motion.div
+                        key={index}
+                        whileHover={{ scale: 1.05, y: -5 }}
+                        whileTap={{ scale: 0.98 }}
+                        onClick={() => setSelectedPosition(selectedPosition === index ? null : index)}
+                        className={`bg-white rounded-xl p-6 shadow-lg cursor-pointer transition-all duration-300 border-2 ${
+                          selectedPosition === index ? 'border-blue-500' : 'border-transparent'
+                        }`}
+                      >
+                        <div className={`w-14 h-14 bg-gradient-to-br ${position.color} rounded-xl flex items-center justify-center mb-4`}>
+                          <IconComponent className="w-7 h-7 text-white" />
+                        </div>
+                        <h3 className="text-lg font-bold text-gray-900 mb-2">{position.title}</h3>
+                        <p className="text-sm text-gray-600 mb-4">{position.desc}</p>
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ 
+                            height: selectedPosition === index ? 'auto' : 0,
+                            opacity: selectedPosition === index ? 1 : 0
+                          }}
+                          transition={{ duration: 0.3 }}
+                          className="overflow-hidden"
+                        >
+                          <Button size="sm" className="w-full" asChild>
+                            <Link href="/contact">
+                              応募する
+                              <ArrowRight className="ml-2 w-4 h-4" />
+                            </Link>
+                          </Button>
+                        </motion.div>
+                      </motion.div>
+                    )
+                  })}
+                </div>
+
+                {/* Stats */}
+                <motion.div 
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 1 }}
+                  className="mt-8 grid grid-cols-3 gap-4 text-center"
                 >
-                <Card className="bg-gradient-to-br from-blue-500 to-cyan-600 text-white p-8">
-                  <div className="h-full flex flex-col justify-between">
-                    <div>
-                      <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center mb-6">
-                        <Brain className="w-8 h-8 text-white" />
-                      </div>
-                      <h3 className="text-3xl font-bold mb-3">AIエンジニア</h3>
-                      <p className="text-xl text-white/90 mb-4">最先端技術で未来を創る</p>
-                      <p className="text-white/80 leading-relaxed">GPT-4、Claude、最新のAI技術を駆使して、企業の課題を解決するソリューションを開発</p>
-                    </div>
-                    <Button 
-                      className="bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white border-white/30" 
-                      variant="outline"
-                      asChild
-                    >
-                      <Link href="/contact">
-                        このポジションに応募する
-                        <ArrowRight className="ml-2 w-4 h-4" />
-                      </Link>
-                    </Button>
+                  <div className="bg-white/80 backdrop-blur-sm rounded-lg p-4">
+                    <div className="text-2xl font-bold text-gray-900">20+</div>
+                    <div className="text-sm text-gray-600">募集職種</div>
                   </div>
-                </Card>
-                <Card className="bg-gradient-to-br from-teal-500 to-emerald-600 text-white p-8">
-                  <div className="h-full flex flex-col justify-between">
-                    <div>
-                      <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center mb-6">
-                        <Code className="w-8 h-8 text-white" />
-                      </div>
-                      <h3 className="text-3xl font-bold mb-3">フルスタックエンジニア</h3>
-                      <p className="text-xl text-white/90 mb-4">End-to-Endで価値を届ける</p>
-                      <p className="text-white/80 leading-relaxed">React/Next.js、Node.js、クラウドインフラまで、幅広い技術スタックで開発</p>
-                    </div>
-                    <Button 
-                      className="bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white border-white/30" 
-                      variant="outline"
-                      asChild
-                    >
-                      <Link href="/contact">
-                        このポジションに応募する
-                        <ArrowRight className="ml-2 w-4 h-4" />
-                      </Link>
-                    </Button>
+                  <div className="bg-white/80 backdrop-blur-sm rounded-lg p-4">
+                    <div className="text-2xl font-bold text-gray-900">100%</div>
+                    <div className="text-sm text-gray-600">リモート可</div>
                   </div>
-                </Card>
-                <Card className="bg-gradient-to-br from-slate-600 to-gray-700 text-white p-8">
-                  <div className="h-full flex flex-col justify-between">
-                    <div>
-                      <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center mb-6">
-                        <Rocket className="w-8 h-8 text-white" />
-                      </div>
-                      <h3 className="text-3xl font-bold mb-3">ビジネスデベロッパー</h3>
-                      <p className="text-xl text-white/90 mb-4">技術と事業の架け橋</p>
-                      <p className="text-white/80 leading-relaxed">AI技術の可能性を理解し、クライアントの成功を最大化する提案と実行</p>
-                    </div>
-                    <Button 
-                      className="bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white border-white/30" 
-                      variant="outline"
-                      asChild
-                    >
-                      <Link href="/contact">
-                        このポジションに応募する
-                        <ArrowRight className="ml-2 w-4 h-4" />
-                      </Link>
-                    </Button>
+                  <div className="bg-white/80 backdrop-blur-sm rounded-lg p-4">
+                    <div className="text-2xl font-bold text-gray-900">∞</div>
+                    <div className="text-sm text-gray-600">成長機会</div>
                   </div>
-                </Card>
-                <Card className="bg-gradient-to-br from-indigo-500 to-blue-600 text-white p-8">
-                  <div className="h-full flex flex-col justify-between">
-                    <div>
-                      <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center mb-6">
-                        <ChartBar className="w-8 h-8 text-white" />
-                      </div>
-                      <h3 className="text-3xl font-bold mb-3">データサイエンティスト</h3>
-                      <p className="text-xl text-white/90 mb-4">データから価値を生み出す</p>
-                      <p className="text-white/80 leading-relaxed">機械学習、統計解析、ビッグデータ処理で、意思決定を支援</p>
-                    </div>
-                    <Button 
-                      className="bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white border-white/30" 
-                      variant="outline"
-                      asChild
-                    >
-                      <Link href="/contact">
-                        このポジションに応募する
-                        <ArrowRight className="ml-2 w-4 h-4" />
-                      </Link>
-                    </Button>
-                  </div>
-                </Card>
-                </CardSwap>
+                </motion.div>
               </div>
             </motion.div>
           </div>
