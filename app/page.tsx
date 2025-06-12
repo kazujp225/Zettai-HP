@@ -78,6 +78,7 @@ export default function Home() {
   const mobileVideoRef2 = useRef<HTMLVideoElement>(null)
   const [currentVideo, setCurrentVideo] = useState(1)
   const [videosLoaded, setVideosLoaded] = useState(false)
+  const [isFirstVideoReady, setIsFirstVideoReady] = useState(false)
 
   // 動画の自動再生を最優先で実行
   useLayoutEffect(() => {
@@ -142,24 +143,28 @@ export default function Home() {
 
         if (currentActiveVideo === 1) {
           // Video1からVideo2への切り替え
-          video1.style.opacity = '0'
-          video2.style.opacity = '1'
           video2.currentTime = 0
-          playVideo(video2)
-          currentActiveVideo = 2
-          setTimeout(() => {
-            isTransitioning = false
-          }, 1000)
+          playVideo(video2).then(() => {
+            video1.style.opacity = '0'
+            video2.style.opacity = '1'
+            currentActiveVideo = 2
+            setTimeout(() => {
+              isTransitioning = false
+              video1.pause()
+            }, 500)
+          })
         } else {
           // Video2からVideo1への切り替え
-          video2.style.opacity = '0'
-          video1.style.opacity = '1'
           video1.currentTime = 0
-          playVideo(video1)
-          currentActiveVideo = 1
-          setTimeout(() => {
-            isTransitioning = false
-          }, 1000)
+          playVideo(video1).then(() => {
+            video2.style.opacity = '0'
+            video1.style.opacity = '1'
+            currentActiveVideo = 1
+            setTimeout(() => {
+              isTransitioning = false
+              video2.pause()
+            }, 500)
+          })
         }
       }
 
@@ -192,8 +197,8 @@ export default function Home() {
     const initializeVideos = async () => {
       if (videoRef.current && videoRef2.current) {
         videoRef2.current.style.opacity = '0'
-        videoRef2.current.style.transition = 'opacity 1s ease-in-out'
-        videoRef.current.style.transition = 'opacity 1s ease-in-out'
+        videoRef2.current.style.transition = 'opacity 0.5s ease-in-out'
+        videoRef.current.style.transition = 'opacity 0.5s ease-in-out'
         // 両方の動画を初期化して再生
         await playVideo(videoRef.current)
         await playVideo(videoRef2.current)
@@ -202,8 +207,8 @@ export default function Home() {
 
       if (mobileVideoRef.current && mobileVideoRef2.current) {
         mobileVideoRef2.current.style.opacity = '0'
-        mobileVideoRef2.current.style.transition = 'opacity 1s ease-in-out'
-        mobileVideoRef.current.style.transition = 'opacity 1s ease-in-out'
+        mobileVideoRef2.current.style.transition = 'opacity 0.5s ease-in-out'
+        mobileVideoRef.current.style.transition = 'opacity 0.5s ease-in-out'
         // 両方の動画を初期化して再生
         await playVideo(mobileVideoRef.current)
         await playVideo(mobileVideoRef2.current)
@@ -232,7 +237,7 @@ export default function Home() {
         <div className="hidden lg:block">
           <div className="relative w-full h-[100vh] min-h-[600px] max-h-[800px]">
             {/* Desktop Background - Video optimized for 16:9 */}
-            <div className="absolute inset-0 overflow-hidden bg-gradient-to-b from-gray-900 to-gray-800">
+            <div className="absolute inset-0 overflow-hidden bg-black">
               {/* First Video */}
               <video
                 ref={videoRef}
@@ -241,14 +246,17 @@ export default function Home() {
                 playsInline={true}
                 loop={false}
                 controls={false}
-                preload="auto"
+                preload="metadata"
                 webkit-playsinline="true"
                 x-webkit-airplay="deny"
                 disablePictureInPicture
-                onLoadedData={() => setVideosLoaded(true)}
+                onLoadedData={() => {
+                  setIsFirstVideoReady(true)
+                  setVideosLoaded(true)
+                }}
                 loading="eager"
                 fetchpriority="high"
-                className="w-full h-full object-cover transition-opacity duration-1000"
+                className="w-full h-full object-cover transition-opacity duration-500"
                 style={{
                   minWidth: '100%',
                   minHeight: '100%',
@@ -278,7 +286,7 @@ export default function Home() {
                 onLoadedData={() => setVideosLoaded(true)}
                 loading="eager"
                 fetchpriority="high"
-                className="w-full h-full object-cover transition-opacity duration-1000"
+                className="w-full h-full object-cover transition-opacity duration-500"
                 style={{
                   minWidth: '100%',
                   minHeight: '100%',
@@ -295,9 +303,9 @@ export default function Home() {
               </video>
               {/* Dark overlay for text readability */}
               <div className="absolute inset-0 bg-black/30 z-10" />
-              {/* Loading placeholder to prevent layout shift */}
-              {!videosLoaded && (
-                <div className="absolute inset-0 bg-gradient-to-b from-gray-900 to-gray-800 animate-pulse" />
+              {/* Poster image to show immediately */}
+              {!isFirstVideoReady && (
+                <div className="absolute inset-0 bg-black" />
               )}
             </div>
 
@@ -375,7 +383,7 @@ export default function Home() {
         <div className="lg:hidden">
           <div className="relative w-full h-screen min-h-[600px]">
             {/* Mobile Background - Video optimized for portrait */}
-            <div className="absolute inset-0 overflow-hidden bg-gradient-to-b from-gray-900 to-gray-800">
+            <div className="absolute inset-0 overflow-hidden bg-black">
               {/* First Video */}
               <video
                 ref={mobileVideoRef}
@@ -391,7 +399,7 @@ export default function Home() {
                 onLoadedData={() => setVideosLoaded(true)}
                 loading="eager"
                 fetchpriority="high"
-                className="w-full h-full object-cover transition-opacity duration-1000"
+                className="w-full h-full object-cover transition-opacity duration-500"
                 style={{
                   minWidth: '100%',
                   minHeight: '100%',
@@ -421,7 +429,7 @@ export default function Home() {
                 onLoadedData={() => setVideosLoaded(true)}
                 loading="eager"
                 fetchpriority="high"
-                className="w-full h-full object-cover transition-opacity duration-1000"
+                className="w-full h-full object-cover transition-opacity duration-500"
                 style={{
                   minWidth: '100%',
                   minHeight: '100%',
@@ -438,9 +446,9 @@ export default function Home() {
               </video>
               {/* Dark overlay for text readability - stronger for mobile */}
               <div className="absolute inset-0 bg-black/50 z-10" />
-              {/* Loading placeholder to prevent layout shift */}
-              {!videosLoaded && (
-                <div className="absolute inset-0 bg-gradient-to-b from-gray-900 to-gray-800 animate-pulse" />
+              {/* Poster image to show immediately */}
+              {!isFirstVideoReady && (
+                <div className="absolute inset-0 bg-black" />
               )}
             </div>
 
