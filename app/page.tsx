@@ -81,9 +81,14 @@ export default function Home() {
   const [isFirstVideoReady, setIsFirstVideoReady] = useState(false)
   const [video1Loaded, setVideo1Loaded] = useState(false)
   const [video2Loaded, setVideo2Loaded] = useState(false)
+  const [showContent, setShowContent] = useState(false)
 
   // 動画のプリロードと再生管理
   useEffect(() => {
+    // 最低3秒はローディングを表示
+    const minLoadingTime = 3000
+    const startTime = Date.now()
+
     // 動画をプリロードして準備
     const preloadVideo = async (videoUrl: string): Promise<void> => {
       return new Promise((resolve) => {
@@ -100,6 +105,14 @@ export default function Home() {
       preloadVideo('/hirosectionvideo2.mp4')
     ]).then(() => {
       console.log('All videos preloaded')
+      
+      // 最低表示時間を確保
+      const elapsedTime = Date.now() - startTime
+      const remainingTime = Math.max(0, minLoadingTime - elapsedTime)
+      
+      setTimeout(() => {
+        setShowContent(true)
+      }, remainingTime)
     })
   }, [])
 
@@ -146,7 +159,7 @@ export default function Home() {
           currentActiveVideo = 2
           setTimeout(() => {
             isTransitioning = false
-          }, 300)
+          }, 1000)
         } else {
           // Video2からVideo1への切り替え
           video2.style.opacity = '0'
@@ -154,7 +167,7 @@ export default function Home() {
           currentActiveVideo = 1
           setTimeout(() => {
             isTransitioning = false
-          }, 300)
+          }, 1000)
         }
       }
 
@@ -177,12 +190,12 @@ export default function Home() {
         // 初期状態の設定
         videoRef.current.style.opacity = '1'
         videoRef2.current.style.opacity = '0'
-        videoRef.current.style.transition = 'opacity 0.3s ease-in-out'
-        videoRef2.current.style.transition = 'opacity 0.3s ease-in-out'
+        videoRef.current.style.transition = 'opacity 1s ease-in-out'
+        videoRef2.current.style.transition = 'opacity 1s ease-in-out'
         
         // 両方の動画が準備できたら同時に再生開始
         const waitForVideos = async () => {
-          if (video1Loaded && video2Loaded) {
+          if (video1Loaded && video2Loaded && showContent) {
             await playVideo(videoRef.current)
             await playVideo(videoRef2.current)
             handleVideoTransition(videoRef.current, videoRef2.current)
@@ -197,8 +210,8 @@ export default function Home() {
       if (mobileVideoRef.current && mobileVideoRef2.current) {
         mobileVideoRef.current.style.opacity = '1'
         mobileVideoRef2.current.style.opacity = '0'
-        mobileVideoRef.current.style.transition = 'opacity 0.3s ease-in-out'
-        mobileVideoRef2.current.style.transition = 'opacity 0.3s ease-in-out'
+        mobileVideoRef.current.style.transition = 'opacity 1s ease-in-out'
+        mobileVideoRef2.current.style.transition = 'opacity 1s ease-in-out'
         
         // 同様に両方の動画を同時再生
         await playVideo(mobileVideoRef.current)
@@ -213,7 +226,22 @@ export default function Home() {
     return () => {
       cleanupFunctions.forEach(cleanup => cleanup())
     }
-  }, [video1Loaded, video2Loaded])
+  }, [video1Loaded, video2Loaded, showContent])
+
+  // ローディング画面
+  if (!showContent) {
+    return (
+      <div className="fixed inset-0 bg-black flex items-center justify-center z-50">
+        <div className="text-center">
+          <div className="relative w-20 h-20 mx-auto mb-8">
+            <div className="absolute inset-0 border-4 border-gray-800 rounded-full"></div>
+            <div className="absolute inset-0 border-4 border-t-white rounded-full animate-spin"></div>
+          </div>
+          <p className="text-white text-lg font-light tracking-wider animate-pulse">ZETTAI Inc.</p>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="bg-white overflow-x-hidden">
@@ -243,7 +271,7 @@ export default function Home() {
                 }}
                 loading="eager"
                 fetchpriority="high"
-                className="w-full h-full object-cover transition-opacity duration-300"
+                className="w-full h-full object-cover transition-opacity duration-1000"
                 style={{
                   minWidth: '100%',
                   minHeight: '100%',
@@ -276,7 +304,7 @@ export default function Home() {
                 }}
                 loading="eager"
                 fetchpriority="high"
-                className="w-full h-full object-cover transition-opacity duration-300"
+                className="w-full h-full object-cover transition-opacity duration-1000"
                 style={{
                   minWidth: '100%',
                   minHeight: '100%',
@@ -392,7 +420,7 @@ export default function Home() {
                 }}
                 loading="eager"
                 fetchpriority="high"
-                className="w-full h-full object-cover transition-opacity duration-300"
+                className="w-full h-full object-cover transition-opacity duration-1000"
                 style={{
                   minWidth: '100%',
                   minHeight: '100%',
@@ -425,7 +453,7 @@ export default function Home() {
                 }}
                 loading="eager"
                 fetchpriority="high"
-                className="w-full h-full object-cover transition-opacity duration-300"
+                className="w-full h-full object-cover transition-opacity duration-1000"
                 style={{
                   minWidth: '100%',
                   minHeight: '100%',
